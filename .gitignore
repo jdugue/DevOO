@@ -6,8 +6,8 @@
 *.ear
 
 #eclipse projetc#
-*.classpath
-*.settings/
-*.project
-*.metadata
-*.launch
+Model/.classpath
+Model/.settings/
+Model/.project
+Model/.metadata
+Model/.launch
