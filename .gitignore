@@ -4,3 +4,10 @@
 *.jar
 *.war
 *.ear
+
+#eclipse projetc#
+.classpath
+.settings/
+.project
+.metadata
+*.launch
