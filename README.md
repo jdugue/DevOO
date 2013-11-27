@@ -1,4 +1,4 @@
 DevOO
 =====
 
-INFORMATIQUE INSA DE LYONImplémentation du projet d'IHM
+INFORMATIQUE INSA DE LYON : Implémentation du projet d'IHM
