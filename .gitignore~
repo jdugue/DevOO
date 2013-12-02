@@ -8,5 +8,6 @@
 #eclipse projetc#
 *.classpath
 *.settings/
+*.project
 *.metadata
 *.launch
