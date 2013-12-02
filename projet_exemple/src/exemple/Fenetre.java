@@ -80,7 +80,7 @@ public class Fenetre {
 			public void actionPerformed(ActionEvent e){
 				dessin.setCouleurArrierePlan(Color.green); 
 				dessin.repaint();
-			}
+			}constructeur
 		};
 		ajoutItem("Vert", menuCouleurs, a3);
 
