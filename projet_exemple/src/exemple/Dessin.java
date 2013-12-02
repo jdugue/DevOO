@@ -43,7 +43,7 @@ public class Dessin extends JPanel{
         this.largeur = largeur;
         this.hauteur = hauteur;
         this.couleurArrierePlan = arrierePlan;
-        lesBoules = new Vector<>();
+        lesBoules = new Vector();
      }
   	
 	public void setCouleurArrierePlan(Color couleur){
