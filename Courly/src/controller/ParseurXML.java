@@ -2,7 +2,6 @@ package controller;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Vector;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -22,8 +21,8 @@ public class ParseurXML {
 		
 	}
 	
-	public File ouvrirFichier() {
-		File xml = new File("/home/mael/Documents/WorkplaceEclipse/DevOO/XML Examples/plan10x10.xml");
+	public File ouvrirFichier(String path) {
+		File xml = new File(path);
 		return xml;
 		
 	}
@@ -31,7 +30,7 @@ public class ParseurXML {
 	public Plan construirePlanXML() {
 		Plan plan = new Plan();
 		
-		File xml = ouvrirFichier();
+		File xml = ouvrirFichier("./../../../XML Examples/plan10x10.xml");
 		
 		//Si le fichier existe
 		if (xml != null) {			
@@ -42,13 +41,14 @@ public class ParseurXML {
                Document document = constructeur.parse(xml);
                Element racine = document.getDocumentElement();
                
-               if (racine.getNodeName().equals("Reseau")) {
-            	   
+               if (racine.getNodeName().equals("Reseau")) 
+               {   
             	   //Traitement des noeuds
                    NodeList listeNoeuds = racine.getElementsByTagName("Noeud");
                    ArrayList<Noeud> vectNoeuds = new ArrayList<Noeud>();
                    
-                   for(int i=0; i<listeNoeuds.getLength();i++) {
+                   for(int i=0; i<listeNoeuds.getLength();i++) 
+                   {
                 	   Element noeudElement = (Element) listeNoeuds.item(i);
                 	   Noeud leNouveauNoeud = new Noeud();
                 	   leNouveauNoeud.construireAPartirDeDOMXML(noeudElement);
@@ -58,8 +58,8 @@ public class ParseurXML {
                    
                    //Traitement Tronçons
                    ArrayList<Troncon> vectTroncons = new ArrayList<Troncon>();
-                   for(int i=0; i<listeNoeuds.getLength();i++) {
-                	    
+                   for(int i=0; i<listeNoeuds.getLength();i++) 
+                   {                	    
                 	   Element noeudElement = (Element) listeNoeuds.item(i);
                 	   Integer idNoeudCourant = Integer.parseInt(noeudElement.getAttribute("id"));
                 	   
@@ -67,7 +67,8 @@ public class ParseurXML {
                 	   NodeList listeTroncons = noeudElement.getElementsByTagName("TronconSortant");
                 	   ArrayList<Troncon> tronconsNoeud = new ArrayList<Troncon>();
                 	   
-                	   for (int j=0; j<listeTroncons.getLength();j++) {
+                	   for (int j=0; j<listeTroncons.getLength();j++) 
+                	   {
                 		   Element tronconElement = (Element) listeTroncons.item(j);
                 		   Troncon leNouveauTroncon = new Troncon();
                 		   leNouveauTroncon.construireAPartirDeDOMXML(tronconElement,idNoeudCourant,vectNoeuds);
@@ -98,6 +99,6 @@ public class ParseurXML {
 	
 	public static void main(String[] args) {
 		ParseurXML pars = new ParseurXML();
-		Plan plan = pars.construirePlanXML();
+		pars.construirePlanXML();
 	}
 }
