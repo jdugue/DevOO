@@ -1,5 +1,7 @@
 package model;
 
+import java.util.ArrayList;
+
 import org.w3c.dom.Element;
 
 public class Noeud {
@@ -8,16 +10,18 @@ public class Noeud {
 	protected Integer x;
 	protected Integer y;
 	protected Lieu lieu;
+	protected ArrayList<Troncon> tronconsSortants;
 	
 	public Noeud() {
 
 	}
 	
-	public Noeud(Integer id, Integer x, Integer y, Lieu lieu) {
+	public Noeud(Integer id, Integer x, Integer y, Lieu lieu,ArrayList<Troncon> tronconsSortants) {
 		this.id = id;
 		this.x = x;
 		this.y = y;
 		this.lieu = lieu;
+		this.tronconsSortants = tronconsSortants;
 	}
 	
 	public void setLieu(Lieu lieu) {
@@ -38,6 +42,14 @@ public class Noeud {
 	
 	public Lieu getLieu() {
 		return this.lieu;
+	}
+	
+	public ArrayList<Troncon> getTroncons() {
+		return this.tronconsSortants;
+	}
+	
+	public void setTroncons(ArrayList<Troncon> troncons) {
+		this.tronconsSortants = troncons;
 	}
 	
 	public void construireAPartirDeDOMXML(Element noeudDOMRacine) {
