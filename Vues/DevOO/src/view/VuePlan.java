@@ -15,7 +15,7 @@ import java.util.ArrayList;
  */
 public class VuePlan extends javax.swing.JPanel {
     
-    private ArrayList<VueNoeud> noeuds = new ArrayList();
+    private ArrayList<VueNoeud> vueNoeuds = new ArrayList();
     private ControleurPlan controleur;
 
     public void setControleur(ControleurPlan controleur) {
@@ -27,20 +27,20 @@ public class VuePlan extends javax.swing.JPanel {
     }
     
 
-    public void setNoeuds(ArrayList<VueNoeud> vueNoeuds) {
-        this.noeuds = noeuds;
-        for (VueNoeud vueNoeud : noeuds) {
+    public void setVueNoeuds(ArrayList<VueNoeud> vueNoeuds) {
+        this.vueNoeuds = this.vueNoeuds;
+        for (VueNoeud vueNoeud : this.vueNoeuds) {
             this.displayVueNoeud(vueNoeud);
         }
     }
     
-    public void addNoeud(VueNoeud vueNoeud) {
-        this.noeuds.add(vueNoeud);
+    public void addVueNoeud(VueNoeud vueNoeud) {
+        this.vueNoeuds.add(vueNoeud);
         this.displayVueNoeud(vueNoeud);
     }
     
-    public void addAllNoeuds(ArrayList<VueNoeud> vueNoeuds) {
-        this.noeuds.addAll(vueNoeuds);
+    public void addAllVueNoeuds(ArrayList<VueNoeud> vueNoeuds) {
+        this.vueNoeuds.addAll(vueNoeuds);
         for (VueNoeud vueNoeud : vueNoeuds) {
             this.displayVueNoeud(vueNoeud);
         }

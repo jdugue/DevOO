@@ -8,6 +8,7 @@ package devoo;
 
 import controleur.ControleurPlan;
 import java.awt.Color;
+import java.util.ArrayList;
 import javax.swing.JPanel;
 import view.VueNoeud;
 
@@ -127,19 +128,32 @@ public class MainFrame extends javax.swing.JFrame {
                 
                 MainFrame frame = new MainFrame();
                 frame.setVisible(true);
-                
-                
-               // ControleurPlan planControleur = new ControleurPlan();
-                //planControleur.setVuePlan(frame.vuePlan);
-                //planControleur.setControleurParent(frame);
-                //frame.vuePlan.controleur = planControleur;
+               
                 
                 ControleurPlan controleurPlan = new ControleurPlan(frame.vuePlan, frame);
-                Noeud noeud = new Noeud();
-                noeud.name = "Maman de Mael";
-                noeud.x = 200;
-                noeud.y = 200;
-                controleurPlan.addNoeud(noeud);
+                
+                
+                Noeud noeud1 = new Noeud();
+                noeud1.name = "Maman de Mael";
+                noeud1.x = 200;
+                noeud1.y = 200;
+                
+                controleurPlan.addNoeud(noeud1);
+                
+                Noeud noeud2 = new Noeud();
+                noeud2.name = "K-fet";
+                noeud2.x = 300;
+                noeud2.y = 300;
+                
+                Noeud noeud3 = new Noeud();
+                noeud3.name = "Maman de Joss";
+                noeud3.x = 500;
+                noeud3.y = 100;
+                
+                ArrayList<Noeud> listeNoeud = new ArrayList();
+                listeNoeud.add(noeud2);
+                listeNoeud.add(noeud3);
+                controleurPlan.addAllNoeuds(listeNoeud);
             }
         });
     }

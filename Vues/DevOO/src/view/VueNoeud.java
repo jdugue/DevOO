@@ -34,6 +34,11 @@ public class VueNoeud extends javax.swing.JPanel {
         this.initialize();
     }
     
+    public VueNoeud(Noeud noeud) {
+        this.setNoeud(noeud);
+        this.initialize();
+    }
+    
     private void initialize() {
         initComponents();
 

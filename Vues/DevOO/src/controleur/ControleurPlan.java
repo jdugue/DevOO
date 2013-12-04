@@ -10,6 +10,7 @@ import devoo.MainFrame;
 import devoo.Noeud;
 import java.awt.Dimension;
 import java.awt.Point;
+import java.util.ArrayList;
 import view.VueNoeud;
 import view.VuePlan;
 
@@ -47,7 +48,13 @@ public class ControleurPlan {
     public void addNoeud(Noeud noeud) {
         VueNoeud vueNoeud = new VueNoeud();
         vueNoeud.setNoeud(noeud);
-        this.vuePlan.addNoeud(vueNoeud);
+        this.vuePlan.addVueNoeud(vueNoeud);
+    }
+    
+    public void addAllNoeuds(ArrayList<Noeud> noeuds) {
+        for (Noeud noeud : noeuds) {
+            this.vuePlan.addVueNoeud(new VueNoeud(noeud));
+        }
     }
     
     public void didSelectVueNoeud(VueNoeud selectedNoeud) {
