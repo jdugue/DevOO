@@ -22,6 +22,8 @@ public class ControleurPlan {
     
     private VuePlan vuePlan;
     private MainFrame fenetreParent;
+    
+    private VueNoeud selectedVueNoeud;
 
     public ControleurPlan(Point vueLocation, Dimension vueDimension, MainFrame fenetreParent) {
         this.vuePlan = new VuePlan();
@@ -44,6 +46,15 @@ public class ControleurPlan {
         this.vuePlan = vuePlan;
         this.vuePlan.setControleur(this);
     }   
+
+    public VueNoeud getSelectedVueNoeud() {
+        return selectedVueNoeud;
+    }
+
+    public void setSelectedVueNoeud(VueNoeud selectedVueNoeud) {
+        this.selectedVueNoeud = selectedVueNoeud;
+    }
+    
     
     public void addNoeud(Noeud noeud) {
         VueNoeud vueNoeud = new VueNoeud();
@@ -57,9 +68,20 @@ public class ControleurPlan {
         }
     }
     
-    public void didSelectVueNoeud(VueNoeud selectedNoeud) {
-        Noeud noeud = selectedNoeud.getNoeud();
+    public void didSelectVueNoeud(VueNoeud selectedVueNoeud) {
+        if (this.getSelectedVueNoeud() != null) {
+            System.out.print("ok");
+            this.getSelectedVueNoeud().setSelected(false);
+        }
+        this.setSelectedVueNoeud(selectedVueNoeud);
+        
+        Noeud noeud = selectedVueNoeud.getNoeud();
         this.fenetreParent.didSelectNoeud(noeud);
+    }
+    
+    public void didDeselectVueNoeud(VueNoeud deselectedNoeud) {
+        Noeud noeud = deselectedNoeud.getNoeud();
+        this.fenetreParent.didDeselectNoeud(noeud);
     }
     
 }

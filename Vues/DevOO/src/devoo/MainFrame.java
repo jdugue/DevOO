@@ -161,6 +161,10 @@ public class MainFrame extends javax.swing.JFrame {
     public void didSelectNoeud(Noeud noeud) {
         this.jTextField1.setText(noeud.name);
     }
+    
+    public void didDeselectNoeud(Noeud noeud) {
+        this.jTextField1.setText("");
+    }
 
 
 }

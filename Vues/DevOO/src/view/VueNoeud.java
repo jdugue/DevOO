@@ -23,6 +23,7 @@ public class VueNoeud extends javax.swing.JPanel {
     private final Color normalColor = Color.RED;
     private final Color highlightedColor = Color.YELLOW;
     private final Color selectedColor = Color.BLUE;
+    private final Color selectedHighlightedColor = Color.BLUE;
     
     private VuePlan vuePlan;
     private Noeud noeud;
@@ -123,6 +124,8 @@ public class VueNoeud extends javax.swing.JPanel {
         
         if (selected) {
             this.vuePlan.getControleur().didSelectVueNoeud(this);
+        } else {
+            this.vuePlan.getControleur().didDeselectVueNoeud(this);
         }
     }
     
@@ -134,7 +137,9 @@ public class VueNoeud extends javax.swing.JPanel {
     }
     
     public void updateBackgroundColor() {
-        if (this.selected) {
+        if (this.selected && this.highlighted) {
+            this.setBackground(this.selectedHighlightedColor);
+        } else if (this.selected) {
             this.setBackground(this.selectedColor);
         } else if (this.highlighted) {
             this.setBackground(this.highlightedColor);
