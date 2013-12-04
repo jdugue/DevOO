@@ -21,6 +21,9 @@ import view.VuePlan;
 public class ControleurPlan {
     
     private VuePlan vuePlan;
+    private ArrayList<VueNoeud> vueNoeuds = new ArrayList();
+    
+    
     private MainFrame fenetreParent;
     
     private VueNoeud selectedVueNoeud;
@@ -59,12 +62,13 @@ public class ControleurPlan {
     public void addNoeud(Noeud noeud) {
         VueNoeud vueNoeud = new VueNoeud();
         vueNoeud.setNoeud(noeud);
+        this.vueNoeuds.add(vueNoeud);
         this.vuePlan.addVueNoeud(vueNoeud);
     }
     
     public void addAllNoeuds(ArrayList<Noeud> noeuds) {
         for (Noeud noeud : noeuds) {
-            this.vuePlan.addVueNoeud(new VueNoeud(noeud));
+            this.addNoeud(noeud);
         }
     }
     
