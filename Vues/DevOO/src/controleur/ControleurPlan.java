@@ -70,7 +70,6 @@ public class ControleurPlan {
     
     public void didSelectVueNoeud(VueNoeud selectedVueNoeud) {
         if (this.getSelectedVueNoeud() != null) {
-            System.out.print("ok");
             this.getSelectedVueNoeud().setSelected(false);
         }
         this.setSelectedVueNoeud(selectedVueNoeud);

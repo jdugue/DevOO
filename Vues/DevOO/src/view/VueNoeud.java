@@ -10,6 +10,7 @@ import controleur.ControleurPlan;
 import devoo.Noeud;
 import java.awt.Color;
 import java.awt.Cursor;
+import java.awt.Graphics;
 
 /**
  *
@@ -20,10 +21,10 @@ public class VueNoeud extends javax.swing.JPanel {
     public boolean highlighted;
     public boolean selected;
     
-    private final Color normalColor = Color.RED;
-    private final Color highlightedColor = Color.YELLOW;
-    private final Color selectedColor = Color.BLUE;
-    private final Color selectedHighlightedColor = Color.BLUE;
+    private final Color normalColor = new Color(220, 160, 60);
+    private final Color highlightedColor = new Color(255, 220, 160);
+    private final Color selectedColor = new Color(30, 80, 170);
+    private final Color selectedHighlightedColor = new Color(80, 150, 255);
     
     private VuePlan vuePlan;
     private Noeud noeud;
@@ -43,8 +44,7 @@ public class VueNoeud extends javax.swing.JPanel {
     private void initialize() {
         initComponents();
 
-        this.setBackground(Color.red);
-        this.setSize(10, 10);
+        this.setOpaque(false);
         this.setVisible(true); 
     }
 
@@ -120,7 +120,7 @@ public class VueNoeud extends javax.swing.JPanel {
     public void setSelected(boolean selected) {
         this.selected = selected;
         
-        this.updateBackgroundColor();
+        this.repaint();
         
         if (selected) {
             this.vuePlan.getControleur().didSelectVueNoeud(this);
@@ -133,18 +133,26 @@ public class VueNoeud extends javax.swing.JPanel {
         this.highlighted = highlighted;
         this.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         
-        this.updateBackgroundColor();
+        this.repaint();
     }
     
-    public void updateBackgroundColor() {
+    private Color colorForActualState() {
         if (this.selected && this.highlighted) {
-            this.setBackground(this.selectedHighlightedColor);
+            return this.selectedHighlightedColor;
         } else if (this.selected) {
-            this.setBackground(this.selectedColor);
+            return this.selectedColor;
         } else if (this.highlighted) {
-            this.setBackground(this.highlightedColor);
+            return this.highlightedColor;
         } else {
-            this.setBackground(this.normalColor);
+            return this.normalColor;
         }
+    }
+    
+    @Override
+    public void paintComponent(Graphics g)
+    {
+        super.paintComponent(g);
+        g.setColor(this.colorForActualState());
+        g.fillOval(0,0,this.getWidth(),this.getHeight());
     }
 }
