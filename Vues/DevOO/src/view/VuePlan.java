@@ -15,7 +15,6 @@ import java.util.ArrayList;
  */
 public class VuePlan extends javax.swing.JPanel {
     
-    private ArrayList<VueNoeud> vueNoeuds = new ArrayList();
     private ControleurPlan controleur;
 
     public void setControleur(ControleurPlan controleur) {
@@ -25,32 +24,17 @@ public class VuePlan extends javax.swing.JPanel {
     public ControleurPlan getControleur() {
         return controleur;
     }
-    
 
-    public void setVueNoeuds(ArrayList<VueNoeud> vueNoeuds) {
-        this.vueNoeuds = this.vueNoeuds;
-        for (VueNoeud vueNoeud : this.vueNoeuds) {
-            this.displayVueNoeud(vueNoeud);
-        }
-    }
     
     public void addVueNoeud(VueNoeud vueNoeud) {
-        this.vueNoeuds.add(vueNoeud);
+        this.add(vueNoeud);
         this.displayVueNoeud(vueNoeud);
     }
     
-    public void addAllVueNoeuds(ArrayList<VueNoeud> vueNoeuds) {
-        this.vueNoeuds.addAll(vueNoeuds);
-        for (VueNoeud vueNoeud : vueNoeuds) {
-            this.displayVueNoeud(vueNoeud);
-        }
-    }
-    
     private void displayVueNoeud(VueNoeud vueNoeud) {
-            this.add(vueNoeud);
             vueNoeud.setPlan(this);
             vueNoeud.setVisible(true);
-            vueNoeud.setSize(10, 10);
+            vueNoeud.setSize(15, 15);
             int xLocation = vueNoeud.getNoeud().x - vueNoeud.getWidth()/2;
             int yLocation = vueNoeud.getNoeud().y - vueNoeud.getHeight()/2;
             vueNoeud.setLocation(xLocation, yLocation);

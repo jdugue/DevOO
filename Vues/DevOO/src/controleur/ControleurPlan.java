@@ -8,11 +8,13 @@ package controleur;
 
 import devoo.MainFrame;
 import devoo.Noeud;
+import devoo.Troncon;
 import java.awt.Dimension;
 import java.awt.Point;
 import java.util.ArrayList;
 import view.VueNoeud;
 import view.VuePlan;
+import view.VueTroncon;
 
 /**
  *
@@ -21,7 +23,12 @@ import view.VuePlan;
 public class ControleurPlan {
     
     private VuePlan vuePlan;
+    private ArrayList<VueNoeud> vueNoeuds = new ArrayList();
+    
+    
     private MainFrame fenetreParent;
+    
+    private VueNoeud selectedVueNoeud;
 
     public ControleurPlan(Point vueLocation, Dimension vueDimension, MainFrame fenetreParent) {
         this.vuePlan = new VuePlan();
@@ -44,22 +51,46 @@ public class ControleurPlan {
         this.vuePlan = vuePlan;
         this.vuePlan.setControleur(this);
     }   
+
+    public VueNoeud getSelectedVueNoeud() {
+        return selectedVueNoeud;
+    }
+
+    public void setSelectedVueNoeud(VueNoeud selectedVueNoeud) {
+        this.selectedVueNoeud = selectedVueNoeud;
+    }
+    
     
     public void addNoeud(Noeud noeud) {
-        VueNoeud vueNoeud = new VueNoeud();
-        vueNoeud.setNoeud(noeud);
+        VueNoeud vueNoeud = new VueNoeud(noeud);
+        this.vueNoeuds.add(vueNoeud);
         this.vuePlan.addVueNoeud(vueNoeud);
     }
     
     public void addAllNoeuds(ArrayList<Noeud> noeuds) {
         for (Noeud noeud : noeuds) {
-            this.vuePlan.addVueNoeud(new VueNoeud(noeud));
+            this.addNoeud(noeud);
         }
     }
     
-    public void didSelectVueNoeud(VueNoeud selectedNoeud) {
-        Noeud noeud = selectedNoeud.getNoeud();
+    public void addTroncon(Troncon troncon) {
+        VueTroncon vueTroncon = new VueTroncon(troncon);
+        this.vuePlan.add(vueTroncon);
+    }
+    
+    public void didSelectVueNoeud(VueNoeud selectedVueNoeud) {
+        if (this.getSelectedVueNoeud() != null) {
+            this.getSelectedVueNoeud().setSelected(false);
+        }
+        this.setSelectedVueNoeud(selectedVueNoeud);
+        
+        Noeud noeud = selectedVueNoeud.getNoeud();
         this.fenetreParent.didSelectNoeud(noeud);
+    }
+    
+    public void didDeselectVueNoeud(VueNoeud deselectedNoeud) {
+        Noeud noeud = deselectedNoeud.getNoeud();
+        this.fenetreParent.didDeselectNoeud(noeud);
     }
     
 }
