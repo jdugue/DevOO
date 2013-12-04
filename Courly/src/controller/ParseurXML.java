@@ -30,7 +30,7 @@ public class ParseurXML {
 	public Plan construirePlanXML() {
 		Plan plan = new Plan();
 		
-		File xml = ouvrirFichier("./../../../XML Examples/plan10x10.xml");
+		File xml = ouvrirFichier("../XML Examples/plan10x10.xml");
 		
 		//Si le fichier existe
 		if (xml != null) {			
@@ -82,7 +82,7 @@ public class ParseurXML {
                 	   vectNoeuds.get(idNoeudCourant).setTroncons(tronconsNoeud);
                    }
                    plan.setNoeuds(vectNoeuds);
-                   plan.setTroncons(vectTroncons);          
+                   plan.setTroncons(vectTroncons);
                    
                }			
 			}
