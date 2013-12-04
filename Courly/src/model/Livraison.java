@@ -1,6 +1,8 @@
 package model;
 
-public class Livraison {
+import org.w3c.dom.Element;
+
+public class Livraison extends Lieu {
 	
 	protected Integer id;
 	protected Integer client;
@@ -46,6 +48,13 @@ public class Livraison {
 
 	public void setHeurePassage(String heurePassage) {
 		this.heurePassage = heurePassage;
+	}
+
+	public void construireAPartirDeDOMXML(Element noeudDOMRacine, PlageHoraire plage) {
+		super.construireAPartirDeDOMXML(noeudDOMRacine);
+		client = Integer.parseInt(noeudDOMRacine.getAttribute("client"));
+		plageHoraire = plage;
+		
 	}
 
 	public Livraison() {

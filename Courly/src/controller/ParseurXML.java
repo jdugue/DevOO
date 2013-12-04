@@ -6,7 +6,10 @@ import java.util.ArrayList;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
+import model.Depot;
+import model.Livraison;
 import model.Noeud;
+import model.PlageHoraire;
 import model.Plan;
 import model.Troncon;
 
@@ -33,6 +36,7 @@ public class ParseurXML {
 		File xml = ouvrirFichier("../XML Examples/plan10x10.xml");
 		
 		//Si le fichier existe
+		//TODO : normaliser les exceptions si bug
 		if (xml != null) {			
 			try {
                 // creation d'un constructeur de documents a l'aide d'une fabrique
@@ -95,10 +99,57 @@ public class ParseurXML {
 	
 	public void construireTourneeXML() {
 		
+		File xml = ouvrirFichier("../XML Examples/livraison10x10-2.xml");
+		
+		//Si le fichier existe
+		//TODO : normaliser les exceptions si bug
+		if (xml != null) {
+			
+			ArrayList<Livraison> livraisons = new ArrayList<Livraison>();
+			ArrayList<PlageHoraire> plages = new ArrayList<PlageHoraire>();
+
+			Depot depot = new Depot();
+			try {
+                // creation d'un constructeur de documents a l'aide d'une fabrique
+               DocumentBuilder constructeur = DocumentBuilderFactory.newInstance().newDocumentBuilder();	
+               // lecture du contenu d'un fichier XML avec DOM
+               Document document = constructeur.parse(xml);
+               Element racine = document.getDocumentElement();
+               
+               if (racine.getNodeName().equals("JourneeType")) {
+            	   
+            	   //Traitement du/des depots
+            	   NodeList listeDepot = racine.getElementsByTagName("Entrepot");
+            	   //Ici je prend que le 1er element
+            	   //TODO Demander si il peut en avoir plusieurs (de depots)
+            	   Element depotElement = (Element) listeDepot.item(0);
+            	   depot.construireAPartirDeDOMXML(depotElement);
+            	   
+            	   //Traitement des plages horaires
+            	   NodeList listePlages = racine.getElementsByTagName("Plage");
+            	   for(int i=0;i<listePlages.getLength();i++) {
+            		   PlageHoraire plage = new PlageHoraire();
+            		   Element plageElement = (Element) listePlages.item(i);
+            		   ArrayList<Livraison> livraisonsPlage = plage.construireAPartirDeDOMXML(plageElement);
+            		   livraisons.addAll(livraisonsPlage);
+            		   plages.add(plage);
+            	   }
+            	   
+               }
+               
+			}
+			catch (Exception e) {
+				System.out.println(e);
+			}
+			System.out.println(plages.get(0).getLivraisons().get(0).getClient());
+		}
+		
+		
+		
 	}
 	
 	public static void main(String[] args) {
 		ParseurXML pars = new ParseurXML();
-		pars.construirePlanXML();
+		pars.construireTourneeXML();
 	}
 }

@@ -27,6 +27,10 @@ public class Plan {
 	public void setTroncons(ArrayList<Troncon> troncons) {
 		this.troncons = troncons;
 	}
+
+	public ArrayList<Troncon> getTroncons() {
+		return troncons;
+	}
 	
 	
 
