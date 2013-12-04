@@ -16,7 +16,16 @@ import java.util.ArrayList;
 public class VuePlan extends javax.swing.JPanel {
     
     private ArrayList<VueNoeud> noeuds = new ArrayList();
-    public ControleurPlan controleur;
+    private ControleurPlan controleur;
+
+    public void setControleur(ControleurPlan controleur) {
+        this.controleur = controleur;
+    }
+
+    public ControleurPlan getControleur() {
+        return controleur;
+    }
+    
 
     public void setNoeuds(ArrayList<VueNoeud> vueNoeuds) {
         this.noeuds = noeuds;

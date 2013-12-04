@@ -8,6 +8,8 @@ package controleur;
 
 import devoo.MainFrame;
 import devoo.Noeud;
+import java.awt.Dimension;
+import java.awt.Point;
 import view.VueNoeud;
 import view.VuePlan;
 
@@ -18,16 +20,29 @@ import view.VuePlan;
 public class ControleurPlan {
     
     private VuePlan vuePlan;
-    private MainFrame controleurParent;
+    private MainFrame fenetreParent;
 
-    public void setVuePlan(VuePlan vuePlan) {
-        this.vuePlan = vuePlan;
-    }
-
-    public void setControleurParent(MainFrame controleurParent) {
-        this.controleurParent = controleurParent;
+    public ControleurPlan(Point vueLocation, Dimension vueDimension, MainFrame fenetreParent) {
+        this.vuePlan = new VuePlan();
+        this.vuePlan.setSize(vueDimension);
+        this.vuePlan.setLocation(vueLocation);
+        this.setFenetreParent(fenetreParent);
+        this.fenetreParent.add(vuePlan);
     }
     
+    public ControleurPlan(VuePlan vuePlan, MainFrame fenetreParent) {
+        this.setVuePlan(vuePlan);
+        this.setFenetreParent(fenetreParent);
+    }
+
+    private void setFenetreParent(MainFrame fenetreParent) {
+        this.fenetreParent = fenetreParent;
+    }    
+    
+    public void setVuePlan(VuePlan vuePlan) {
+        this.vuePlan = vuePlan;
+        this.vuePlan.setControleur(this);
+    }   
     
     public void addNoeud(Noeud noeud) {
         VueNoeud vueNoeud = new VueNoeud();
@@ -37,8 +52,7 @@ public class ControleurPlan {
     
     public void didSelectVueNoeud(VueNoeud selectedNoeud) {
         Noeud noeud = selectedNoeud.getNoeud();
-        
-        this.controleurParent.didSelectNoeud(noeud);
+        this.fenetreParent.didSelectNoeud(noeud);
     }
     
 }

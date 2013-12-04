@@ -129,15 +129,17 @@ public class MainFrame extends javax.swing.JFrame {
                 frame.setVisible(true);
                 
                 
-                ControleurPlan planControleur = new ControleurPlan();
-                planControleur.setVuePlan(frame.vuePlan);
-                planControleur.setControleurParent(frame);
-                frame.vuePlan.controleur = planControleur;
+               // ControleurPlan planControleur = new ControleurPlan();
+                //planControleur.setVuePlan(frame.vuePlan);
+                //planControleur.setControleurParent(frame);
+                //frame.vuePlan.controleur = planControleur;
+                
+                ControleurPlan controleurPlan = new ControleurPlan(frame.vuePlan, frame);
                 Noeud noeud = new Noeud();
                 noeud.name = "Maman de Mael";
                 noeud.x = 200;
                 noeud.y = 200;
-                planControleur.addNoeud(noeud);
+                controleurPlan.addNoeud(noeud);
             }
         });
     }

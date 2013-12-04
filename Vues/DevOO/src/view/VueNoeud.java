@@ -117,7 +117,7 @@ public class VueNoeud extends javax.swing.JPanel {
         this.updateBackgroundColor();
         
         if (selected) {
-            this.vuePlan.controleur.didSelectVueNoeud(this);
+            this.vuePlan.getControleur().didSelectVueNoeud(this);
         }
     }
     
