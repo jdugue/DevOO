@@ -8,11 +8,13 @@ package controleur;
 
 import devoo.MainFrame;
 import devoo.Noeud;
+import devoo.Troncon;
 import java.awt.Dimension;
 import java.awt.Point;
 import java.util.ArrayList;
 import view.VueNoeud;
 import view.VuePlan;
+import view.VueTroncon;
 
 /**
  *
@@ -60,8 +62,7 @@ public class ControleurPlan {
     
     
     public void addNoeud(Noeud noeud) {
-        VueNoeud vueNoeud = new VueNoeud();
-        vueNoeud.setNoeud(noeud);
+        VueNoeud vueNoeud = new VueNoeud(noeud);
         this.vueNoeuds.add(vueNoeud);
         this.vuePlan.addVueNoeud(vueNoeud);
     }
@@ -70,6 +71,11 @@ public class ControleurPlan {
         for (Noeud noeud : noeuds) {
             this.addNoeud(noeud);
         }
+    }
+    
+    public void addTroncon(Troncon troncon) {
+        VueTroncon vueTroncon = new VueTroncon(troncon);
+        this.vuePlan.add(vueTroncon);
     }
     
     public void didSelectVueNoeud(VueNoeud selectedVueNoeud) {

@@ -186,6 +186,21 @@ public class MainFrame extends javax.swing.JFrame {
                 listeNoeud.add(noeud2);
                 listeNoeud.add(noeud3);
                 controleurPlan.addAllNoeuds(listeNoeud);
+                
+                Troncon troncon1 = new Troncon();
+                troncon1.depart = noeud1;
+                troncon1.arrivee = noeud2;
+                controleurPlan.addTroncon(troncon1);
+                
+                Troncon troncon2 = new Troncon();
+                troncon2.depart = noeud3;
+                troncon2.arrivee = noeud2;
+                controleurPlan.addTroncon(troncon2);
+                
+                Troncon troncon3 = new Troncon();
+                troncon3.depart = noeud1;
+                troncon3.arrivee = noeud3;
+                controleurPlan.addTroncon(troncon3);
             }
         });
     }
