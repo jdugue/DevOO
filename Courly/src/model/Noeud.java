@@ -59,4 +59,28 @@ public class Noeud {
     	y = Integer.parseInt(noeudDOMRacine.getAttribute("y"));		
 	}
 
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public ArrayList<Troncon> getTronconsSortants() {
+		return tronconsSortants;
+	}
+
+	public void setTronconsSortants(ArrayList<Troncon> tronconsSortants) {
+		this.tronconsSortants = tronconsSortants;
+	}
+
+	public void setX(Integer x) {
+		this.x = x;
+	}
+
+	public void setY(Integer y) {
+		this.y = y;
+	}
+
 }

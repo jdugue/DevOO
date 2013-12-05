@@ -105,6 +105,7 @@ public class ParseurXML {
 		//TODO : normaliser les exceptions si bug
 		if (xml != null) {
 			
+			//TODO A mettre dans un objet Tournee
 			ArrayList<Livraison> livraisons = new ArrayList<Livraison>();
 			ArrayList<PlageHoraire> plages = new ArrayList<PlageHoraire>();
 
@@ -146,10 +147,5 @@ public class ParseurXML {
 		
 		
 		
-	}
-	
-	public static void main(String[] args) {
-		ParseurXML pars = new ParseurXML();
-		pars.construireTourneeXML();
 	}
 }
