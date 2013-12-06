@@ -12,16 +12,20 @@ import controller.ParseurXML;
 import java.awt.Color;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.SpinnerNumberModel;
 
+import model.Depot;
+import model.Livraison;
+import model.Noeud;
+import model.Plan;
+
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 
-import model.Noeud;
-import model.Plan;
-import view.VueNoeud;
+
 
 /**
  *
@@ -187,8 +191,31 @@ public class MainFrame extends javax.swing.JFrame {
                 frame.setVisible(true);
                 
                 try {
-                	Plan plan = parseur.construirePlanXML("../XML Examples/plan20x20.xml");
+                	Plan plan = parseur.construirePlanXML("../XML Examples/plan10x10.xml");
                 	if (plan !=null) {
+                		
+                		Depot depot = new Depot();
+                		depot.setNoeud(plan.getNoeuds().get(0));
+                		
+                		Livraison livraison1 = new Livraison();
+                		livraison1.setNoeud(plan.getNoeuds().get(4));
+                		
+                		Livraison livraison2 = new Livraison();
+                		livraison2.setNoeud(plan.getNoeuds().get(8));
+                		
+                		Livraison livraison3 = new Livraison();
+                		livraison3.setNoeud(plan.getNoeuds().get(16));
+                		
+                		Livraison livraison4 = new Livraison();
+                		livraison4.setNoeud(plan.getNoeuds().get(32));
+                		
+                		Livraison livraison5 = new Livraison();
+                		livraison5.setNoeud(plan.getNoeuds().get(64));
+                		
+                		Livraison livraison6 = new Livraison();
+                		livraison6.setNoeud(plan.getNoeuds().get(50));
+                		
+                		
                 		frame.controleurPlan.addAllNoeuds(plan.getNoeuds());               
                 		frame.controleurPlan.addAllTroncons(plan.getTroncons());
                 	}                	

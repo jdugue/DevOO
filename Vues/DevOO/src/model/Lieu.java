@@ -7,7 +7,7 @@ import org.w3c.dom.Element;
 public class Lieu {
 	
 	protected Integer adresse;
-    protected Noeud noeud;
+        protected Noeud noeud;
 
 	public Lieu() {
 		

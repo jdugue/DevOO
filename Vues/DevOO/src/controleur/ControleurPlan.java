@@ -7,13 +7,16 @@
 package controleur;
 
 import devoo.MainFrame;
-import devoo.Noeud;
-import devoo.Troncon;
+import model.Noeud;
+import model.Troncon;
+import model.Livraison;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Point;
 import java.util.ArrayList;
 import javax.swing.JScrollPane;
+import view.VueDepot;
+import view.VueLivraison;
 import view.VueNoeud;
 import view.VuePlan;
 import view.VueTroncon;
@@ -32,7 +35,7 @@ public class ControleurPlan {
     private ArrayList<Troncon> troncons = new ArrayList();
     
     public static final int noeudSize = 14;
-    public static final int padding = 20;
+    public static final int padding = 30;
     
     private int minX, minY, maxX, maxY;
     
@@ -41,6 +44,7 @@ public class ControleurPlan {
     private MainFrame fenetreParent;
     
     private VueNoeud selectedVueNoeud;
+    private Noeud selectedNoeud;
 
     public ControleurPlan(Point vueLocation, Dimension vueDimension, MainFrame fenetreParent) {
         this.vuePlan = new VuePlan();
@@ -86,6 +90,7 @@ public class ControleurPlan {
 
     public void setSelectedVueNoeud(VueNoeud selectedVueNoeud) {
         this.selectedVueNoeud = selectedVueNoeud;
+        this.selectedNoeud = selectedVueNoeud.getNoeud();
     }
 
     private void setMinX(int minX) {
@@ -125,6 +130,8 @@ public class ControleurPlan {
     
     
     public void createVueNoeudFromNoeud(Noeud noeud) {
+        
+        // Vue noeud
         VueNoeud vueNoeud = new VueNoeud(noeud);
         this.vueNoeuds.add(vueNoeud);
         
@@ -132,7 +139,27 @@ public class ControleurPlan {
         int xLocation = this.scaledCoordonateHorizontal(vueNoeud.getNoeud().getX()) - vueNoeud.getWidth()/2;
         int yLocation = this.scaledCoordonateVertical(vueNoeud.getNoeud().getY()) - vueNoeud.getHeight()/2;
         vueNoeud.setLocation(xLocation, yLocation);
+        vueNoeud.setPlan(this.vuePlan);
+        
+        // Vue livraison
+        if (noeud.getLieu() != null) {
+            if (noeud.getLieu().getClass() == Livraison.class) {
+                VueLivraison vueLivraison = new VueLivraison();
+                vueLivraison.setSize(50, 50);
+                vueNoeud.setVueLieu(vueLivraison);
+            } else {
+                VueDepot vueDepot = new VueDepot();
+                vueDepot.setSize(40, 40);
+                vueNoeud.setVueLieu(vueDepot);
+            }                    
+        }
+        
         this.vuePlan.addVueNoeud(vueNoeud);
+        
+          
+        if (this.selectedNoeud == noeud) {
+            vueNoeud.setSelected(true);
+        }
     }
     
     public void addNoeud(Noeud noeud) {
@@ -180,7 +207,8 @@ public class ControleurPlan {
     }
     
     public void createVueTronconFromTroncon(Troncon troncon) {
-        
+
+        // Vue Troncon
         VueTroncon vueTroncon = new VueTroncon(troncon);
         this.vueTroncons.add(vueTroncon);
         
@@ -194,6 +222,8 @@ public class ControleurPlan {
         vueTroncon.setSize(this.scaledSize(width) + noeudSize, this.scaledSize(height) + noeudSize);
         
         this.vuePlan.add(vueTroncon);
+        
+        
     }
     
     public void addTroncon(Troncon troncon) {
@@ -222,7 +252,7 @@ public class ControleurPlan {
         for (Troncon troncon : troncons) {
             this.createVueTronconFromTroncon(troncon);
         }
-                
+          
     }
     
     public void didSelectVueNoeud(VueNoeud selectedVueNoeud) {

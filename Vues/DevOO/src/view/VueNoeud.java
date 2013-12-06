@@ -7,7 +7,7 @@
 package view;
 
 import controleur.ControleurPlan;
-import devoo.Noeud;
+import model.Noeud;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Graphics;
@@ -22,9 +22,11 @@ public class VueNoeud extends javax.swing.JPanel {
     public boolean selected;
     
     private final Color normalColor = new Color(220, 160, 60);
-    private final Color highlightedColor = new Color(255, 220, 160);
+    private final Color highlightedColor = new Color(240, 60, 40);
     private final Color selectedColor = new Color(30, 80, 170);
     private final Color selectedHighlightedColor = new Color(80, 150, 255);
+    
+    protected VueLieu vueLieu;
     
     private VuePlan vuePlan;
     private Noeud noeud;
@@ -47,7 +49,43 @@ public class VueNoeud extends javax.swing.JPanel {
         this.setOpaque(false);
         this.setVisible(true); 
     }
+
+    public VueLieu getVueLieu() {
+        return vueLieu;
+    }
+
+    public void setVueLieu(VueLieu vueLieu) {
+        
+        if (vueLieu.getClass() == VueLivraison.class) {
+            this.setVueLivraison((VueLivraison) vueLieu);
+        } else {
+            this.setVueDepot((VueDepot) vueLieu);
+        }
+    }
     
+    public void setVueLivraison(VueLivraison vueLivraison) {
+        this.vueLieu = vueLivraison;
+        
+        int x = this.getX() - (this.vueLieu.getWidth() - this.getWidth())/2;
+        int y = this.getY() - (this.vueLieu.getHeight() - this.getHeight());
+        
+        this.vueLieu.setLocation(x, y);
+        
+        this.vueLieu.setVueNoeud(this);
+        this.vuePlan.add(this.vueLieu);
+    }
+    
+    public void setVueDepot(VueDepot vueDepot) {
+        this.vueLieu = vueDepot;
+        
+        int x = this.getX() - (this.vueLieu.getWidth() - this.getWidth())/2;
+        int y = this.getY() - (this.vueLieu.getHeight() - this.getHeight())/2;
+        
+        this.vueLieu.setLocation(x, y);
+        
+        this.vueLieu.setVueNoeud(this);
+        this.vuePlan.add(this.vueLieu);
+    }
     
 
     /**
@@ -129,11 +167,19 @@ public class VueNoeud extends javax.swing.JPanel {
         } else {
             this.vuePlan.getControleur().didDeselectVueNoeud(this);
         }
+        
+        if (this.vueLieu != null && this.vueLieu.selected != this.selected) {
+            this.vueLieu.setSelected(selected);
+        }
     }
     
     public void setHighlighted(boolean highlighted) {
         this.highlighted = highlighted;
         this.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        
+        if (this.vueLieu != null && this.vueLieu.highlighted != this.highlighted) {
+            this.vueLieu.setHighlighted(highlighted);
+        }
         
         this.repaint();
     }
@@ -155,6 +201,8 @@ public class VueNoeud extends javax.swing.JPanel {
     {
         super.paintComponent(g);
         g.setColor(this.colorForActualState());
-        g.fillOval(0,0,this.getWidth(),this.getHeight());
+        if (this.getNoeud().getLieu() == null) {
+            g.fillOval(0,0,this.getWidth(),this.getHeight());
+        }
     }
 }
