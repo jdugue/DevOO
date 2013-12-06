@@ -6,40 +6,41 @@
 
 package view;
 
-import controller.ControleurPlan;
-import java.util.ArrayList;
+import java.awt.image.BufferedImage;
 
 /**
  *
  * @author tanguyhelesbeux
  */
-public class VuePlan extends javax.swing.JPanel {
+public class VueDepot extends VueLieu {
     
-    private ControleurPlan controleur;
-
-    public void setControleur(ControleurPlan controleur) {
-        this.controleur = controleur;
-    }
-
-    public ControleurPlan getControleur() {
-        return controleur;
-    }
     
-    public void addVueNoeud(VueNoeud vueNoeud) {
-        this.add(vueNoeud);
-        this.displayVueNoeud(vueNoeud);
-    }
-    
-    private void displayVueNoeud(VueNoeud vueNoeud) {
-            vueNoeud.setPlan(this);
-            vueNoeud.setVisible(true);
-    }
+    private static final String normalImagePath = "../factory_40px.png";
+    private static final String highlightedImagePath = "../factory_highlighted_40px.png";
+    private static final String selectedImagePath = "../factory_selected_40px.png";
+    private static final String selectedHighlightedImagePath = "../factory_selectedhighlighted_40px.png";
 
     /**
-     * Creates new form VuePlan
+     * Creates new form VueDepot
      */
-    public VuePlan() {
+    public VueDepot() {
         initComponents();
+        this.setOpaque(false);
+    }
+    
+    
+    @Override
+    protected BufferedImage pinImageForActualState() {
+        
+        if (this.selected && this.highlighted) {
+            return this.pinImage(selectedHighlightedImagePath);
+        } else if (this.selected) {
+            return this.pinImage(selectedImagePath);
+        } else if (this.highlighted) {
+            return this.pinImage(highlightedImagePath);
+        } else {
+            return this.pinImage(normalImagePath);
+        }
     }
 
     /**
