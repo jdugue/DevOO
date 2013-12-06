@@ -20,6 +20,9 @@ import java.awt.Graphics2D;
 public class VueTroncon extends javax.swing.JPanel {
     
     private Troncon troncon;
+    private static final int minWidth = 4; 
+    private static final int minHeight = 4; 
+    private static final int lineWidth = 4;
 
     /**
      * Creates new form VueTroncon
@@ -43,12 +46,21 @@ public class VueTroncon extends javax.swing.JPanel {
     public void setTroncon(Troncon troncon) {
         this.troncon = troncon;
         
-        int x = Math.min(this.getTroncon().depart.x, this.getTroncon().arrivee.x);
-        int y = Math.min(this.getTroncon().depart.y, this.getTroncon().arrivee.y);
+        int x = Math.min(this.getTroncon().getOrigine().getX(), this.getTroncon().getDestination().getX());
+        int y = Math.min(this.getTroncon().getOrigine().getY(), this.getTroncon().getDestination().getY());
         this.setLocation(x, y);
         
-        int width = Math.abs(this.getTroncon().arrivee.x - this.getTroncon().depart.x);
-        int height = Math.abs(this.getTroncon().arrivee.y - this.getTroncon().depart.y);
+        int width = Math.abs(this.getTroncon().getDestination().getX() - this.getTroncon().getOrigine().getX());
+        int height = Math.abs(this.getTroncon().getDestination().getY() - this.getTroncon().getOrigine().getY());
+        
+        if (width < minWidth) {
+            width = minWidth;
+        }
+        if (height < minHeight) {
+            height = minHeight;
+        }
+        
+        System.out.println(width);
         this.setSize(width, height);
     }
     
@@ -58,11 +70,14 @@ public class VueTroncon extends javax.swing.JPanel {
         super.paintComponent(g);
         g.setColor(Color.gray);
         Graphics2D g2D = (Graphics2D) g;
-        g2D.setStroke(new BasicStroke(4));
+        g2D.setStroke(new BasicStroke(lineWidth));
         
         int xDepart, yDepart, xArrivee, yArrivee;
         
-        if (this.getTroncon().depart.x > this.getTroncon().arrivee.x) {
+         if (this.getWidth() <= minWidth) {
+            xDepart = minWidth/2;
+            xArrivee = minWidth/2;
+        } else if (this.getTroncon().getOrigine().getX() > this.getTroncon().getDestination().getX()) {
             xDepart = this.getWidth();
             xArrivee = 0;
         } else {
@@ -70,7 +85,10 @@ public class VueTroncon extends javax.swing.JPanel {
             xArrivee = this.getWidth();
         }
         
-        if (this.getTroncon().depart.y > this.getTroncon().arrivee.y) {
+        if (this.getHeight() <= minHeight) {
+            yDepart = minHeight/2;
+            yArrivee = minHeight/2;
+        } else if (this.getTroncon().getOrigine().getY() > this.getTroncon().getDestination().getY()) {
             yDepart = this.getHeight();
             yArrivee = 0;
         } else {

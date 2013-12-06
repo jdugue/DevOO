@@ -12,7 +12,25 @@ package devoo;
  */
 public class Troncon {
     
-    public Noeud depart;
-    public Noeud arrivee;
+    protected Noeud origine;
+    protected Noeud destination;
+
+    public Noeud getOrigine() {
+        return origine;
+    }
+
+    public void setOrigine(Noeud origine) {
+        this.origine = origine;
+    }
+
+    public Noeud getDestination() {
+        return destination;
+    }
+
+    public void setDestination(Noeud destination) {
+        this.destination = destination;
+    }
+    
+    
     
 }

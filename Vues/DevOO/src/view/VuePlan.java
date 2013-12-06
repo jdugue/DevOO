@@ -35,8 +35,8 @@ public class VuePlan extends javax.swing.JPanel {
             vueNoeud.setPlan(this);
             vueNoeud.setVisible(true);
             vueNoeud.setSize(15, 15);
-            int xLocation = vueNoeud.getNoeud().x - vueNoeud.getWidth()/2;
-            int yLocation = vueNoeud.getNoeud().y - vueNoeud.getHeight()/2;
+            int xLocation = vueNoeud.getNoeud().getX() - vueNoeud.getWidth()/2;
+            int yLocation = vueNoeud.getNoeud().getY() - vueNoeud.getHeight()/2;
             vueNoeud.setLocation(xLocation, yLocation);
     }
 

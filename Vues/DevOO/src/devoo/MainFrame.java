@@ -167,7 +167,7 @@ public class MainFrame extends javax.swing.JFrame {
                 
                 Noeud noeud1 = new Noeud();
                 noeud1.name = "Maman de Mael";
-                noeud1.x = 200;
+                noeud1.x = 302;
                 noeud1.y = 200;
                 
                 controleurPlan.addNoeud(noeud1);
@@ -175,7 +175,7 @@ public class MainFrame extends javax.swing.JFrame {
                 Noeud noeud2 = new Noeud();
                 noeud2.name = "K-fet";
                 noeud2.x = 300;
-                noeud2.y = 300;
+                noeud2.y = 100;
                 
                 Noeud noeud3 = new Noeud();
                 noeud3.name = "Maman de Joss";
@@ -188,18 +188,18 @@ public class MainFrame extends javax.swing.JFrame {
                 controleurPlan.addAllNoeuds(listeNoeud);
                 
                 Troncon troncon1 = new Troncon();
-                troncon1.depart = noeud1;
-                troncon1.arrivee = noeud2;
+                troncon1.setOrigine(noeud1);
+                troncon1.setDestination(noeud2);
                 controleurPlan.addTroncon(troncon1);
                 
                 Troncon troncon2 = new Troncon();
-                troncon2.depart = noeud3;
-                troncon2.arrivee = noeud2;
+                troncon2.setOrigine(noeud3);
+                troncon2.setDestination(noeud2);
                 controleurPlan.addTroncon(troncon2);
                 
                 Troncon troncon3 = new Troncon();
-                troncon3.depart = noeud1;
-                troncon3.arrivee = noeud3;
+                troncon3.setOrigine(noeud3);
+                troncon3.setDestination(noeud1);
                 controleurPlan.addTroncon(troncon3);
             }
         });
