@@ -10,6 +10,7 @@ import controleur.ControleurPlan;
 import java.awt.Color;
 import java.util.ArrayList;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import view.VueNoeud;
 
 /**
@@ -34,26 +35,13 @@ public class MainFrame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        vuePlan = new view.VuePlan();
         jTextField1 = new javax.swing.JTextField();
         jTextField2 = new javax.swing.JTextField();
         jTextField3 = new javax.swing.JTextField();
+        scrollPane = new javax.swing.JScrollPane();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setSize(new java.awt.Dimension(1200, 800));
-
-        vuePlan.setBackground(new java.awt.Color(255, 255, 255));
-
-        javax.swing.GroupLayout vuePlanLayout = new javax.swing.GroupLayout(vuePlan);
-        vuePlan.setLayout(vuePlanLayout);
-        vuePlanLayout.setHorizontalGroup(
-            vuePlanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 688, Short.MAX_VALUE)
-        );
-        vuePlanLayout.setVerticalGroup(
-            vuePlanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
 
         jTextField1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -78,8 +66,8 @@ public class MainFrame extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(vuePlan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(scrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 694, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 281, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
@@ -90,7 +78,6 @@ public class MainFrame extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(vuePlan, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -99,6 +86,7 @@ public class MainFrame extends javax.swing.JFrame {
                     .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(432, Short.MAX_VALUE))
+            .addComponent(scrollPane)
         );
 
         pack();
@@ -122,7 +110,7 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
-    private view.VuePlan vuePlan;
+    private javax.swing.JScrollPane scrollPane;
     // End of variables declaration//GEN-END:variables
 
  /**
@@ -162,7 +150,7 @@ public class MainFrame extends javax.swing.JFrame {
                 frame.setVisible(true);
                
                 
-                ControleurPlan controleurPlan = new ControleurPlan(frame.vuePlan, frame);
+                ControleurPlan controleurPlan = new ControleurPlan(frame.scrollPane, frame);
                 
                 
                 Noeud noeud1 = new Noeud();
@@ -175,11 +163,11 @@ public class MainFrame extends javax.swing.JFrame {
                 Noeud noeud2 = new Noeud();
                 noeud2.name = "K-fet";
                 noeud2.x = 300;
-                noeud2.y = 100;
+                noeud2.y = 700;
                 
                 Noeud noeud3 = new Noeud();
                 noeud3.name = "Maman de Joss";
-                noeud3.x = 500;
+                noeud3.x = 800;
                 noeud3.y = 100;
                 
                 ArrayList<Noeud> listeNoeud = new ArrayList();
@@ -201,6 +189,7 @@ public class MainFrame extends javax.swing.JFrame {
                 troncon3.setOrigine(noeud3);
                 troncon3.setDestination(noeud1);
                 controleurPlan.addTroncon(troncon3);
+                
             }
         });
     }

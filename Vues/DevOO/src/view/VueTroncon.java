@@ -9,7 +9,6 @@ package view;
 import devoo.Troncon;
 import java.awt.BasicStroke;
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 
@@ -43,9 +42,10 @@ public class VueTroncon extends javax.swing.JPanel {
         return troncon;
     }
 
-    public void setTroncon(Troncon troncon) {
+    public final void setTroncon(Troncon troncon) {
         this.troncon = troncon;
         
+        /*
         int x = Math.min(this.getTroncon().getOrigine().getX(), this.getTroncon().getDestination().getX());
         int y = Math.min(this.getTroncon().getOrigine().getY(), this.getTroncon().getDestination().getY());
         this.setLocation(x, y);
@@ -60,8 +60,8 @@ public class VueTroncon extends javax.swing.JPanel {
             height = minHeight;
         }
         
-        System.out.println(width);
         this.setSize(width, height);
+        */
     }
     
         @Override

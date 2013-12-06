@@ -24,7 +24,6 @@ public class VuePlan extends javax.swing.JPanel {
     public ControleurPlan getControleur() {
         return controleur;
     }
-
     
     public void addVueNoeud(VueNoeud vueNoeud) {
         this.add(vueNoeud);
@@ -34,10 +33,6 @@ public class VuePlan extends javax.swing.JPanel {
     private void displayVueNoeud(VueNoeud vueNoeud) {
             vueNoeud.setPlan(this);
             vueNoeud.setVisible(true);
-            vueNoeud.setSize(15, 15);
-            int xLocation = vueNoeud.getNoeud().getX() - vueNoeud.getWidth()/2;
-            int yLocation = vueNoeud.getNoeud().getY() - vueNoeud.getHeight()/2;
-            vueNoeud.setLocation(xLocation, yLocation);
     }
 
     /**

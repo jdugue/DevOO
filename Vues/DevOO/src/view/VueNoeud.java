@@ -47,6 +47,8 @@ public class VueNoeud extends javax.swing.JPanel {
         this.setOpaque(false);
         this.setVisible(true); 
     }
+    
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
