@@ -18,6 +18,7 @@ import javax.swing.JScrollPane;
 import javax.swing.SpinnerNumberModel;
 
 import model.Depot;
+import model.Livraison;
 import model.Noeud;
 import model.Plan;
 import view.VueNoeud;
@@ -191,6 +192,24 @@ public class MainFrame extends javax.swing.JFrame {
                 		
                 		Depot depot = new Depot();
                 		depot.setNoeud(plan.getNoeuds().get(0));
+                		
+                		Livraison livraison1 = new Livraison();
+                		livraison1.setNoeud(plan.getNoeuds().get(4));
+                		
+                		Livraison livraison2 = new Livraison();
+                		livraison2.setNoeud(plan.getNoeuds().get(8));
+                		
+                		Livraison livraison3 = new Livraison();
+                		livraison3.setNoeud(plan.getNoeuds().get(16));
+                		
+                		Livraison livraison4 = new Livraison();
+                		livraison4.setNoeud(plan.getNoeuds().get(32));
+                		
+                		Livraison livraison5 = new Livraison();
+                		livraison5.setNoeud(plan.getNoeuds().get(64));
+                		
+                		Livraison livraison6 = new Livraison();
+                		livraison6.setNoeud(plan.getNoeuds().get(50));
                 		
                 		
                 		frame.controleurPlan.addAllNoeuds(plan.getNoeuds());               
