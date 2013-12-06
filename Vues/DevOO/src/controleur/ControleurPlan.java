@@ -31,6 +31,8 @@ public class ControleurPlan {
     private ArrayList<VueTroncon> vueTroncons = new ArrayList();
     private ArrayList<Troncon> troncons = new ArrayList();
     
+    public static final int noeudSize = 14;
+    
     private int minX, minY, maxX, maxY;
     
     protected double zoomScale = 1.0;
@@ -125,9 +127,9 @@ public class ControleurPlan {
         VueNoeud vueNoeud = new VueNoeud(noeud);
         this.vueNoeuds.add(vueNoeud);
         
-        vueNoeud.setSize(15, 15);
-        int xLocation = this.scaledCoordonate(vueNoeud.getNoeud().getX()) - vueNoeud.getWidth()/2;
-        int yLocation = this.scaledCoordonate(vueNoeud.getNoeud().getY()) - vueNoeud.getHeight()/2;
+        vueNoeud.setSize(noeudSize, noeudSize);
+        int xLocation = this.scaledCoordonateHorizontal(vueNoeud.getNoeud().getX()) - vueNoeud.getWidth()/2;
+        int yLocation = this.scaledCoordonateVertical(vueNoeud.getNoeud().getY()) - vueNoeud.getHeight()/2;
         vueNoeud.setLocation(xLocation, yLocation);
         this.vuePlan.addVueNoeud(vueNoeud);
     }
@@ -158,8 +160,12 @@ public class ControleurPlan {
         this.createVueNoeudFromNoeud(noeud);
     }
     
-    private int scaledCoordonate(int coordonate) {
-        return (int)(this.zoomScale * coordonate);
+    private int scaledCoordonateVertical(int coordonate) {
+        return (int)(this.zoomScale * (coordonate - minY));
+    }
+    
+    private int scaledCoordonateHorizontal(int coordonate) {
+        return (int)(this.zoomScale * (coordonate - minX));
     }
     
     private int scaledSize(int size) {
@@ -179,12 +185,12 @@ public class ControleurPlan {
         
         int x = Math.min(troncon.getOrigine().getX(), troncon.getDestination().getX());
         int y = Math.min(troncon.getOrigine().getY(), troncon.getDestination().getY());
-        vueTroncon.setLocation(this.scaledCoordonate(x), this.scaledCoordonate(y));
+        vueTroncon.setLocation(this.scaledCoordonateHorizontal(x) - noeudSize/2, this.scaledCoordonateVertical(y) - noeudSize/2);
         
         int width = Math.abs(troncon.getDestination().getX() - troncon.getOrigine().getX());
         int height = Math.abs(troncon.getDestination().getY() - troncon.getOrigine().getY());
         
-        vueTroncon.setSize(this.scaledSize(width), this.scaledSize(height));
+        vueTroncon.setSize(this.scaledSize(width) + noeudSize, this.scaledSize(height) + noeudSize);
         
         this.vuePlan.add(vueTroncon);
     }

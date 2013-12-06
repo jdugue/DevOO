@@ -121,7 +121,7 @@ public class MainFrame extends javax.swing.JFrame {
 
     private void zoomSpinnerStateChangedHandler(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_zoomSpinnerStateChangedHandler
         // TODO add your handling code here:
-        this.controleurPlan.setZoomScale((double) this.zoomSpinner.getValue());
+        this.controleurPlan.setZoomScale(((double)this.zoomSpinner.getValue())/100);
     }//GEN-LAST:event_zoomSpinnerStateChangedHandler
 
    
@@ -169,7 +169,7 @@ public class MainFrame extends javax.swing.JFrame {
                 
                 MainFrame frame = new MainFrame();
                 frame.setVisible(true);
-                SpinnerNumberModel model = new SpinnerNumberModel(1.0, 0.1, 5.0, 0.1);
+                SpinnerNumberModel model = new SpinnerNumberModel(100.0, 25.0, 200.0, 5.0);
                 frame.zoomSpinner.setModel(model);
         
                 frame.controleurPlan = new ControleurPlan(frame.scrollPane, frame);

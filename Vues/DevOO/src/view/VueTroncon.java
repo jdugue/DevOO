@@ -6,6 +6,7 @@
 
 package view;
 
+import controleur.ControleurPlan;
 import devoo.Troncon;
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -22,6 +23,9 @@ public class VueTroncon extends javax.swing.JPanel {
     private static final int minWidth = 4; 
     private static final int minHeight = 4; 
     private static final int lineWidth = 4;
+    private static final int noeudSize = ControleurPlan.noeudSize;
+    
+    private static final int padding = 10;
 
     /**
      * Creates new form VueTroncon
@@ -35,7 +39,7 @@ public class VueTroncon extends javax.swing.JPanel {
         this.setTroncon(troncon);
         this.setVisible(true);
         this.setOpaque(false);
-        this.setBackground(Color.BLACK);
+        this.setBackground(Color.BLACK);        
     }
 
     public Troncon getTroncon() {
@@ -78,22 +82,22 @@ public class VueTroncon extends javax.swing.JPanel {
             xDepart = minWidth/2;
             xArrivee = minWidth/2;
         } else if (this.getTroncon().getOrigine().getX() > this.getTroncon().getDestination().getX()) {
-            xDepart = this.getWidth();
-            xArrivee = 0;
+            xDepart = this.getWidth() - noeudSize/2;
+            xArrivee = noeudSize/2;
         } else {
-            xDepart = 0;
-            xArrivee = this.getWidth();
+            xDepart = noeudSize/2;
+            xArrivee = this.getWidth() - noeudSize/2;
         }
         
         if (this.getHeight() <= minHeight) {
             yDepart = minHeight/2;
             yArrivee = minHeight/2;
         } else if (this.getTroncon().getOrigine().getY() > this.getTroncon().getDestination().getY()) {
-            yDepart = this.getHeight();
-            yArrivee = 0;
+            yDepart = this.getHeight() - noeudSize/2;
+            yArrivee = noeudSize/2;
         } else {
-            yDepart = 0;
-            yArrivee = this.getHeight();
+            yDepart = noeudSize/2;
+            yArrivee = this.getHeight() - noeudSize/2;
         }
         
         g.drawLine(xDepart, yDepart, xArrivee, yArrivee);
