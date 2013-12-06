@@ -32,6 +32,7 @@ public class ControleurPlan {
     private ArrayList<Troncon> troncons = new ArrayList();
     
     public static final int noeudSize = 14;
+    public static final int padding = 20;
     
     private int minX, minY, maxX, maxY;
     
@@ -108,7 +109,7 @@ public class ControleurPlan {
     }
     
     private void updateVuePlanFrame() {
-        Dimension dimension = new Dimension(this.scaledSize(maxX) + 50, this.scaledSize(maxY) + 50);
+        Dimension dimension = new Dimension(this.scaledSize(maxX) + padding*2, this.scaledSize(maxY) + padding*2);
         this.vuePlan.setPreferredSize(dimension);
     }
 
@@ -161,11 +162,11 @@ public class ControleurPlan {
     }
     
     private int scaledCoordonateVertical(int coordonate) {
-        return (int)(this.zoomScale * (coordonate - minY));
+        return (int)(this.zoomScale * (coordonate - minY)) + padding;
     }
     
     private int scaledCoordonateHorizontal(int coordonate) {
-        return (int)(this.zoomScale * (coordonate - minX));
+        return (int)(this.zoomScale * (coordonate - minX)) + padding;
     }
     
     private int scaledSize(int size) {
@@ -198,12 +199,15 @@ public class ControleurPlan {
     public void addTroncon(Troncon troncon) {
         this.troncons.add(troncon);
         this.createVueTronconFromTroncon(troncon);
+        this.paint();
     }
     
-    public void addAllTroncon(ArrayList<Troncon> troncons) {
+    public void addAllTroncons(ArrayList<Troncon> troncons) {
         for (Troncon troncon : troncons) {
-            this.addTroncon(troncon);
+            this.troncons.add(troncon);
+            this.createVueTronconFromTroncon(troncon);
         }
+        this.paint();
     }
     
     private void paint() {
