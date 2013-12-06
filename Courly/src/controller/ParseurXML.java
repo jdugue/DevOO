@@ -1,10 +1,13 @@
 package controller;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 
 import model.Depot;
 import model.Livraison;
@@ -16,6 +19,7 @@ import model.Troncon;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
 
 
 public class ParseurXML {
@@ -26,18 +30,20 @@ public class ParseurXML {
 	
 	public File ouvrirFichier(String path) {
 		File xml = new File(path);
-		return xml;
-		
+		return xml;		
 	}
 	
-	public Plan construirePlanXML() {
-		Plan plan = new Plan();
+	public Plan construirePlanXML() throws FileNotFoundException, NumberFormatException {
+		Plan plan = null;
 		
-		File xml = ouvrirFichier("../XML Examples/plan10x10.xml");
+		File xml = ouvrirFichier("../XML Examples/plan10x10_error.xml");
 		
 		//Si le fichier existe
 		//TODO : normaliser les exceptions si bug
-		if (xml != null) {			
+		if (!xml.exists()) {
+			throw new FileNotFoundException();
+		}
+		else {
 			try {
                 // creation d'un constructeur de documents a l'aide d'une fabrique
                DocumentBuilder constructeur = DocumentBuilderFactory.newInstance().newDocumentBuilder();	
@@ -85,13 +91,20 @@ public class ParseurXML {
                 	   }
                 	   vectNoeuds.get(idNoeudCourant).setTroncons(tronconsNoeud);
                    }
+                   plan = new Plan();
                    plan.setNoeuds(vectNoeuds);
                    plan.setTroncons(vectTroncons);
                    
                }			
 			}
-			catch (Exception e) {
+			catch (ParserConfigurationException e) {
 				System.out.println(e);
+			} catch (SAXException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
 		}
 		return plan;

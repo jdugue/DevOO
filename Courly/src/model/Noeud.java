@@ -11,6 +11,7 @@ public class Noeud {
 	protected Integer y;
 	protected Lieu lieu;
 	protected ArrayList<Troncon> tronconsSortants;
+
 	
 	public Noeud() {
 
@@ -53,10 +54,9 @@ public class Noeud {
 	}
 	
 	public void construireAPartirDeDOMXML(Element noeudDOMRacine) {
-		
-		id = Integer.parseInt(noeudDOMRacine.getAttribute("id"));
-		x = Integer.parseInt(noeudDOMRacine.getAttribute("x"));
-    	y = Integer.parseInt(noeudDOMRacine.getAttribute("y"));		
+			id = Integer.parseInt(noeudDOMRacine.getAttribute("id"));
+			x = Integer.parseInt(noeudDOMRacine.getAttribute("x"));
+			y = Integer.parseInt(noeudDOMRacine.getAttribute("y"));	
 	}
 
 	public Integer getId() {

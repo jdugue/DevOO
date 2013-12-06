@@ -10,12 +10,14 @@ import controller.ControleurPlan;
 import controller.ParseurXML;
 
 import java.awt.Color;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.SpinnerNumberModel;
 
 import model.Noeud;
 import model.Plan;
-import model.Troncon;
 import view.VueNoeud;
 
 /**
@@ -23,6 +25,8 @@ import view.VueNoeud;
  * @author tanguyhelesbeux
  */
 public class MainFrame extends javax.swing.JFrame {
+    
+    public ControleurPlan controleurPlan;
 
     /**
      * Creates new form MainFrame
@@ -40,26 +44,14 @@ public class MainFrame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        vuePlan = new view.VuePlan();
         jTextField1 = new javax.swing.JTextField();
         jTextField2 = new javax.swing.JTextField();
         jTextField3 = new javax.swing.JTextField();
+        scrollPane = new javax.swing.JScrollPane();
+        zoomSpinner = new javax.swing.JSpinner();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setSize(new java.awt.Dimension(1200, 800));
-
-        vuePlan.setBackground(new java.awt.Color(255, 255, 255));
-
-        javax.swing.GroupLayout vuePlanLayout = new javax.swing.GroupLayout(vuePlan);
-        vuePlan.setLayout(vuePlanLayout);
-        vuePlanLayout.setHorizontalGroup(
-            vuePlanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 688, Short.MAX_VALUE)
-        );
-        vuePlanLayout.setVerticalGroup(
-            vuePlanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
 
         jTextField1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -79,24 +71,32 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
 
+        zoomSpinner.setValue(1);
+        zoomSpinner.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                zoomSpinnerStateChangedHandler(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(vuePlan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 281, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addComponent(scrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 694, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 281, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(zoomSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(0, 219, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(vuePlan, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -104,7 +104,10 @@ public class MainFrame extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(432, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 398, Short.MAX_VALUE)
+                .addComponent(zoomSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+            .addComponent(scrollPane)
         );
 
         pack();
@@ -117,10 +120,15 @@ public class MainFrame extends javax.swing.JFrame {
     private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField2ActionPerformed
-	
+
     private void jTextField3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField3ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField3ActionPerformed
+
+    private void zoomSpinnerStateChangedHandler(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_zoomSpinnerStateChangedHandler
+        // TODO add your handling code here:
+        this.controleurPlan.setZoomScale((Double) this.zoomSpinner.getValue()/100);
+    }//GEN-LAST:event_zoomSpinnerStateChangedHandler
 
    
 
@@ -128,7 +136,8 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
-    private view.VuePlan vuePlan;
+    private javax.swing.JScrollPane scrollPane;
+    private javax.swing.JSpinner zoomSpinner;
     // End of variables declaration//GEN-END:variables
 
  /**
@@ -165,59 +174,38 @@ public class MainFrame extends javax.swing.JFrame {
                 
                 
                 MainFrame frame = new MainFrame();
+                frame.setVisible(true);
+                SpinnerNumberModel model = new SpinnerNumberModel(100.0, 5.0, 200.0, 5.0);
+                frame.zoomSpinner.setModel(model);
+        
+                frame.controleurPlan = new ControleurPlan(frame.scrollPane, frame);
+                
                 ParseurXML parseur = new ParseurXML();
                 frame.setVisible(true);
-               
                 
-                ControleurPlan controleurPlan = new ControleurPlan(frame.vuePlan, frame);
+                try {
+                	Plan plan = parseur.construirePlanXML();
+                	if (plan !=null) {
+                		frame.controleurPlan.addAllNoeuds(plan.getNoeuds());               
+                		frame.controleurPlan.addAllTroncons(plan.getTroncons());
+                	}                	
+                }
+                catch (NumberFormatException numFormat) {
+                	//TODO : Remplacer par le comportement de notre choix
+                	System.out.println("number error");
+                }
+                catch (FileNotFoundException noFile) {
+                	//TODO : Remplacer par le comportement de notre choix
+                	System.out.println("file error");
+                }
+        
                 
-                
-                /*Noeud noeud1 = new Noeud();
-                //noeud1.name = "Maman de Mael";
-                noeud1.setX(200);// = 200;
-                noeud1.setY(200);// = 200;
-                
-                controleurPlan.addNoeud(noeud1);
-                
-                Noeud noeud2 = new Noeud();
-                //noeud2.name = "K-fet";
-                noeud2.setX(300);// = 300;
-                noeud2.setY(300);// = 300;
-                
-                Noeud noeud3 = new Noeud();
-                //noeud3.name = "Maman de Joss";
-                noeud3.setX(500);// = 500;
-                noeud3.setY(100);// = 100;*/
-                
-                /*ArrayList<Noeud> listeNoeud = new ArrayList();
-                listeNoeud.add(noeud2);
-                listeNoeud.add(noeud3);*/
-                
-                Plan plan = parseur.construirePlanXML();
-                controleurPlan.addAllNoeuds(plan.getNoeuds());
-                
-                /*Troncon troncon1 = new Troncon();
-                troncon1.setOrigine(noeud1);// = noeud1;
-                troncon1.setDestination(noeud2);// = noeud2;
-                controleurPlan.addTroncon(troncon1);
-                
-                Troncon troncon2 = new Troncon();
-                troncon2.setOrigine(noeud3);
-                troncon2.setDestination(noeud2);
-                controleurPlan.addTroncon(troncon2);
-                
-                Troncon troncon3 = new Troncon();
-                troncon3.setOrigine(noeud1);// = noeud1;
-                troncon3.setDestination(noeud3);//= noeud3;*/
-                
-                
-                controleurPlan.addAllTroncons(plan.getTroncons());
             }
         });
     }
     
     public void didSelectNoeud(Noeud noeud) {
-        this.jTextField1.setText("dd");
+        this.jTextField1.setText(Integer.toString(noeud.getId()));
         this.jTextField2.setText(Integer.toString(noeud.getX()));
         this.jTextField3.setText(Integer.toString(noeud.getY()));
     }
