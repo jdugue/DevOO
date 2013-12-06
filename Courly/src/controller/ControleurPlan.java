@@ -15,6 +15,8 @@ import java.awt.Dimension;
 import java.awt.Point;
 import java.util.ArrayList;
 import javax.swing.JScrollPane;
+
+import view.FenetrePrincipale;
 import view.VueDepot;
 import view.VueLivraison;
 import view.VueNoeud;
@@ -41,12 +43,12 @@ public class ControleurPlan {
     
     protected double zoomScale = 1.0;
     
-    private MainFrame fenetreParent;
+    private FenetrePrincipale fenetreParent;
     
     private VueNoeud selectedVueNoeud;
     private Noeud selectedNoeud;
 
-    public ControleurPlan(Point vueLocation, Dimension vueDimension, MainFrame fenetreParent) {
+    public ControleurPlan(Point vueLocation, Dimension vueDimension, FenetrePrincipale fenetreParent) {
         this.vuePlan = new VuePlan();
         this.vuePlan.setSize(vueDimension);
         this.vuePlan.setLocation(vueLocation);
@@ -54,7 +56,7 @@ public class ControleurPlan {
         this.fenetreParent.add(vuePlan);
     }
     
-    public ControleurPlan(VuePlan vuePlan, MainFrame fenetreParent) {
+    public ControleurPlan(VuePlan vuePlan, FenetrePrincipale fenetreParent) {
         this.setVuePlan(vuePlan);
         this.scrollPane = new JScrollPane();
         this.scrollPane.setViewportView(this.vuePlan);
@@ -65,7 +67,7 @@ public class ControleurPlan {
         this.fenetreParent.add(this.scrollPane);
     }
     
-    public ControleurPlan(JScrollPane scrollPane, MainFrame fenetreParent) {
+    public ControleurPlan(JScrollPane scrollPane, FenetrePrincipale fenetreParent) {
         this.setVuePlan(new VuePlan());
         this.scrollPane = scrollPane;
         
@@ -75,7 +77,7 @@ public class ControleurPlan {
         this.setFenetreParent(fenetreParent);
     }
 
-    private void setFenetreParent(MainFrame fenetreParent) {
+    private void setFenetreParent(FenetrePrincipale fenetreParent) {
         this.fenetreParent = fenetreParent;
     }    
     
