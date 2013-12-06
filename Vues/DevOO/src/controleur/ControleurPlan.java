@@ -35,7 +35,7 @@ public class ControleurPlan {
     private ArrayList<Troncon> troncons = new ArrayList();
     
     public static final int noeudSize = 14;
-    public static final int padding = 20;
+    public static final int padding = 30;
     
     private int minX, minY, maxX, maxY;
     
