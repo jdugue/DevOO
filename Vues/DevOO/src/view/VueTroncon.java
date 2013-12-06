@@ -7,7 +7,7 @@
 package view;
 
 import controleur.ControleurPlan;
-import devoo.Troncon;
+import model.Troncon;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;

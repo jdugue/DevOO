@@ -12,6 +12,9 @@ import java.util.ArrayList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.SpinnerNumberModel;
+import model.Livraison;
+import model.Noeud;
+import model.Troncon;
 import view.VueNoeud;
 
 /**
@@ -176,21 +179,22 @@ public class MainFrame extends javax.swing.JFrame {
                 
                 
                 Noeud noeud1 = new Noeud();
-                noeud1.name = "Maman de Mael";
-                noeud1.x = 302;
-                noeud1.y = 200;
+                noeud1.setX(300);
+                noeud1.setY(200);
                 
                 frame.controleurPlan.addNoeud(noeud1);
                 
                 Noeud noeud2 = new Noeud();
-                noeud2.name = "K-fet";
-                noeud2.x = 300;
-                noeud2.y = 700;
+                noeud2.setX(400);
+                noeud2.setY(150);
                 
                 Noeud noeud3 = new Noeud();
-                noeud3.name = "Maman de Joss";
-                noeud3.x = 800;
-                noeud3.y = 100;
+                noeud3.setX(600);
+                noeud3.setY(400);
+                
+                Livraison livraison = new Livraison();
+                livraison.setClient(36);
+                livraison.setNoeudAdresse(noeud3);
                 
                 ArrayList<Noeud> listeNoeud = new ArrayList();
                 listeNoeud.add(noeud2);
@@ -217,9 +221,8 @@ public class MainFrame extends javax.swing.JFrame {
     }
     
     public void didSelectNoeud(Noeud noeud) {
-        this.jTextField1.setText(noeud.name);
-        this.jTextField2.setText(Integer.toString(noeud.x));
-        this.jTextField3.setText(Integer.toString(noeud.y));
+        this.jTextField2.setText(Integer.toString(noeud.getX()));
+        this.jTextField3.setText(Integer.toString(noeud.getY()));
     }
     
     public void didDeselectNoeud(Noeud noeud) {
