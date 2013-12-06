@@ -33,7 +33,7 @@ public class ControleurPlan {
     
     private int minX, minY, maxX, maxY;
     
-    protected double zoomScale = 1.5;
+    protected double zoomScale = 1.0;
     
     private MainFrame fenetreParent;
     
@@ -116,6 +116,8 @@ public class ControleurPlan {
 
     public void setZoomScale(double zoomScale) {
         this.zoomScale = zoomScale;
+        this.updateVuePlanFrame();
+        this.paint();
     }
     
     
@@ -190,6 +192,27 @@ public class ControleurPlan {
     public void addTroncon(Troncon troncon) {
         this.troncons.add(troncon);
         this.createVueTronconFromTroncon(troncon);
+    }
+    
+    public void addAllTroncon(ArrayList<Troncon> troncons) {
+        for (Troncon troncon : troncons) {
+            this.addTroncon(troncon);
+        }
+    }
+    
+    private void paint() {
+        this.vuePlan.removeAll();
+        this.vuePlan.updateUI();
+        this.vueNoeuds.clear();
+        this.vueTroncons.clear();
+        
+        for (Noeud noeud : noeuds) {
+            this.createVueNoeudFromNoeud(noeud);
+        }
+        for (Troncon troncon : troncons) {
+            this.createVueTronconFromTroncon(troncon);
+        }
+                
     }
     
     public void didSelectVueNoeud(VueNoeud selectedVueNoeud) {

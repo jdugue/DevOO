@@ -11,6 +11,7 @@ import java.awt.Color;
 import java.util.ArrayList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.SpinnerNumberModel;
 import view.VueNoeud;
 
 /**
@@ -18,6 +19,8 @@ import view.VueNoeud;
  * @author tanguyhelesbeux
  */
 public class MainFrame extends javax.swing.JFrame {
+    
+    public ControleurPlan controleurPlan;
 
     /**
      * Creates new form MainFrame
@@ -39,6 +42,7 @@ public class MainFrame extends javax.swing.JFrame {
         jTextField2 = new javax.swing.JTextField();
         jTextField3 = new javax.swing.JTextField();
         scrollPane = new javax.swing.JScrollPane();
+        zoomSpinner = new javax.swing.JSpinner();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setSize(new java.awt.Dimension(1200, 800));
@@ -61,6 +65,13 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
 
+        zoomSpinner.setValue(1);
+        zoomSpinner.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                zoomSpinnerStateChangedHandler(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -68,12 +79,14 @@ public class MainFrame extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addComponent(scrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 694, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 281, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 281, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(zoomSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(0, 219, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -85,7 +98,9 @@ public class MainFrame extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(432, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 398, Short.MAX_VALUE)
+                .addComponent(zoomSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
             .addComponent(scrollPane)
         );
 
@@ -104,6 +119,11 @@ public class MainFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField3ActionPerformed
 
+    private void zoomSpinnerStateChangedHandler(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_zoomSpinnerStateChangedHandler
+        // TODO add your handling code here:
+        this.controleurPlan.setZoomScale((double) this.zoomSpinner.getValue());
+    }//GEN-LAST:event_zoomSpinnerStateChangedHandler
+
    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -111,6 +131,7 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
     private javax.swing.JScrollPane scrollPane;
+    private javax.swing.JSpinner zoomSpinner;
     // End of variables declaration//GEN-END:variables
 
  /**
@@ -148,9 +169,10 @@ public class MainFrame extends javax.swing.JFrame {
                 
                 MainFrame frame = new MainFrame();
                 frame.setVisible(true);
-               
-                
-                ControleurPlan controleurPlan = new ControleurPlan(frame.scrollPane, frame);
+                SpinnerNumberModel model = new SpinnerNumberModel(1.0, 0.1, 5.0, 0.1);
+                frame.zoomSpinner.setModel(model);
+        
+                frame.controleurPlan = new ControleurPlan(frame.scrollPane, frame);
                 
                 
                 Noeud noeud1 = new Noeud();
@@ -158,7 +180,7 @@ public class MainFrame extends javax.swing.JFrame {
                 noeud1.x = 302;
                 noeud1.y = 200;
                 
-                controleurPlan.addNoeud(noeud1);
+                frame.controleurPlan.addNoeud(noeud1);
                 
                 Noeud noeud2 = new Noeud();
                 noeud2.name = "K-fet";
@@ -173,22 +195,22 @@ public class MainFrame extends javax.swing.JFrame {
                 ArrayList<Noeud> listeNoeud = new ArrayList();
                 listeNoeud.add(noeud2);
                 listeNoeud.add(noeud3);
-                controleurPlan.addAllNoeuds(listeNoeud);
+                frame.controleurPlan.addAllNoeuds(listeNoeud);
                 
                 Troncon troncon1 = new Troncon();
                 troncon1.setOrigine(noeud1);
                 troncon1.setDestination(noeud2);
-                controleurPlan.addTroncon(troncon1);
+                frame.controleurPlan.addTroncon(troncon1);
                 
                 Troncon troncon2 = new Troncon();
                 troncon2.setOrigine(noeud3);
                 troncon2.setDestination(noeud2);
-                controleurPlan.addTroncon(troncon2);
+                frame.controleurPlan.addTroncon(troncon2);
                 
                 Troncon troncon3 = new Troncon();
                 troncon3.setOrigine(noeud3);
                 troncon3.setDestination(noeud1);
-                controleurPlan.addTroncon(troncon3);
+                frame.controleurPlan.addTroncon(troncon3);
                 
             }
         });
