@@ -9,17 +9,19 @@ package view;
 import controller.ControleurPlan;
 import controller.ParseurXML;
 
+import java.awt.Color;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
+
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.SpinnerNumberModel;
 
 import model.Depot;
 import model.Livraison;
 import model.Noeud;
 import model.Plan;
-
-import org.xml.sax.SAXException;
-
-
+import view.VueNoeud;
 
 /**
  *
@@ -179,13 +181,13 @@ public class MainFrame extends javax.swing.JFrame {
                 SpinnerNumberModel model = new SpinnerNumberModel(100.0, 5.0, 200.0, 5.0);
                 frame.zoomSpinner.setModel(model);
         
-                frame.controleurPlan = new ControleurPlan(frame.scrollPane, frame);
+                //frame.controleurPlan = new ControleurPlan(frame.scrollPane, frame);
                 
                 ParseurXML parseur = new ParseurXML();
                 frame.setVisible(true);
                 
                 try {
-                	Plan plan = parseur.construirePlanXML("../XML Examples/plan10x10.xml");
+                	Plan plan = parseur.construirePlanXML("a"); //FIXME
                 	if (plan !=null) {
                 		
                 		Depot depot = new Depot();
@@ -214,19 +216,14 @@ public class MainFrame extends javax.swing.JFrame {
                 		frame.controleurPlan.addAllTroncons(plan.getTroncons());
                 	}                	
                 }
-                catch (NumberFormatException numFormat){
+                catch (NumberFormatException numFormat) {
                 	//TODO : Remplacer par le comportement de notre choix
-                	//Erreur de parsing, attribut manquant 
                 	System.out.println("number error");
-                } catch (SAXException sax) {
-					// TODO Remplacer par le comportement de notre choix
-                	System.out.println("parse error");
-				} 
+                }
                 catch (FileNotFoundException noFile) {
                 	//TODO : Remplacer par le comportement de notre choix
-                	//Fichier inexistant
                 	System.out.println("file error");
-                } 
+                }
         
                 
             }

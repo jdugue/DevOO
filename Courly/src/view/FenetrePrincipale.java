@@ -20,17 +20,23 @@ import java.awt.event.ActionEvent;
 import javax.swing.JMenuItem;
 import javax.swing.JMenu;
 
+import model.Noeud;
 import model.Plan;
 
+import controller.ControleurPlan;
 import controller.ParseurXML;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.FileNotFoundException;
+
 import javax.swing.JScrollPane;
 
 public class FenetrePrincipale extends JFrame {
 
 	private JPanel contentPane;
+	private JScrollPane scrollPane;
+	private ControleurPlan contPlan;
 
 	/**
 	 * Launch the application.
@@ -76,8 +82,22 @@ public class FenetrePrincipale extends JFrame {
 			    if( returnVal == JFileChooser.APPROVE_OPTION ) {
 			    	String file = fChooser.getSelectedFile().getAbsolutePath();
 			    	ParseurXML p = new ParseurXML();
-					Plan pl = p.construirePlanXML(file);
-					System.out.println(pl.getNoeuds().size());
+					Plan plan = null;
+					
+					try {
+						plan = p.construirePlanXML(file);
+						if ( plan !=null && contPlan != null ) {
+	                		contPlan.addAllNoeuds(plan.getNoeuds());               
+	                		contPlan.addAllTroncons(plan.getTroncons());
+	                	}   
+					} catch (NumberFormatException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (FileNotFoundException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					
 			    }
 				
 			}
@@ -102,10 +122,23 @@ public class FenetrePrincipale extends JFrame {
 		JMenuItem mntmAPropos = new JMenuItem("A propos...");
 		mnAide.add(mntmAPropos);
 		
-		JScrollPane scrollPane = new JScrollPane();
+		scrollPane = new JScrollPane();
 		scrollPane.setBounds(0, 21, 488, 284);
 		contentPane.add(scrollPane);
 		
-
+		contPlan = new ControleurPlan(scrollPane, FenetrePrincipale.this);
 	}
+	
+	
+    public void didSelectNoeud(Noeud noeud) {
+       /* this.jTextField1.setText(noeud.name);
+        this.jTextField2.setText(Integer.toString(noeud.x));
+        this.jTextField3.setText(Integer.toString(noeud.y)); */
+    }
+    
+    public void didDeselectNoeud(Noeud noeud) {
+       /* this.jTextField1.setText("");
+        this.jTextField2.setText("");
+        this.jTextField3.setText(""); */
+    }
 }
