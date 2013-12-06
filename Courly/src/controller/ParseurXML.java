@@ -33,10 +33,10 @@ public class ParseurXML {
 		return xml;		
 	}
 	
-	public Plan construirePlanXML() throws FileNotFoundException, NumberFormatException {
+	public Plan construirePlanXML(String file) throws FileNotFoundException, NumberFormatException, SAXException {
 		Plan plan = null;
 		
-		File xml = ouvrirFichier("../XML Examples/plan10x10_error.xml");
+		File xml = ouvrirFichier(file);
 		
 		//Si le fichier existe
 		//TODO : normaliser les exceptions si bug
@@ -62,7 +62,7 @@ public class ParseurXML {
                 	   Element noeudElement = (Element) listeNoeuds.item(i);
                 	   Noeud leNouveauNoeud = new Noeud();
                 	   leNouveauNoeud.construireAPartirDeDOMXML(noeudElement);
-                	   vectNoeuds.add(leNouveauNoeud.getID(), leNouveauNoeud);                	   
+                	   vectNoeuds.add(leNouveauNoeud.getId(), leNouveauNoeud);                	   
                    }
                    
                    
@@ -99,9 +99,6 @@ public class ParseurXML {
 			}
 			catch (ParserConfigurationException e) {
 				System.out.println(e);
-			} catch (SAXException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

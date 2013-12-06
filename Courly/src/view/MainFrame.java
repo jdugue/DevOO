@@ -16,6 +16,9 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.SpinnerNumberModel;
 
+import org.xml.sax.SAXException;
+import org.xml.sax.SAXParseException;
+
 import model.Noeud;
 import model.Plan;
 import view.VueNoeud;
@@ -184,20 +187,25 @@ public class MainFrame extends javax.swing.JFrame {
                 frame.setVisible(true);
                 
                 try {
-                	Plan plan = parseur.construirePlanXML();
+                	Plan plan = parseur.construirePlanXML("../XML Examples/plan20x20.xml");
                 	if (plan !=null) {
                 		frame.controleurPlan.addAllNoeuds(plan.getNoeuds());               
                 		frame.controleurPlan.addAllTroncons(plan.getTroncons());
                 	}                	
                 }
-                catch (NumberFormatException numFormat) {
+                catch (NumberFormatException numFormat){
                 	//TODO : Remplacer par le comportement de notre choix
+                	//Erreur de parsing, attribut manquant 
                 	System.out.println("number error");
-                }
+                } catch (SAXException sax) {
+					// TODO Remplacer par le comportement de notre choix
+                	System.out.println("parse error");
+				} 
                 catch (FileNotFoundException noFile) {
                 	//TODO : Remplacer par le comportement de notre choix
+                	//Fichier inexistant
                 	System.out.println("file error");
-                }
+                } 
         
                 
             }

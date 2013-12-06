@@ -29,10 +29,6 @@ public class Noeud {
 		this.lieu = lieu;
 	}
 	
-	public Integer getID() {
-		return this.id;
-	}
-	
 	public Integer getX() {
 		return this.x;
 	}
