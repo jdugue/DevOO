@@ -55,7 +55,16 @@ public class VueNoeud extends javax.swing.JPanel {
     }
 
     public void setVueLieu(VueLieu vueLieu) {
-        this.vueLieu = vueLieu;
+        
+        if (vueLieu.getClass() == VueLivraison.class) {
+            this.setVueLivraison((VueLivraison) vueLieu);
+        } else {
+            this.setVueDepot((VueDepot) vueLieu);
+        }
+    }
+    
+    public void setVueLivraison(VueLivraison vueLivraison) {
+        this.vueLieu = vueLivraison;
         
         int x = this.getX() - (this.vueLieu.getWidth() - this.getWidth())/2;
         int y = this.getY() - (this.vueLieu.getHeight() - this.getHeight());
@@ -66,6 +75,17 @@ public class VueNoeud extends javax.swing.JPanel {
         this.vuePlan.add(this.vueLieu);
     }
     
+    public void setVueDepot(VueDepot vueDepot) {
+        this.vueLieu = vueDepot;
+        
+        int x = this.getX() - (this.vueLieu.getWidth() - this.getWidth())/2;
+        int y = this.getY() - (this.vueLieu.getHeight() - this.getHeight())/2;
+        
+        this.vueLieu.setLocation(x, y);
+        
+        this.vueLieu.setVueNoeud(this);
+        this.vuePlan.add(this.vueLieu);
+    }
     
 
     /**

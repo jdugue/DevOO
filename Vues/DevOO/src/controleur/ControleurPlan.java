@@ -15,6 +15,7 @@ import java.awt.Dimension;
 import java.awt.Point;
 import java.util.ArrayList;
 import javax.swing.JScrollPane;
+import view.VueDepot;
 import view.VueLivraison;
 import view.VueNoeud;
 import view.VuePlan;
@@ -147,7 +148,9 @@ public class ControleurPlan {
                 vueLivraison.setSize(50, 50);
                 vueNoeud.setVueLieu(vueLivraison);
             } else {
-                
+                VueDepot vueDepot = new VueDepot();
+                vueDepot.setSize(40, 40);
+                vueNoeud.setVueLieu(vueDepot);
             }                    
         }
         
@@ -204,8 +207,7 @@ public class ControleurPlan {
     }
     
     public void createVueTronconFromTroncon(Troncon troncon) {
-        
-  
+
         // Vue Troncon
         VueTroncon vueTroncon = new VueTroncon(troncon);
         this.vueTroncons.add(vueTroncon);
@@ -220,6 +222,8 @@ public class ControleurPlan {
         vueTroncon.setSize(this.scaledSize(width) + noeudSize, this.scaledSize(height) + noeudSize);
         
         this.vuePlan.add(vueTroncon);
+        
+        
     }
     
     public void addTroncon(Troncon troncon) {

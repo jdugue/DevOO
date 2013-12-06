@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.SpinnerNumberModel;
+import model.Depot;
 import model.Livraison;
 import model.Noeud;
 import model.Troncon;
@@ -194,7 +195,10 @@ public class MainFrame extends javax.swing.JFrame {
                 
                 Livraison livraison = new Livraison();
                 livraison.setClient(36);
-                livraison.setNoeudAdresse(noeud3);
+                livraison.setNoeud(noeud3);
+                
+                Depot depot = new Depot();
+                depot.setNoeud(noeud2);
                 
                 ArrayList<Noeud> listeNoeud = new ArrayList();
                 listeNoeud.add(noeud2);
