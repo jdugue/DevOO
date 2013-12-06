@@ -201,6 +201,8 @@ public class VueNoeud extends javax.swing.JPanel {
     {
         super.paintComponent(g);
         g.setColor(this.colorForActualState());
-        g.fillOval(0,0,this.getWidth(),this.getHeight());
+        if (this.getNoeud().getLieu() == null) {
+            g.fillOval(0,0,this.getWidth(),this.getHeight());
+        }
     }
 }

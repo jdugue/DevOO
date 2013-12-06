@@ -12,10 +12,12 @@ import controller.ParseurXML;
 import java.awt.Color;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.SpinnerNumberModel;
 
+import model.Depot;
 import model.Noeud;
 import model.Plan;
 import view.VueNoeud;
@@ -186,6 +188,11 @@ public class MainFrame extends javax.swing.JFrame {
                 try {
                 	Plan plan = parseur.construirePlanXML();
                 	if (plan !=null) {
+                		
+                		Depot depot = new Depot();
+                		depot.setNoeud(plan.getNoeuds().get(0));
+                		
+                		
                 		frame.controleurPlan.addAllNoeuds(plan.getNoeuds());               
                 		frame.controleurPlan.addAllTroncons(plan.getTroncons());
                 	}                	

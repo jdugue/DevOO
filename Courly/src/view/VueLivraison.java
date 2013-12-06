@@ -20,10 +20,10 @@ import javax.imageio.ImageIO;
 public class VueLivraison extends VueLieu {
     
     
-    private static final String normalImagePath = "../map_pin_50px.png";
-    private static final String highlightedImagePath = "../map_pin_highlighted_50px.png";
-    private static final String selectedImagePath = "../map_pin_selected_50px.png";
-    private static final String selectedHighlightedImagePath = "../map_pin_selectedhighlighted_50px.png";
+    private static final String normalImagePath = "Images/map_pin_50px.png";
+    private static final String highlightedImagePath = "Images/map_pin_highlighted_50px.png";
+    private static final String selectedImagePath = "Images/map_pin_selected_50px.png";
+    private static final String selectedHighlightedImagePath = "Images/map_pin_selectedhighlighted_50px.png";
 
     /**
      * Creates new form VueLivraison

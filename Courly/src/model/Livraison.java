@@ -6,7 +6,6 @@ public class Livraison extends Lieu {
 	
 	protected Integer id;
 	protected Integer client;
-	protected Noeud noeudAdresse;
 	protected PlageHoraire plageHoraire;
 	protected String heurePassage;
 
@@ -24,14 +23,6 @@ public class Livraison extends Lieu {
 
 	public void setClient(Integer client) {
 		this.client = client;
-	}
-
-	public Noeud getNoeudAdresse() {
-		return noeudAdresse;
-	}
-
-	public void setNoeudAdresse(Noeud noeudAdresse) {
-		this.noeudAdresse = noeudAdresse;
 	}
 
 	public PlageHoraire getPlageHoraire() {

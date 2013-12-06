@@ -141,7 +141,7 @@ public class ControleurPlan {
         vueNoeud.setLocation(xLocation, yLocation);
         vueNoeud.setPlan(this.vuePlan);
         
-        // Vue livraison
+        // Vue lieu
         if (noeud.getLieu() != null) {
             if (noeud.getLieu().getClass() == Livraison.class) {
                 VueLivraison vueLivraison = new VueLivraison();
