@@ -15,7 +15,6 @@ import java.awt.event.ActionEvent;
 import javax.swing.JMenuItem;
 import javax.swing.JMenu;
 
-import model.Livraison;
 import model.Noeud;
 import model.Plan;
 import model.Tournee;
@@ -24,7 +23,6 @@ import controller.ControleurPlan;
 import controller.ParseurXML;
 
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
 
 import javax.swing.JScrollPane;
 
