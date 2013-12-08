@@ -9,12 +9,7 @@ package view;
 import controller.ControleurPlan;
 import controller.ParseurXML;
 
-import java.awt.Color;
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
-
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.SpinnerNumberModel;
 
 import model.Depot;
@@ -23,7 +18,6 @@ import model.Noeud;
 import model.Plan;
 
 import org.xml.sax.SAXException;
-import org.xml.sax.SAXParseException;
 
 
 

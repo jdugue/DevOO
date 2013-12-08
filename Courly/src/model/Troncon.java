@@ -33,7 +33,6 @@ public class Troncon {
 		nomRue = noeudDOMRacine.getAttribute("nomRue");
 		longueur = Double.parseDouble(noeudDOMRacine.getAttribute("longueur").replaceAll(",", "."));
     	vitesse = Double.parseDouble(noeudDOMRacine.getAttribute("vitesse").replaceAll(",", "."));
-    	
     	origine = vectNoeuds.get(idNoeudCourant);
     	
     	Integer idDestination = Integer.parseInt(noeudDOMRacine.getAttribute("destination"));
@@ -75,6 +74,10 @@ public class Troncon {
 
 	public void setNomRue(String nomRue) {
 		this.nomRue = nomRue;
+	}
+	
+	public Double getCost() {
+		return this.longueur/this.vitesse;
 	}
 
 }

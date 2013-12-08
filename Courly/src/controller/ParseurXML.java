@@ -107,13 +107,13 @@ public class ParseurXML {
 		return plan;
 	}
 	
-	public void construireTourneeXML() {
+	public void construireTourneeXML(String file) {
 		
-		File xml = ouvrirFichier("../XML Examples/livraison10x10-2.xml");
+		File xml = ouvrirFichier(file);
 		
 		//Si le fichier existe
 		//TODO : normaliser les exceptions si bug
-		if (xml != null) {
+		if (xml.exists()) {
 			
 			//TODO A mettre dans un objet Tournee
 			ArrayList<Livraison> livraisons = new ArrayList<Livraison>();
@@ -152,7 +152,6 @@ public class ParseurXML {
 			catch (Exception e) {
 				System.out.println(e);
 			}
-			System.out.println(plages.get(0).getLivraisons().get(0).getClient());
 		}
 		
 		

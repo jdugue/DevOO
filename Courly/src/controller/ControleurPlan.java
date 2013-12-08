@@ -29,10 +29,10 @@ public class ControleurPlan {
     
     private JScrollPane scrollPane;
     private VuePlan vuePlan;
-    private ArrayList<VueNoeud> vueNoeuds = new ArrayList();
-    private ArrayList<Noeud> noeuds = new ArrayList();
-    private ArrayList<VueTroncon> vueTroncons = new ArrayList();
-    private ArrayList<Troncon> troncons = new ArrayList();
+    private ArrayList<VueNoeud> vueNoeuds = new ArrayList<VueNoeud>();
+    private ArrayList<Noeud> noeuds = new ArrayList<Noeud>();
+    private ArrayList<VueTroncon> vueTroncons = new ArrayList<VueTroncon>();
+    private ArrayList<Troncon> troncons = new ArrayList<Troncon>();
     
     public static final int noeudSize = 14;
     public static final int padding = 30;
