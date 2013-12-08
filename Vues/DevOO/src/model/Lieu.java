@@ -1,11 +1,13 @@
 package model;
 
+import java.util.ArrayList;
+
 import org.w3c.dom.Element;
 
 public class Lieu {
 	
 	protected Integer adresse;
-    protected Noeud noeud;
+        protected Noeud noeud;
 
 	public Lieu() {
 		
@@ -27,14 +29,6 @@ public class Lieu {
         this.noeud = noeud;
         this.noeud.setLieu(this);
     }
-
-	public Integer getAdresse() {
-		return adresse;
-	}
-
-	public void setAdresse(Integer adresse) {
-		this.adresse = adresse;
-	}
 
         
 	
