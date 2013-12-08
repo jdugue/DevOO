@@ -44,6 +44,7 @@ public class FenetrePrincipale extends JFrame {
 	private JTextField textFieldX;
 	private JTextField textFieldY;
 	private JSpinner zoomSpinner;
+	private JTextField textFieldError;
 
 	/**
 	 * Launch the application.
@@ -105,13 +106,13 @@ public class FenetrePrincipale extends JFrame {
 	                	} 
 					} catch (NumberFormatException e) {
 						// TODO Auto-generated catch block
-						e.printStackTrace();
+						textFieldError.setText("Fichier XML incorrect");
 					} catch (FileNotFoundException e) {
 						// TODO Auto-generated catch block
-						e.printStackTrace();
+						textFieldError.setText("Fichier inexistant");
 					} catch (SAXException e) {
 						// TODO Auto-generated catch block
-						e.printStackTrace();
+						textFieldError.setText("Fichier XML incorrect");
 					}
 					
 			    }
@@ -159,7 +160,7 @@ public class FenetrePrincipale extends JFrame {
 		mnAide.add(mntmAPropos);
 		
 		scrollPane = new JScrollPane();
-		scrollPane.setBounds(0, 21, 909, 640);
+		scrollPane.setBounds(10, 21, 899, 614);
 		contentPane.add(scrollPane);
 		
 		contPlan = new ControleurPlan(scrollPane, FenetrePrincipale.this);
@@ -196,6 +197,11 @@ public class FenetrePrincipale extends JFrame {
 		});
 		zoomSpinner.setBounds(945, 147, 73, 21);
 		contentPane.add(zoomSpinner);
+		
+		textFieldError = new JTextField();
+		textFieldError.setBounds(12, 669, 385, 19);
+		contentPane.add(textFieldError);
+		textFieldError.setColumns(10);
 	}
 	
 	private void zoomSpinnerStateChangedHandler(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_zoomSpinnerStateChangedHandler
