@@ -113,7 +113,6 @@ public class ParseurXML {
 		File xml = ouvrirFichier(file);
 		Tournee tournee = new Tournee();
 		//Si le fichier existe
-		//TODO : normaliser les exceptions si bug
 		if (xml.exists()) {
 			
 			//TODO A mettre dans un objet Tournee
