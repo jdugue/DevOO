@@ -28,6 +28,14 @@ public class Lieu {
         this.noeud.setLieu(this);
     }
 
+	public Integer getAdresse() {
+		return adresse;
+	}
+
+	public void setAdresse(Integer adresse) {
+		this.adresse = adresse;
+	}
+
         
 	
 	

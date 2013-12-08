@@ -31,6 +31,7 @@ import controller.ParseurXML;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 
 import javax.swing.JScrollPane;
 
@@ -43,6 +44,7 @@ public class FenetrePrincipale extends JFrame {
 	private JPanel contentPane;
 	private JScrollPane scrollPane;
 	private ControleurPlan contPlan;
+	private Plan plan=null;
 
 	/**
 	 * Launch the application.
@@ -89,13 +91,12 @@ public class FenetrePrincipale extends JFrame {
 			    if( returnVal == JFileChooser.APPROVE_OPTION ) {
 			    	String file = fChooser.getSelectedFile().getAbsolutePath();
 			    	ParseurXML p = new ParseurXML();
-					Plan plan = null;
 					
 					try {
 						plan = p.construirePlanXML(file);
 						if (plan !=null) {
 	                		
-	                		Depot depot = new Depot();
+	                		/*Depot depot = new Depot();
 	                		depot.setNoeud(plan.getNoeuds().get(0));
 	                		
 	                		Livraison livraison1 = new Livraison();
@@ -114,7 +115,7 @@ public class FenetrePrincipale extends JFrame {
 	                		livraison5.setNoeud(plan.getNoeuds().get(64));
 	                		
 	                		Livraison livraison6 = new Livraison();
-	                		livraison6.setNoeud(plan.getNoeuds().get(50));
+	                		livraison6.setNoeud(plan.getNoeuds().get(50));*/
 	                		
 	                		
 	                		contPlan.addAllNoeuds(plan.getNoeuds());               
@@ -138,6 +139,26 @@ public class FenetrePrincipale extends JFrame {
 		mnFichier.add(mntmChargerPlan);
 		
 		JMenuItem mntmChargerLivraison = new JMenuItem("Charger livraison...");
+		mntmChargerLivraison.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				System.out.println(plan.getNoeuds().size());
+				JFileChooser fChooser = new JFileChooser();
+				FileNameExtensionFilter filter = new FileNameExtensionFilter("Fichier livraison", "xml");
+				fChooser.setFileFilter(filter);
+				int returnVal = fChooser.showOpenDialog(FenetrePrincipale.this);
+			    if( returnVal == JFileChooser.APPROVE_OPTION ) {
+			    	String file = fChooser.getSelectedFile().getAbsolutePath();
+			    	ParseurXML p = new ParseurXML();
+					
+					ArrayList<Livraison> livraisons = p.construireTourneeXML(file);
+					for (int i=0;i< livraisons.size();i++) {
+						Integer adresse = livraisons.get(i).getAdresse();
+						livraisons.get(i).setNoeud(plan.getNoeuds().get(adresse));
+					}
+					contPlan.paint();
+			    }
+			}
+		});
 		mnFichier.add(mntmChargerLivraison);
 		
 		JMenu mnEditer = new JMenu("Editer");

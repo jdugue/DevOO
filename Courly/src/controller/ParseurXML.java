@@ -107,16 +107,16 @@ public class ParseurXML {
 		return plan;
 	}
 	
-	public void construireTourneeXML(String file) {
+	public ArrayList<Livraison> construireTourneeXML(String file) {
 		
 		File xml = ouvrirFichier(file);
-		
+		ArrayList<Livraison> livraisons = null;
 		//Si le fichier existe
 		//TODO : normaliser les exceptions si bug
 		if (xml.exists()) {
 			
 			//TODO A mettre dans un objet Tournee
-			ArrayList<Livraison> livraisons = new ArrayList<Livraison>();
+			livraisons = new ArrayList<Livraison>();
 			ArrayList<PlageHoraire> plages = new ArrayList<PlageHoraire>();
 
 			Depot depot = new Depot();
@@ -155,6 +155,6 @@ public class ParseurXML {
 		}
 		
 		
-		
+		return livraisons;
 	}
 }

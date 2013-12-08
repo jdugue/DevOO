@@ -241,7 +241,7 @@ public class ControleurPlan {
         this.paint();
     }
     
-    private void paint() {
+    public void paint() {
         this.vuePlan.removeAll();
         this.vuePlan.updateUI();
         this.vueNoeuds.clear();
