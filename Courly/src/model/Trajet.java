@@ -20,7 +20,7 @@ public class Trajet {
 		
 		for (int i = 0 ; i<troncons.size() ; i++ )
 		{
-			tps += troncons.get(i).getLongueur();
+			tps += troncons.get(i).getCost();
 		}
 		
 		return (int) tps;
