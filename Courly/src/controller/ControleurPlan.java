@@ -33,7 +33,7 @@ public class ControleurPlan {
     
     private JScrollPane scrollPane;
     private VuePlan vuePlan;
-    private Plan plan;
+    private Plan plan = new Plan();
     private ArrayList<VueNoeud> vueNoeuds = new ArrayList<VueNoeud>();
     //private ArrayList<Noeud> noeuds = new ArrayList<Noeud>();
     private ArrayList<VueTroncon> vueTroncons = new ArrayList<VueTroncon>();
@@ -135,6 +135,27 @@ public class ControleurPlan {
     
     
     public void createVueNoeudFromNoeud(Noeud noeud) {
+    	
+    	// Update content frame
+        if (this.plan.getNoeuds().isEmpty()) {
+            this.setMaxX(noeud.getX());
+            this.setMaxY(noeud.getY());
+            this.setMinX(noeud.getX());
+            this.setMinY(noeud.getY());
+        } else {
+            if (noeud.getX() > this.maxX) {
+                this.setMaxX(noeud.getX());
+            }
+            if (noeud.getY() > this.maxY) {
+                this.setMaxY(noeud.getY());
+            }
+            if (noeud.getX() < this.minX) {
+                this.setMinX(noeud.getX());
+            }
+            if (noeud.getY() < this.minY) {
+                this.setMinY(noeud.getY());
+            }
+        }
         
         // Vue noeud
         VueNoeud vueNoeud = new VueNoeud(noeud);
@@ -167,28 +188,7 @@ public class ControleurPlan {
         }
     }
     
-    public void addNoeud(Noeud noeud) {
-        
-        if (this.plan.getNoeuds().isEmpty()) {
-            this.setMaxX(noeud.getX());
-            this.setMaxY(noeud.getY());
-            this.setMinX(noeud.getX());
-            this.setMinY(noeud.getY());
-        } else {
-            if (noeud.getX() > this.maxX) {
-                this.setMaxX(noeud.getX());
-            }
-            if (noeud.getY() > this.maxY) {
-                this.setMaxY(noeud.getY());
-            }
-            if (noeud.getX() < this.minX) {
-                this.setMinX(noeud.getX());
-            }
-            if (noeud.getY() < this.minY) {
-                this.setMinY(noeud.getY());
-            }
-        }
-        
+    public void addNoeud(Noeud noeud) {        
         this.plan.addNoeud(noeud);;  
         this.createVueNoeudFromNoeud(noeud);
     }
@@ -234,13 +234,14 @@ public class ControleurPlan {
     public void addTroncon(Troncon troncon) {
         this.plan.addTroncon(troncon);;
         this.createVueTronconFromTroncon(troncon);
-        this.paint();
+        //this.paint();
     }
     
     public void addAllTroncons(ArrayList<Troncon> troncons) {
         for (Troncon troncon : troncons) {
-            this.addTroncon(troncon);;
-            this.createVueTronconFromTroncon(troncon);
+            //this.addTroncon(troncon);
+            //this.createVueTronconFromTroncon(troncon);
+        	this.plan.addTroncon(troncon);
         }
         this.paint();
     }
@@ -264,9 +265,9 @@ public class ControleurPlan {
         this.vueTroncons.clear();
     }
     
-    public void loadVuePlanFromModel(Plan plan) {
+    public void loadVuePlanFromModel(Plan aPlan) {
     	
-    	this.plan = plan;
+    	this.plan = aPlan;
     	this.paint();
     }
     
