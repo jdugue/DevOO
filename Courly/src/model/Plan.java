@@ -32,6 +32,12 @@ public class Plan {
 		return troncons;
 	}
 	
+	public void addTroncon(Troncon troncon) {
+		this.getTroncons().add(troncon);
+	}
 	
+	public void addNoeud(Noeud noeud) {
+		this.getNoeuds().add(noeud);
+	}
 
 }

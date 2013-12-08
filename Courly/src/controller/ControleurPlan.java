@@ -7,12 +7,15 @@
 package controller;
 
 import model.Noeud;
+import model.Plan;
 import model.Troncon;
 import model.Livraison;
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Point;
 import java.util.ArrayList;
+
 import javax.swing.JScrollPane;
 
 import view.FenetrePrincipale;
@@ -30,10 +33,11 @@ public class ControleurPlan {
     
     private JScrollPane scrollPane;
     private VuePlan vuePlan;
+    private Plan plan;
     private ArrayList<VueNoeud> vueNoeuds = new ArrayList<VueNoeud>();
-    private ArrayList<Noeud> noeuds = new ArrayList<Noeud>();
+    //private ArrayList<Noeud> noeuds = new ArrayList<Noeud>();
     private ArrayList<VueTroncon> vueTroncons = new ArrayList<VueTroncon>();
-    private ArrayList<Troncon> troncons = new ArrayList<Troncon>();
+   // private ArrayList<Troncon> troncons = new ArrayList<Troncon>();
     
     public static final int noeudSize = 14;
     public static final int padding = 30;
@@ -165,7 +169,7 @@ public class ControleurPlan {
     
     public void addNoeud(Noeud noeud) {
         
-        if (this.noeuds.isEmpty()) {
+        if (this.plan.getNoeuds().isEmpty()) {
             this.setMaxX(noeud.getX());
             this.setMaxY(noeud.getY());
             this.setMinX(noeud.getX());
@@ -185,7 +189,7 @@ public class ControleurPlan {
             }
         }
         
-        this.noeuds.add(noeud);  
+        this.plan.addNoeud(noeud);;  
         this.createVueNoeudFromNoeud(noeud);
     }
     
@@ -228,32 +232,42 @@ public class ControleurPlan {
     }
     
     public void addTroncon(Troncon troncon) {
-        this.troncons.add(troncon);
+        this.plan.addTroncon(troncon);;
         this.createVueTronconFromTroncon(troncon);
         this.paint();
     }
     
     public void addAllTroncons(ArrayList<Troncon> troncons) {
         for (Troncon troncon : troncons) {
-            this.troncons.add(troncon);
+            this.addTroncon(troncon);;
             this.createVueTronconFromTroncon(troncon);
         }
         this.paint();
     }
     
     public void paint() {
+        this.cleanVuePlan();
+        
+        for (Noeud noeud : this.plan.getNoeuds()) {
+            this.createVueNoeudFromNoeud(noeud);
+        }
+        for (Troncon troncon : this.plan.getTroncons()) {
+            this.createVueTronconFromTroncon(troncon);
+        }
+          
+    }
+    
+    private void cleanVuePlan() {
         this.vuePlan.removeAll();
         this.vuePlan.updateUI();
         this.vueNoeuds.clear();
         this.vueTroncons.clear();
-        
-        for (Noeud noeud : noeuds) {
-            this.createVueNoeudFromNoeud(noeud);
-        }
-        for (Troncon troncon : troncons) {
-            this.createVueTronconFromTroncon(troncon);
-        }
-          
+    }
+    
+    public void loadVuePlanFromModel(Plan plan) {
+    	
+    	this.plan = plan;
+    	this.paint();
     }
     
     public void didSelectVueNoeud(VueNoeud selectedVueNoeud) {

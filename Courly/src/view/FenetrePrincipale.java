@@ -99,8 +99,9 @@ public class FenetrePrincipale extends JFrame {
 					try {
 						plan = p.construirePlanXML(file);
 						if (plan !=null) {
-							contPlan.addAllNoeuds(plan.getNoeuds());               
-	                		contPlan.addAllTroncons(plan.getTroncons());
+							//contPlan.addAllNoeuds(plan.getNoeuds());               
+	                		//contPlan.addAllTroncons(plan.getTroncons());
+	                		contPlan.loadVuePlanFromModel(plan);
 	                	} 
 					} catch (NumberFormatException e) {
 						// TODO Auto-generated catch block
