@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class Tournee {
 	
 	protected ArrayList<Livraison> livraisons;
-	protected ArrayList<Trajet> trajet;
+	protected ArrayList<Trajet> trajets;
 	protected ArrayList<PlageHoraire> plagesHoraire;
 	
 	public ArrayList<Livraison> getLivraisons() {
@@ -17,11 +17,11 @@ public class Tournee {
 	}
 	
 	public ArrayList<Trajet> getTrajet() {
-		return trajet;
+		return trajets;
 	}
 	
 	public void setTrajet(ArrayList<Trajet> trajet) {
-		this.trajet = trajet;
+		this.trajets = trajet;
 	}
 	
 	public ArrayList<PlageHoraire> getPlagesHoraire() {
