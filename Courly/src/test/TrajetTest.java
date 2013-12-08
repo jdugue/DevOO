@@ -1,4 +1,4 @@
-/*package test;
+package test;
 
 import static org.junit.Assert.*;
 
@@ -12,7 +12,7 @@ public class TrajetTest {
 	@Test
 	public void testGetTempsTrajet() {
 		
-		fail("Not yet implemented");
+		
 		
 		Trajet trajet = new Trajet();
 		
@@ -28,7 +28,18 @@ public class TrajetTest {
 		troncon3.setLongueur(10.2);
 		troncon3.setVitesse(2.3);
 		
+		double cost1 = troncon1.getCost();
+		double cost2 = troncon2.getCost();
+		double cost3 = troncon3.getCost();
+		
+		double res = troncon1.getLongueur()/troncon1.getVitesse() + troncon2.getLongueur()/troncon2.getVitesse()+troncon3.getLongueur()/troncon3.getVitesse();
+		
+		if(res != cost1+cost2+cost3) {
+			fail("caca");
+		}
+		
+		
 		
 	}
 
-}*/
+}

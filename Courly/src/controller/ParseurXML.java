@@ -14,6 +14,7 @@ import model.Livraison;
 import model.Noeud;
 import model.PlageHoraire;
 import model.Plan;
+import model.Tournee;
 import model.Troncon;
 
 import org.w3c.dom.Document;
@@ -107,16 +108,16 @@ public class ParseurXML {
 		return plan;
 	}
 	
-	public ArrayList<Livraison> construireTourneeXML(String file) {
+	public Tournee construireTourneeXML(String file) {
 		
 		File xml = ouvrirFichier(file);
-		ArrayList<Livraison> livraisons = null;
+		Tournee tournee = new Tournee();
 		//Si le fichier existe
 		//TODO : normaliser les exceptions si bug
 		if (xml.exists()) {
 			
 			//TODO A mettre dans un objet Tournee
-			livraisons = new ArrayList<Livraison>();
+			ArrayList<Livraison> livraisons = new ArrayList<Livraison>();
 			ArrayList<PlageHoraire> plages = new ArrayList<PlageHoraire>();
 
 			Depot depot = new Depot();
@@ -152,9 +153,11 @@ public class ParseurXML {
 			catch (Exception e) {
 				System.out.println(e);
 			}
+			
+			tournee.setPlagesHoraire(plages);
+			tournee.setLivraisons(livraisons);
 		}
-		
-		
-		return livraisons;
+				
+		return tournee;
 	}
 }

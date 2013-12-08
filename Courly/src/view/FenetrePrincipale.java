@@ -5,6 +5,7 @@ import java.awt.EventQueue;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.SpinnerNumberModel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
@@ -17,6 +18,7 @@ import javax.swing.JMenu;
 import model.Livraison;
 import model.Noeud;
 import model.Plan;
+import model.Tournee;
 
 import controller.ControleurPlan;
 import controller.ParseurXML;
@@ -30,6 +32,9 @@ import org.xml.sax.SAXException;
 
 import java.awt.Color;
 import javax.swing.JTextField;
+import javax.swing.JSpinner;
+import javax.swing.event.ChangeListener;
+import javax.swing.event.ChangeEvent;
 
 public class FenetrePrincipale extends JFrame {
 
@@ -40,6 +45,7 @@ public class FenetrePrincipale extends JFrame {
 	private JTextField textFieldID;
 	private JTextField textFieldX;
 	private JTextField textFieldY;
+	private JSpinner zoomSpinner;
 
 	/**
 	 * Launch the application.
@@ -50,6 +56,9 @@ public class FenetrePrincipale extends JFrame {
 				try {
 					FenetrePrincipale frame = new FenetrePrincipale();
 					frame.setVisible(true);
+					
+					SpinnerNumberModel model = new SpinnerNumberModel(100.0, 5.0, 200.0, 5.0);
+	                frame.zoomSpinner.setModel(model);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -124,10 +133,10 @@ public class FenetrePrincipale extends JFrame {
 			    	String file = fChooser.getSelectedFile().getAbsolutePath();
 			    	ParseurXML p = new ParseurXML();
 					
-					ArrayList<Livraison> livraisons = p.construireTourneeXML(file);
-					for (int i=0;i< livraisons.size();i++) {
-						Integer adresse = livraisons.get(i).getAdresse();
-						livraisons.get(i).setNoeud(plan.getNoeuds().get(adresse));
+					Tournee tournee = p.construireTourneeXML(file);
+					for (int i=0;i< tournee.getLivraisons().size();i++) {
+						Integer adresse = tournee.getLivraisons().get(i).getAdresse();
+						tournee.getLivraisons().get(i).setNoeud(plan.getNoeuds().get(adresse));
 					}
 					contPlan.paint();
 			    }
@@ -158,7 +167,7 @@ public class FenetrePrincipale extends JFrame {
 		
 		JPanel panel = new JPanel();
 		panel.setBackground(Color.WHITE);
-		panel.setBounds(908, 33, 276, 640);
+		panel.setBounds(910, 21, 276, 98);
 		contentPane.add(panel);
 		panel.setLayout(null);
 		
@@ -179,7 +188,21 @@ public class FenetrePrincipale extends JFrame {
 		textFieldX.setText("X");
 		textFieldX.setColumns(10);
 		panel.add(textFieldX);
+		
+		zoomSpinner = new JSpinner();
+		zoomSpinner.addChangeListener(new ChangeListener() {
+			public void stateChanged(ChangeEvent e) {
+				zoomSpinnerStateChangedHandler(e);
+			}
+		});
+		zoomSpinner.setBounds(945, 147, 73, 21);
+		contentPane.add(zoomSpinner);
 	}
+	
+	private void zoomSpinnerStateChangedHandler(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_zoomSpinnerStateChangedHandler
+        // TODO add your handling code here:
+        contPlan.setZoomScale((Double) this.zoomSpinner.getValue()/100);
+    }
 	
 	
     public void didSelectNoeud(Noeud noeud) {
