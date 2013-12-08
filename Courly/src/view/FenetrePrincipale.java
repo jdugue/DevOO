@@ -1,37 +1,45 @@
 package view;
 
-import java.awt.Color;
 import java.awt.EventQueue;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.io.FileNotFoundException;
 
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
-import model.Depot;
+import javax.swing.JMenuBar;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import javax.swing.JMenuItem;
+import javax.swing.JMenu;
+
 import model.Livraison;
 import model.Noeud;
 import model.Plan;
 
-import org.xml.sax.SAXException;
-
 import controller.ControleurPlan;
 import controller.ParseurXML;
-import javax.swing.JTabbedPane;
+
+import java.io.FileNotFoundException;
+import java.util.ArrayList;
+
+import javax.swing.JScrollPane;
+
+import org.xml.sax.SAXException;
+
+import java.awt.Color;
+import javax.swing.JTextField;
 
 public class FenetrePrincipale extends JFrame {
 
 	private JPanel contentPane;
 	private JScrollPane scrollPane;
 	private ControleurPlan contPlan;
+	private Plan plan;
+	private JTextField textFieldID;
+	private JTextField textFieldX;
+	private JTextField textFieldY;
 
 	/**
 	 * Launch the application.
@@ -71,6 +79,8 @@ public class FenetrePrincipale extends JFrame {
 		JMenuItem mntmChargerPlan = new JMenuItem("Charger plan...");
 		mntmChargerPlan.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				plan = null;
+				
 				JFileChooser fChooser = new JFileChooser();
 				FileNameExtensionFilter filter = new FileNameExtensionFilter("Fichier plan", "xml");
 				fChooser.setFileFilter(filter);
@@ -78,35 +88,11 @@ public class FenetrePrincipale extends JFrame {
 			    if( returnVal == JFileChooser.APPROVE_OPTION ) {
 			    	String file = fChooser.getSelectedFile().getAbsolutePath();
 			    	ParseurXML p = new ParseurXML();
-					Plan plan = null;
 					
 					try {
 						plan = p.construirePlanXML(file);
 						if (plan !=null) {
-	                		
-	                		Depot depot = new Depot();
-	                		depot.setNoeud(plan.getNoeuds().get(0));
-	                		
-	                		Livraison livraison1 = new Livraison();
-	                		livraison1.setNoeud(plan.getNoeuds().get(4));
-	                		
-	                		Livraison livraison2 = new Livraison();
-	                		livraison2.setNoeud(plan.getNoeuds().get(8));
-	                		
-	                		Livraison livraison3 = new Livraison();
-	                		livraison3.setNoeud(plan.getNoeuds().get(16));
-	                		
-	                		Livraison livraison4 = new Livraison();
-	                		livraison4.setNoeud(plan.getNoeuds().get(32));
-	                		
-	                		Livraison livraison5 = new Livraison();
-	                		livraison5.setNoeud(plan.getNoeuds().get(64));
-	                		
-	                		Livraison livraison6 = new Livraison();
-	                		livraison6.setNoeud(plan.getNoeuds().get(50));
-	                		
-	                		
-	                		contPlan.addAllNoeuds(plan.getNoeuds());               
+							contPlan.addAllNoeuds(plan.getNoeuds());               
 	                		contPlan.addAllTroncons(plan.getTroncons());
 	                	} 
 					} catch (NumberFormatException e) {
@@ -127,6 +113,26 @@ public class FenetrePrincipale extends JFrame {
 		mnFichier.add(mntmChargerPlan);
 		
 		JMenuItem mntmChargerLivraison = new JMenuItem("Charger livraison...");
+		mntmChargerLivraison.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				System.out.println(plan.getNoeuds().size());
+				JFileChooser fChooser = new JFileChooser();
+				FileNameExtensionFilter filter = new FileNameExtensionFilter("Fichier livraison", "xml");
+				fChooser.setFileFilter(filter);
+				int returnVal = fChooser.showOpenDialog(FenetrePrincipale.this);
+			    if( returnVal == JFileChooser.APPROVE_OPTION ) {
+			    	String file = fChooser.getSelectedFile().getAbsolutePath();
+			    	ParseurXML p = new ParseurXML();
+					
+					ArrayList<Livraison> livraisons = p.construireTourneeXML(file);
+					for (int i=0;i< livraisons.size();i++) {
+						Integer adresse = livraisons.get(i).getAdresse();
+						livraisons.get(i).setNoeud(plan.getNoeuds().get(adresse));
+					}
+					contPlan.paint();
+			    }
+			}
+		});
 		mnFichier.add(mntmChargerLivraison);
 		
 		JMenu mnEditer = new JMenu("Editer");
@@ -135,7 +141,7 @@ public class FenetrePrincipale extends JFrame {
 		JMenuItem mntmAnnuler = new JMenuItem("Annuler");
 		mnEditer.add(mntmAnnuler);
 		
-		JMenuItem mntmRfaire = new JMenuItem("R\u00E9faire");
+		JMenuItem mntmRfaire = new JMenuItem("Refaire");
 		mnEditer.add(mntmRfaire);
 		
 		JMenu mnAide = new JMenu("Aide");
@@ -150,27 +156,41 @@ public class FenetrePrincipale extends JFrame {
 		
 		contPlan = new ControleurPlan(scrollPane, FenetrePrincipale.this);
 		
-		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
-		tabbedPane.setBounds(1187, 21, -277, 640);
-		contentPane.add(tabbedPane);
-		
 		JPanel panel = new JPanel();
-		tabbedPane.addTab("New tab", null, panel, null);
+		panel.setBackground(Color.WHITE);
+		panel.setBounds(908, 33, 276, 640);
+		contentPane.add(panel);
+		panel.setLayout(null);
 		
-		JPanel panel_1 = new JPanel();
-		tabbedPane.addTab("New tab", null, panel_1, null);
+		textFieldID = new JTextField();
+		textFieldID.setBounds(21, 5, 114, 19);
+		textFieldID.setText("ID");
+		panel.add(textFieldID);
+		textFieldID.setColumns(10);
+		
+		textFieldY = new JTextField();
+		textFieldY.setBounds(21, 60, 114, 19);
+		textFieldY.setText("Y");
+		textFieldY.setColumns(10);
+		panel.add(textFieldY);
+		
+		textFieldX = new JTextField();
+		textFieldX.setBounds(21, 29, 114, 19);
+		textFieldX.setText("X");
+		textFieldX.setColumns(10);
+		panel.add(textFieldX);
 	}
 	
 	
     public void didSelectNoeud(Noeud noeud) {
-       /* this.jTextField1.setText(noeud.name);
-        this.jTextField2.setText(Integer.toString(noeud.x));
-        this.jTextField3.setText(Integer.toString(noeud.y)); */
+        this.textFieldX.setText(Integer.toString(noeud.getX()));
+        this.textFieldID.setText(Integer.toString(noeud.getId()));
+        this.textFieldY.setText(Integer.toString(noeud.getY())); 
     }
     
     public void didDeselectNoeud(Noeud noeud) {
-       /* this.jTextField1.setText("");
-        this.jTextField2.setText("");
-        this.jTextField3.setText(""); */
+    	this.textFieldX.setText("");
+        this.textFieldID.setText("");
+        this.textFieldY.setText(""); 
     }
 }
