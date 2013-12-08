@@ -4,8 +4,8 @@ import java.util.ArrayList;
 
 public class Plan {
 	
-	protected ArrayList<Troncon> troncons;
-	protected ArrayList<Noeud> noeuds;
+	protected ArrayList<Troncon> troncons = new ArrayList<Troncon>();
+	protected ArrayList<Noeud> noeuds = new ArrayList<Noeud>();
 
 	public Plan() {
 
