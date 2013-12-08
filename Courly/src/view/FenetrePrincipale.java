@@ -146,7 +146,7 @@ public class FenetrePrincipale extends JFrame {
 		JMenuItem mntmAnnuler = new JMenuItem("Annuler");
 		mnEditer.add(mntmAnnuler);
 		
-		JMenuItem mntmRfaire = new JMenuItem("R\u00E9faire");
+		JMenuItem mntmRfaire = new JMenuItem("Refaire");
 		mnEditer.add(mntmRfaire);
 		
 		JMenu mnAide = new JMenu("Aide");
