@@ -14,12 +14,15 @@ public class Trajet {
 		this.troncons = troncons;
 	}
 	
-	public Double getTempsTrajet ()
+	public Integer getTempsTrajet ()
 	{
-		Double tps = 0.0;
+		double tps = 0.0;
 		
-		//TODO
+		for (int i = 0 ; i<troncons.size() ; i++ )
+		{
+			tps += troncons.get(i).getLongueur();
+		}
 		
-		return tps;
+		return (int) tps;
 	}
 }
