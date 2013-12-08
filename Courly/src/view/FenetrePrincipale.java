@@ -33,6 +33,7 @@ import java.awt.event.MouseEvent;
 import java.io.FileNotFoundException;
 
 import javax.swing.JScrollPane;
+import java.awt.Color;
 
 public class FenetrePrincipale extends JFrame {
 
@@ -60,15 +61,16 @@ public class FenetrePrincipale extends JFrame {
 	 * Create the frame.
 	 */
 	public FenetrePrincipale() {
+		setTitle("Courly");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 504, 344);
+		setBounds(100, 100, 1200, 700);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
 		JMenuBar menuBar = new JMenuBar();
-		menuBar.setBounds(0, 0, 488, 21);
+		menuBar.setBounds(0, 0, 1184, 21);
 		contentPane.add(menuBar);
 		
 		JMenu mnFichier = new JMenu("Fichier");
@@ -148,10 +150,15 @@ public class FenetrePrincipale extends JFrame {
 		mnAide.add(mntmAPropos);
 		
 		scrollPane = new JScrollPane();
-		scrollPane.setBounds(0, 21, 488, 284);
+		scrollPane.setBounds(0, 21, 909, 640);
 		contentPane.add(scrollPane);
 		
 		contPlan = new ControleurPlan(scrollPane, FenetrePrincipale.this);
+		
+		JPanel panel = new JPanel();
+		panel.setBackground(Color.WHITE);
+		panel.setBounds(908, 21, 276, 640);
+		contentPane.add(panel);
 	}
 	
 	
