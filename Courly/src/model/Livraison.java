@@ -44,8 +44,7 @@ public class Livraison extends Lieu {
 	public void construireAPartirDeDOMXML(Element noeudDOMRacine, PlageHoraire plage) {
 		super.construireAPartirDeDOMXML(noeudDOMRacine);
 		client = Integer.parseInt(noeudDOMRacine.getAttribute("client"));
-		plageHoraire = plage;
-		
+		plageHoraire = plage;		
 	}
 
 	public Livraison() {

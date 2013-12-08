@@ -33,6 +33,9 @@ import java.awt.event.MouseEvent;
 import java.io.FileNotFoundException;
 
 import javax.swing.JScrollPane;
+
+import org.xml.sax.SAXException;
+
 import java.awt.Color;
 
 public class FenetrePrincipale extends JFrame {
@@ -121,6 +124,9 @@ public class FenetrePrincipale extends JFrame {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					} catch (FileNotFoundException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (SAXException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
