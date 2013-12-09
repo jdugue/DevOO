@@ -90,7 +90,7 @@ public class ParseurXML {
                 		   //Ajout à la liste des tronçons du noeud courant
                 		   tronconsNoeud.add(leNouveauTroncon);
                 	   }
-                	   vectNoeuds.get(idNoeudCourant).setTroncons(tronconsNoeud);
+                	   vectNoeuds.get(idNoeudCourant).setTronconsSortants(tronconsNoeud);
                    }
                    plan = new Plan();
                    plan.setNoeuds(vectNoeuds);
