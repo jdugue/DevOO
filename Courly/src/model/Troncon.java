@@ -24,6 +24,10 @@ public class Troncon {
 		
 	}
 	
+	public String toString(){
+		return this.nomRue;
+	}
+	
 	public String getNomRue() {
 		return this.nomRue;
 	}
