@@ -11,3 +11,5 @@
 *.settings/
 *.metadata
 *.launch
+/NewFolder/Courly/nbproject/private/
+/NewFolder/Courly/build/

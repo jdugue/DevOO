@@ -11,6 +11,21 @@
         </file>
     </editor-bookmarks>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group/>
+        <group>
+            <file>file:/Users/tanguyhelesbeux/Documents/Source%20tree/DevOO/Vues/DevOO/src/devoo/MainFrame.java</file>
+            <file>file:/Users/tanguyhelesbeux/Documents/Source%20tree/DevOO/Vues/DevOO/src/controleur/ControleurPlan.java</file>
+            <file>file:/Users/tanguyhelesbeux/Documents/Source%20tree/DevOO/Vues/DevOO/src/view/VuePlan.java</file>
+            <file>file:/Users/tanguyhelesbeux/Documents/Source%20tree/DevOO/Vues/DevOO/src/view/VueNoeud.java</file>
+            <file>file:/Users/tanguyhelesbeux/Documents/Source%20tree/DevOO/Vues/DevOO/src/view/VueTroncon.java</file>
+            <file>file:/Users/tanguyhelesbeux/Documents/Source%20tree/DevOO/Vues/DevOO/src/model/Noeud.java</file>
+            <file>file:/Users/tanguyhelesbeux/Documents/Source%20tree/DevOO/Vues/DevOO/src/model/Lieu.java</file>
+            <file>file:/Users/tanguyhelesbeux/Documents/Source%20tree/DevOO/Vues/DevOO/src/model/Troncon.java</file>
+            <file>file:/Users/tanguyhelesbeux/Documents/Source%20tree/DevOO/Vues/DevOO/src/model/Livraison.java</file>
+            <file>file:/Users/tanguyhelesbeux/Documents/Source%20tree/DevOO/Vues/DevOO/src/model/PlageHoraire.java</file>
+            <file>file:/Users/tanguyhelesbeux/Documents/Source%20tree/DevOO/Vues/DevOO/src/view/VueLivraison.java</file>
+            <file>file:/Users/tanguyhelesbeux/Documents/Source%20tree/DevOO/Vues/DevOO/src/view/VueLieu.java</file>
+            <file>file:/Users/tanguyhelesbeux/Documents/Source%20tree/DevOO/Vues/DevOO/src/view/VueDepot.java</file>
+            <file>file:/Users/tanguyhelesbeux/Documents/Source%20tree/DevOO/Vues/DevOO/src/model/Depot.java</file>
+        </group>
     </open-files>
 </project-private>
