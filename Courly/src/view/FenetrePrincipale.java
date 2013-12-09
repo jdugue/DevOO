@@ -107,12 +107,15 @@ public class FenetrePrincipale extends JFrame {
 	                	} 
 					} catch (NumberFormatException e) {
 						// TODO Auto-generated catch block
+						textFieldError.setForeground(Color.RED);
 						textFieldError.setText("Fichier XML incorrect");
 					} catch (FileNotFoundException e) {
 						// TODO Auto-generated catch block
+						textFieldError.setForeground(Color.RED);
 						textFieldError.setText("Fichier inexistant");
 					} catch (SAXException e) {
 						// TODO Auto-generated catch block
+						textFieldError.setForeground(Color.RED);
 						textFieldError.setText("Fichier XML incorrect");
 					}
 					
@@ -145,6 +148,7 @@ public class FenetrePrincipale extends JFrame {
 					}
 				}
 				else {
+					textFieldError.setForeground(Color.RED);
 					textFieldError.setText("Aucun plan en mémoire !");
 				}
 			}
