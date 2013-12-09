@@ -7,6 +7,10 @@
 package controller;
 
 import javax.swing.JScrollPane;
+import model.Lieu;
+import model.Noeud;
+import model.Livraison;
+import model.Depot;
 import view.VueInspecteur;
 
 /**
@@ -26,5 +30,21 @@ public class ControleurInspecteur {
     }
     
     
+    
+    public void setVueFromNoeud(Noeud noeud) {
+        if (noeud != null) {
+            this.vue.setAdresse(Integer.toString(noeud.getId()));
+            if (noeud.getLieu() != null) {
+                Lieu lieu = noeud.getLieu();
+                if (lieu.getClass() == Livraison.class) {
+                    this.vue.setLivraison((Livraison)lieu);
+                } else if (lieu.getClass() == Depot.class) {
+                    
+                }
+            }
+        } else {
+            this.vue.setAdresse("");
+        }
+    }
     
 }

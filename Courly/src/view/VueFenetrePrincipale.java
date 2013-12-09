@@ -166,7 +166,7 @@ public class VueFenetrePrincipale extends javax.swing.JFrame {
 
     private void itemChargerLivraisonsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemChargerLivraisonsActionPerformed
         // TODO add your handling code here:
-        this.controleurFenetrePrincipale.shouldLoadPlan();
+        this.controleurFenetrePrincipale.shouldLoadLivraison();
     }//GEN-LAST:event_itemChargerLivraisonsActionPerformed
 
     private void itemChargerPlanClickedHandler(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_itemChargerPlanClickedHandler
@@ -268,8 +268,8 @@ public class VueFenetrePrincipale extends javax.swing.JFrame {
     private javax.swing.JMenuBar menuBar;
     private javax.swing.JMenu menuEdition;
     private javax.swing.JMenu menuFichier;
-    private javax.swing.JScrollPane scrollPaneComment;
     private javax.swing.JMenu menuVenu;
+    private javax.swing.JScrollPane scrollPaneComment;
     private javax.swing.JScrollPane scrollPaneInspecteur;
     private javax.swing.JScrollPane scrollPanePlan;
     // End of variables declaration//GEN-END:variables

@@ -7,6 +7,9 @@
 package view;
 
 import controller.ControleurInspecteur;
+import javax.swing.JLabel;
+import model.Livraison;
+import model.Noeud;
 
 /**
  *
@@ -24,10 +27,31 @@ public class VueInspecteur extends javax.swing.JPanel {
 
     public VueInspecteur(ControleurInspecteur controleur) {
         initComponents();
+        this.clean();
         this.controleur = controleur;
     }
     
+    private void clean() {
+        this.adresseLabel.setText("");
+        this.livraisonIDLabel.setText("");
+        this.clientIDTextField.setText("");
+        this.plageHoraireDebutTextField.setText("");
+        this.plageHoraireFinTextField.setText("");
+        this.heurePassageTextField.setText("");
+        
+    }
+
+    public void setAdresse(String adresse) {
+        this.adresseLabel.setText(adresse);
+    }
     
+    public void setLivraison(Livraison livraison) {
+        //this.livraisonIDLabel.setText(Integer.toString(livraison.getId()));
+        this.clientIDTextField.setText(Integer.toString(livraison.getClient()));
+        this.plageHoraireDebutTextField.setText(livraison.getPlageHoraire().getHeureDebut());
+        this.plageHoraireFinTextField.setText(livraison.getPlageHoraire().getHeureFin());
+        //this.heurePassageTextField.setText(livraison.getHeurePassage());
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -39,13 +63,73 @@ public class VueInspecteur extends javax.swing.JPanel {
     private void initComponents() {
 
         jSeparator1 = new javax.swing.JSeparator();
+        titleLabel = new javax.swing.JLabel();
+        adresseLabel = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        clientIDTextField = new javax.swing.JTextField();
+        livraisonIDLabel = new javax.swing.JLabel();
+        heurePassageTextField = new javax.swing.JTextField();
+        jLabel3 = new javax.swing.JLabel();
+        plageHoraireDebutTextField = new javax.swing.JTextField();
+        jLabel4 = new javax.swing.JLabel();
+        plageHoraireFinTextField = new javax.swing.JTextField();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
 
-        setMaximumSize(new java.awt.Dimension(400, 778));
-        setMinimumSize(new java.awt.Dimension(400, 778));
-        setSize(new java.awt.Dimension(400, 778));
+        setAlignmentX(0.0F);
+        setAlignmentY(0.0F);
+        setMaximumSize(new java.awt.Dimension(1000, 1000));
+        setPreferredSize(new java.awt.Dimension(350, 600));
+        setSize(new java.awt.Dimension(350, 600));
 
-        jLabel1.setText("Noeud");
+        titleLabel.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // NOI18N
+        titleLabel.setText("Noeud");
+
+        adresseLabel.setText("adresse");
+
+        jLabel1.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // NOI18N
+        jLabel1.setText("Livraison");
+
+        jLabel2.setText("ID Client");
+
+        clientIDTextField.setText("jTextField1");
+        clientIDTextField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                clientIDTextFieldActionPerformed(evt);
+            }
+        });
+
+        livraisonIDLabel.setText("ID");
+
+        heurePassageTextField.setText("jTextField1");
+        heurePassageTextField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                heurePassageTextFieldActionPerformed(evt);
+            }
+        });
+
+        jLabel3.setText("Heure de passage");
+
+        plageHoraireDebutTextField.setText("jTextField1");
+        plageHoraireDebutTextField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                plageHoraireDebutTextFieldActionPerformed(evt);
+            }
+        });
+
+        jLabel4.setText("Plage horaire");
+
+        plageHoraireFinTextField.setText("jTextField1");
+        plageHoraireFinTextField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                plageHoraireFinTextFieldActionPerformed(evt);
+            }
+        });
+
+        jLabel5.setText("De");
+
+        jLabel6.setText("à");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -54,23 +138,100 @@ public class VueInspecteur extends javax.swing.JPanel {
             .addComponent(jSeparator1)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1)
-                .addContainerGap(353, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(titleLabel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(adresseLabel))
+                    .addComponent(clientIDTextField, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(heurePassageTextField, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(livraisonIDLabel))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(7, 7, 7)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel5)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 9, Short.MAX_VALUE)
+                                .addComponent(plageHoraireDebutTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel6)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(plageHoraireFinTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel3)
+                                    .addComponent(jLabel4)
+                                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(0, 0, Short.MAX_VALUE)))))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1)
-                .addGap(31, 31, 31)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(titleLabel)
+                    .addComponent(adresseLabel))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(705, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(livraisonIDLabel)
+                    .addComponent(jLabel1))
+                .addGap(23, 23, 23)
+                .addComponent(jLabel2)
+                .addGap(0, 0, 0)
+                .addComponent(clientIDTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel3)
+                .addGap(0, 0, 0)
+                .addComponent(heurePassageTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel4)
+                .addGap(0, 0, 0)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(plageHoraireDebutTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(plageHoraireFinTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel5)
+                    .addComponent(jLabel6))
+                .addContainerGap(339, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void clientIDTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clientIDTextFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_clientIDTextFieldActionPerformed
+
+    private void heurePassageTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_heurePassageTextFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_heurePassageTextFieldActionPerformed
+
+    private void plageHoraireDebutTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_plageHoraireDebutTextFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_plageHoraireDebutTextFieldActionPerformed
+
+    private void plageHoraireFinTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_plageHoraireFinTextFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_plageHoraireFinTextFieldActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel adresseLabel;
+    private javax.swing.JTextField clientIDTextField;
+    private javax.swing.JTextField heurePassageTextField;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JLabel livraisonIDLabel;
+    private javax.swing.JTextField plageHoraireDebutTextField;
+    private javax.swing.JTextField plageHoraireFinTextField;
+    private javax.swing.JLabel titleLabel;
     // End of variables declaration//GEN-END:variables
 }
