@@ -70,14 +70,14 @@ public class ControleurPlan {
         this.fenetreParent.add(this.scrollPane);
     }
     
-    public ControleurPlan(JScrollPane scrollPane, FenetrePrincipale fenetreParent) {
+    public ControleurPlan(JScrollPane scrollPane, ControleurFenetrePrincipale controleurFenetreParent) {
         this.setVuePlan(new VuePlan());
         this.scrollPane = scrollPane;
         
         this.vuePlan.setBackground(Color.WHITE);
         this.scrollPane.setViewportView(this.vuePlan);
         
-        this.setFenetreParent(fenetreParent);
+        //this.setFenetreParent(fenetreParent);
     }
 
     private void setFenetreParent(FenetrePrincipale fenetreParent) {
