@@ -27,7 +27,6 @@ public class Dijkstra {
 			
 			for (Troncon t : head.getTronconsSortants()) {
 				Noeud next = t.getDestination();
-				//System.out.println("Next : " + next + " next.previous : " + next.getPrevious());
 				double cost = t.getCost();
 				double distanceTotale = head.getMinTemps()+cost;
 				
@@ -82,6 +81,25 @@ public class Dijkstra {
 		return ret;
 	}
 	
+	public ArrayList<ArrayList<Integer>> generateMatriceCost(List<Trajet> trajets,Integer nbLivraisons) {
+		ArrayList<ArrayList<Integer>> ret = new ArrayList<ArrayList<Integer>>();
+		
+		for(int i=0;i<nbLivraisons;i++){
+			ArrayList<Integer> current = new ArrayList<Integer>();
+			
+			int start = i*(nbLivraisons-1);
+			int end = (i+1)*(nbLivraisons-1);
+			
+			for(int j=start;j<end;j++) {
+				current.add(trajets.get(j).getTempsTrajet());
+			}			
+			//En insérant dans la diagonale on décale
+			current.add(i, (int)Double.POSITIVE_INFINITY);
+			ret.add(i, current);
+		}		
+		return ret;
+	}
+	
 	public static void main (String[] args) throws NumberFormatException, FileNotFoundException, SAXException{
 		Dijkstra d = new Dijkstra();
 		ParseurXML parseur = new ParseurXML();
@@ -100,11 +118,11 @@ public class Dijkstra {
 			d.resetPlan(plan);
 			Noeud noeudLivraison = tournee.getLivraisons().get(i).getNoeud();
 			
-			System.out.println("\nOrigine : " + noeudLivraison);
+			//System.out.println("\nOrigine : " + noeudLivraison);
 			d.computePaths(noeudLivraison);
 			for (int j=0;j<tournee.getLivraisons().size();j++) {
 				if(j!=i) {
-					System.out.println("Cible : " +tournee.getLivraisons().get(j).getNoeud());
+					//System.out.println("Cible : " +tournee.getLivraisons().get(j).getNoeud());
 					List<Noeud> chemin = d.plusCourtCheminVers(tournee.getLivraisons().get(j).getNoeud());
 					
 					Trajet trajet = new Trajet(chemin);
@@ -112,11 +130,13 @@ public class Dijkstra {
 				}
 			}
 		}
+		//System.out.println(trajets.get(0).getTempsTrajet());
 		
 		//Param Choco
 		Integer nbLivraisons = tournee.getLivraisons().size();
 		Integer arcMini = d.trouverArcMini(trajets);
 		Integer arcMaxi = d.trouverArcMaxi(trajets);
 		//TODO Cost et succ
+		List<ArrayList<Integer>> matriceCosts = d.generateMatriceCost(trajets,nbLivraisons);
 	}
 }
