@@ -22,10 +22,11 @@ public class VueFenetrePrincipale extends javax.swing.JFrame {
      * Creates new form VueFenetrePrincipale
      */
     public VueFenetrePrincipale() {
-        this.controleurFenetrePrincipale = new ControleurFenetrePrincipale();
-        this.controleurPlan = new ControleurPlan(this.scrollPanePlan, this.controleurFenetrePrincipale);
         
         initComponents();
+        
+        this.controleurFenetrePrincipale = new ControleurFenetrePrincipale(this);
+        this.controleurPlan = new ControleurPlan(this.scrollPanePlan, this.controleurFenetrePrincipale);
     }
 
     /**
