@@ -1,11 +1,36 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Trajet {
 
-	protected ArrayList<Troncon> troncons;
+	protected ArrayList<Troncon> troncons = new ArrayList<Troncon>();
 
+	public Trajet() {
+		
+	}
+	
+	public Trajet(List<Noeud> noeuds) {		
+		for(int i=0;i<noeuds.size()-1;i++) {
+			Noeud noeudOrigine = noeuds.get(i);
+			for(Troncon t : noeudOrigine.getTronconsSortants()) {
+				if(t.getDestination()==noeuds.get(i+1)) {
+					troncons.add(t);
+					break;
+				}
+			}
+		}
+	}
+	
+	public String toString(){
+		String ret="";
+		for (Troncon t : troncons) {
+			ret+=t.toString()+" ";
+		}
+		return ret;
+	}
+	
 	public ArrayList<Troncon> getTroncons() {
 		return troncons;
 	}
