@@ -155,6 +155,23 @@ public class FenetrePrincipale extends JFrame {
 		});
 		mnFichier.add(mntmChargerLivraison);
 		
+		JMenuItem mntmEnregisterTourne = new JMenuItem("Enregister tourn\u00E9e...");
+		mntmEnregisterTourne.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				JFileChooser fChooser = new JFileChooser();
+				FileNameExtensionFilter filter = new FileNameExtensionFilter("Fichier tourn\u00E9e", "txt");
+				fChooser.setFileFilter(filter);
+				int returnVal = fChooser.showOpenDialog(FenetrePrincipale.this);
+				if( returnVal == JFileChooser.APPROVE_OPTION ) {
+					String file = fChooser.getSelectedFile().getAbsolutePath();
+					System.out.println(file); //FIXME
+					//ControleurTournee.tourneeToTxt ( tournee, file );
+				}
+			}
+		});
+		mnFichier.add(mntmEnregisterTourne);
+		
 		JMenu mnEditer = new JMenu("Editer");
 		menuBar.add(mnEditer);
 		
