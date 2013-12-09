@@ -40,8 +40,8 @@ public class VueFenetrePrincipale extends javax.swing.JFrame {
 
         scrollPanePlan = new javax.swing.JScrollPane();
         scrollPaneInspecteur = new javax.swing.JScrollPane();
-        scrollPaneTextArea = new javax.swing.JScrollPane();
-        commentArea = new javax.swing.JTextArea();
+        scrollPaneComment = new javax.swing.JScrollPane();
+        commentArea = new javax.swing.JEditorPane();
         menuBar = new javax.swing.JMenuBar();
         menuFichier = new javax.swing.JMenu();
         itemChargerPlan = new javax.swing.JMenuItem();
@@ -51,19 +51,14 @@ public class VueFenetrePrincipale extends javax.swing.JFrame {
         itemAnnuler = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setMaximumSize(new java.awt.Dimension(1200, 800));
         setMinimumSize(new java.awt.Dimension(1200, 800));
-        setPreferredSize(new java.awt.Dimension(1200, 800));
-        setSize(new java.awt.Dimension(1200, 800));
 
         scrollPanePlan.setMaximumSize(new java.awt.Dimension(800, 678));
         scrollPanePlan.setMinimumSize(new java.awt.Dimension(800, 678));
         scrollPanePlan.setPreferredSize(new java.awt.Dimension(800, 678));
         scrollPanePlan.setSize(new java.awt.Dimension(800, 678));
 
-        commentArea.setColumns(20);
-        commentArea.setRows(5);
-        scrollPaneTextArea.setViewportView(commentArea);
+        scrollPaneComment.setViewportView(commentArea);
 
         menuFichier.setText("Fichier");
 
@@ -101,7 +96,7 @@ public class VueFenetrePrincipale extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(scrollPanePlan, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(scrollPaneTextArea))
+                    .addComponent(scrollPaneComment))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(scrollPaneInspecteur, javax.swing.GroupLayout.DEFAULT_SIZE, 400, Short.MAX_VALUE))
         );
@@ -110,7 +105,8 @@ public class VueFenetrePrincipale extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addComponent(scrollPanePlan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(scrollPaneTextArea, javax.swing.GroupLayout.DEFAULT_SIZE, 94, Short.MAX_VALUE))
+                .addComponent(scrollPaneComment, javax.swing.GroupLayout.DEFAULT_SIZE, 88, Short.MAX_VALUE)
+                .addContainerGap())
             .addComponent(scrollPaneInspecteur)
         );
 
@@ -158,9 +154,11 @@ public class VueFenetrePrincipale extends javax.swing.JFrame {
             }
         });
     }
-
+    public javax.swing.JEditorPane getCommentArea(){
+        return commentArea;
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTextArea commentArea;
+    private javax.swing.JEditorPane commentArea;
     private javax.swing.JMenuItem itemAnnuler;
     private javax.swing.JMenuItem itemChargerLivraisons;
     private javax.swing.JMenuItem itemChargerPlan;
@@ -168,8 +166,8 @@ public class VueFenetrePrincipale extends javax.swing.JFrame {
     private javax.swing.JMenuBar menuBar;
     private javax.swing.JMenu menuEdition;
     private javax.swing.JMenu menuFichier;
+    private javax.swing.JScrollPane scrollPaneComment;
     private javax.swing.JScrollPane scrollPaneInspecteur;
     private javax.swing.JScrollPane scrollPanePlan;
-    private javax.swing.JScrollPane scrollPaneTextArea;
     // End of variables declaration//GEN-END:variables
 }
