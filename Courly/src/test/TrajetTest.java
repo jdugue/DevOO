@@ -35,7 +35,7 @@ public class TrajetTest {
 		double res = troncon1.getLongueur()/troncon1.getVitesse() + troncon2.getLongueur()/troncon2.getVitesse()+troncon3.getLongueur()/troncon3.getVitesse();
 		
 		if(res != cost1+cost2+cost3) {
-			fail("caca");
+			fail("Somme différente");
 		}
 		
 		

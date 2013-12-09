@@ -89,6 +89,7 @@ public class FenetrePrincipale extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				plan = null;
 				
+				textFieldError.setText("");
 				JFileChooser fChooser = new JFileChooser();
 				FileNameExtensionFilter filter = new FileNameExtensionFilter("Fichier plan", "xml");
 				fChooser.setFileFilter(filter);
@@ -124,22 +125,28 @@ public class FenetrePrincipale extends JFrame {
 		JMenuItem mntmChargerLivraison = new JMenuItem("Charger livraison...");
 		mntmChargerLivraison.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				System.out.println(plan.getNoeuds().size());
-				JFileChooser fChooser = new JFileChooser();
-				FileNameExtensionFilter filter = new FileNameExtensionFilter("Fichier livraison", "xml");
-				fChooser.setFileFilter(filter);
-				int returnVal = fChooser.showOpenDialog(FenetrePrincipale.this);
-			    if( returnVal == JFileChooser.APPROVE_OPTION ) {
-			    	String file = fChooser.getSelectedFile().getAbsolutePath();
-			    	ParseurXML p = new ParseurXML();
-					
-					Tournee tournee = p.construireTourneeXML(file);
-					for (int i=0;i< tournee.getLivraisons().size();i++) {
-						Integer adresse = tournee.getLivraisons().get(i).getAdresse();
-						tournee.getLivraisons().get(i).setNoeud(plan.getNoeuds().get(adresse));
+				textFieldError.setText("");
+
+				if( plan!=null) {
+					JFileChooser fChooser = new JFileChooser();
+					FileNameExtensionFilter filter = new FileNameExtensionFilter("Fichier livraison", "xml");
+					fChooser.setFileFilter(filter);
+					int returnVal = fChooser.showOpenDialog(FenetrePrincipale.this);
+					if( returnVal == JFileChooser.APPROVE_OPTION ) {
+						String file = fChooser.getSelectedFile().getAbsolutePath();
+						ParseurXML p = new ParseurXML();
+
+						Tournee tournee = p.construireTourneeXML(file);
+						for (int i=0;i< tournee.getLivraisons().size();i++) {
+							Integer adresse = tournee.getLivraisons().get(i).getAdresse();
+							tournee.getLivraisons().get(i).setNoeud(plan.getNoeuds().get(adresse));
+						}
+						contPlan.paint();
 					}
-					contPlan.paint();
-			    }
+				}
+				else {
+					textFieldError.setText("Aucun plan en mémoire !");
+				}
 			}
 		});
 		mnFichier.add(mntmChargerLivraison);
