@@ -46,7 +46,7 @@ public class ControleurPlan {
     
     protected double zoomScale = 1.0;
     
-    private FenetrePrincipale fenetreParent;
+    private ControleurFenetrePrincipale controleurParent;
     
     private VueNoeud selectedVueNoeud;
     private Noeud selectedNoeud;
@@ -76,12 +76,14 @@ public class ControleurPlan {
         this.vuePlan.setBackground(Color.WHITE);
         scrollPane.setViewportView(this.vuePlan);
         
-        //this.setFenetreParent(fenetreParent);
+        this.controleurParent = controleurFenetreParent;
     }
 
-    private void setFenetreParent(FenetrePrincipale fenetreParent) {
-        this.fenetreParent = fenetreParent;
-    }    
+    public ControleurFenetrePrincipale getControleurParent() {
+        return controleurParent;
+    }
+    
+    
     
     public void setVuePlan(VuePlan vuePlan) {
         this.vuePlan = vuePlan;
@@ -277,12 +279,12 @@ public class ControleurPlan {
         this.setSelectedVueNoeud(selectedVueNoeud);
         
         Noeud noeud = selectedVueNoeud.getNoeud();
-        this.fenetreParent.didSelectNoeud(noeud);
+        this.controleurParent.didSelectNoeud(noeud);
     }
     
     public void didDeselectVueNoeud(VueNoeud deselectedNoeud) {
         Noeud noeud = deselectedNoeud.getNoeud();
-        this.fenetreParent.didDeselectNoeud(noeud);
+        this.controleurParent.didDeselectNoeud(noeud);
     }
     
 }

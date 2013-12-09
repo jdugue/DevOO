@@ -10,6 +10,7 @@ import java.awt.Color;
 import java.io.FileNotFoundException;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import model.Noeud;
 import model.Plan;
 import model.Tournee;
 import org.xml.sax.SAXException;
@@ -73,7 +74,6 @@ public class ControleurFenetrePrincipale {
     }
     
     public void shouldLoadPlan() {
-        this.plan = null;
         JFileChooser fChooser = new JFileChooser();
         FileNameExtensionFilter filter = new FileNameExtensionFilter("Fichier plan", "xml");
         fChooser.setFileFilter(filter);
@@ -83,7 +83,7 @@ public class ControleurFenetrePrincipale {
             ParseurXML p = new ParseurXML();
 
             try {
-                    plan = p.construirePlanXML(file);
+                    this.plan = p.construirePlanXML(file);
                     if (plan !=null) {
                             this.controleurPlan.loadVuePlanFromModel(plan);
                     } else {
@@ -112,7 +112,7 @@ public class ControleurFenetrePrincipale {
     
     public void shouldLoadLivraison() {
 
-        if( plan!=null) {
+        if( this.plan!=null) {
                 JFileChooser fChooser = new JFileChooser();
                 FileNameExtensionFilter filter = new FileNameExtensionFilter("Fichier livraison", "xml");
                 fChooser.setFileFilter(filter);
@@ -143,4 +143,11 @@ public class ControleurFenetrePrincipale {
         editorPane.setText(text + fenetre.getCommentArea().getText());
     }
 
+    public void didSelectNoeud(Noeud noeud) {
+        this.controleurInspecteur.setVueFromNoeud(noeud);
+    }
+    
+    public void didDeselectNoeud(Noeud noeud) {
+        this.controleurInspecteur.setVueFromNoeud(null);
+    }
 }
