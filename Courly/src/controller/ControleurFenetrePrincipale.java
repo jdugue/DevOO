@@ -5,9 +5,7 @@
  */
 package controller;
 
-<<<<<<< HEAD
 import java.util.ArrayList;
-=======
 import java.awt.Color;
 import java.io.FileNotFoundException;
 import javax.swing.JFileChooser;
@@ -15,8 +13,6 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import model.Plan;
 import model.Tournee;
 import org.xml.sax.SAXException;
-import view.FenetrePrincipale;
->>>>>>> contrôleur inspecteur
 import view.VueFenetrePrincipale;
 
 /**
@@ -24,15 +20,12 @@ import view.VueFenetrePrincipale;
  * @author tanguyhelesbeux
  */
 public class ControleurFenetrePrincipale {
-<<<<<<< HEAD
-
-    private VueFenetrePrincipale fenetre;
     
     private ArrayList<String> colorMsg = new ArrayList();
-=======
     
     private VueFenetrePrincipale fenetre;
     private ControleurPlan controleurPlan;
+    private ControleurInspecteur controleurInspecteur;
     
     private Plan plan;
     
@@ -45,6 +38,17 @@ public class ControleurFenetrePrincipale {
         
         this.fenetre = aFenetre;
         this.controleurPlan = new ControleurPlan(this.fenetre.getScrollPanePlan(), this);
+        this.controleurInspecteur = new ControleurInspecteur(this.fenetre.getScrollPaneInspecteur(), this);
+        
+        this.initColors();
+        
+    }
+    
+    private void initColors() {
+        colorMsg.add("#a00a11"); // ERROR
+        colorMsg.add("#d49e15"); // WARNING
+        colorMsg.add("#2ca024"); // SUCCESS
+        colorMsg.add("#333333"); // LOG
     }
 
     public void setZoomScale(double zoomScale) {
@@ -103,7 +107,7 @@ public class ControleurFenetrePrincipale {
             }
 
         }
-
+        
     }
     
     public void shouldLoadLivraison() {
@@ -129,14 +133,7 @@ public class ControleurFenetrePrincipale {
                 System.out.print("Aucun plan en mémoire !");
         }
     }
->>>>>>> contrôleur inspecteur
     
-    public ControleurFenetrePrincipale(VueFenetrePrincipale fenetre) {
-        colorMsg.add("#a00a11"); // ERROR
-        colorMsg.add("#d49e15"); // WARNING
-        colorMsg.add("#2ca024"); // SUCCESS
-        colorMsg.add("#333333"); // LOG
-    }
 
     public void setMessage(String msg, int msgType) {
         javax.swing.JEditorPane editorPane = fenetre.getCommentArea();
