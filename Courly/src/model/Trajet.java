@@ -8,6 +8,19 @@ public class Trajet {
 	protected ArrayList<Troncon> troncons = new ArrayList<Troncon>();
 	protected PlageHoraire plage;
 
+	public PlageHoraire getPlage() {
+		return plage;
+	}
+
+	public void setPlage(PlageHoraire plage) {
+		this.plage = plage;
+	}
+	
+	public void resetPlage ()
+	{
+		//TODO
+	}
+
 	public Trajet() {
 		
 	}
