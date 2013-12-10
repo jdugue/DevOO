@@ -13,3 +13,7 @@
 *.launch
 /NewFolder/Courly/nbproject/private/
 /NewFolder/Courly/build/
+NewFolder/Courly/nbproject/project.properties
+projet_exemple/bin/.project
+projet_exemple/bin/first
+projet_exemple/bin/first.xml

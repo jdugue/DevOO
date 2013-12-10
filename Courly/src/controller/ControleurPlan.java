@@ -31,7 +31,7 @@ import view.VueTroncon;
  */
 public class ControleurPlan {
     
-    private JScrollPane scrollPane;
+    //private JScrollPane scrollPane;
     private VuePlan vuePlan;
     private Plan plan = new Plan();
     private ArrayList<VueNoeud> vueNoeuds = new ArrayList<VueNoeud>();
@@ -46,20 +46,20 @@ public class ControleurPlan {
     
     protected double zoomScale = 1.0;
     
-    private FenetrePrincipale fenetreParent;
+    private ControleurFenetrePrincipale controleurParent;
     
     private VueNoeud selectedVueNoeud;
     private Noeud selectedNoeud;
 
-    public ControleurPlan(Point vueLocation, Dimension vueDimension, FenetrePrincipale fenetreParent) {
+    /*public ControleurPlan(Point vueLocation, Dimension vueDimension, FenetrePrincipale fenetreParent) {
         this.vuePlan = new VuePlan();
         this.vuePlan.setSize(vueDimension);
         this.vuePlan.setLocation(vueLocation);
         this.setFenetreParent(fenetreParent);
         this.fenetreParent.add(vuePlan);
-    }
+    }*/
     
-    public ControleurPlan(VuePlan vuePlan, FenetrePrincipale fenetreParent) {
+    /*public ControleurPlan(VuePlan vuePlan, FenetrePrincipale fenetreParent) {
         this.setVuePlan(vuePlan);
         this.scrollPane = new JScrollPane();
         this.scrollPane.setViewportView(this.vuePlan);
@@ -68,21 +68,22 @@ public class ControleurPlan {
         this.vuePlan.setSize(1000, 1000);
         this.setFenetreParent(fenetreParent);
         this.fenetreParent.add(this.scrollPane);
-    }
+    }*/
     
-    public ControleurPlan(JScrollPane scrollPane, FenetrePrincipale fenetreParent) {
+    public ControleurPlan(JScrollPane scrollPane, ControleurFenetrePrincipale controleurFenetreParent) {
         this.setVuePlan(new VuePlan());
-        this.scrollPane = scrollPane;
         
         this.vuePlan.setBackground(Color.WHITE);
-        this.scrollPane.setViewportView(this.vuePlan);
+        scrollPane.setViewportView(this.vuePlan);
         
-        this.setFenetreParent(fenetreParent);
+        this.controleurParent = controleurFenetreParent;
     }
 
-    private void setFenetreParent(FenetrePrincipale fenetreParent) {
-        this.fenetreParent = fenetreParent;
-    }    
+    public ControleurFenetrePrincipale getControleurParent() {
+        return controleurParent;
+    }
+    
+    
     
     public void setVuePlan(VuePlan vuePlan) {
         this.vuePlan = vuePlan;
@@ -278,12 +279,12 @@ public class ControleurPlan {
         this.setSelectedVueNoeud(selectedVueNoeud);
         
         Noeud noeud = selectedVueNoeud.getNoeud();
-        this.fenetreParent.didSelectNoeud(noeud);
+        this.controleurParent.didSelectNoeud(noeud);
     }
     
     public void didDeselectVueNoeud(VueNoeud deselectedNoeud) {
         Noeud noeud = deselectedNoeud.getNoeud();
-        this.fenetreParent.didDeselectNoeud(noeud);
+        this.controleurParent.didDeselectNoeud(noeud);
     }
     
 }

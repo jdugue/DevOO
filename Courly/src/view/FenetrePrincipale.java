@@ -57,7 +57,7 @@ public class FenetrePrincipale extends JFrame {
 					frame.setVisible(true);
 					
 					SpinnerNumberModel model = new SpinnerNumberModel(100.0, 5.0, 200.0, 5.0);
-	                frame.zoomSpinner.setModel(model);
+                                        frame.zoomSpinner.setModel(model);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
