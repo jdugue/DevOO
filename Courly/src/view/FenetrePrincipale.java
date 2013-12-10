@@ -87,14 +87,15 @@ public class FenetrePrincipale extends JFrame {
 		JMenuItem mntmChargerPlan = new JMenuItem("Charger plan...");
 		mntmChargerPlan.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				plan = null;
 				
 				textFieldError.setText("");
 				JFileChooser fChooser = new JFileChooser();
 				FileNameExtensionFilter filter = new FileNameExtensionFilter("Fichier plan", "xml");
 				fChooser.setFileFilter(filter);
+				
 				int returnVal = fChooser.showOpenDialog(FenetrePrincipale.this);
 			    if( returnVal == JFileChooser.APPROVE_OPTION ) {
+			    	
 			    	String file = fChooser.getSelectedFile().getAbsolutePath();
 			    	ParseurXML p = new ParseurXML();
 					
