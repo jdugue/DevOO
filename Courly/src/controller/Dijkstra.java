@@ -100,6 +100,22 @@ public class Dijkstra {
 		return ret;
 	}
 	
+	public ArrayList<ArrayList<Integer>> generateMatriceSucc(Integer nbLivraisons) {
+		ArrayList<ArrayList<Integer>> ret = new ArrayList<ArrayList<Integer>>();
+		
+		for (int i=0;i<nbLivraisons;i++){
+			ArrayList<Integer> current = new ArrayList<Integer>();
+			
+			for(int j=0;j<nbLivraisons;j++) {
+				if(i!=j) {
+					current.add(j);
+				}
+			}
+			ret.add(i, current);
+		}		
+		return ret;
+	}
+	
 	public static void main (String[] args) throws NumberFormatException, FileNotFoundException, SAXException{
 		Dijkstra d = new Dijkstra();
 		ParseurXML parseur = new ParseurXML();
@@ -138,5 +154,6 @@ public class Dijkstra {
 		Integer arcMaxi = d.trouverArcMaxi(trajets);
 		//TODO Cost et succ
 		List<ArrayList<Integer>> matriceCosts = d.generateMatriceCost(trajets,nbLivraisons);
+		List<ArrayList<Integer>> matriceSucc = d.generateMatriceSucc(nbLivraisons);
 	}
 }
