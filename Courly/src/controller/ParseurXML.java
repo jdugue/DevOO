@@ -90,7 +90,7 @@ public class ParseurXML {
                 		   //Ajout à la liste des tronçons du noeud courant
                 		   tronconsNoeud.add(leNouveauTroncon);
                 	   }
-                	   vectNoeuds.get(idNoeudCourant).setTroncons(tronconsNoeud);
+                	   vectNoeuds.get(idNoeudCourant).setTronconsSortants(tronconsNoeud);
                    }
                    plan = new Plan();
                    plan.setNoeuds(vectNoeuds);
@@ -113,7 +113,6 @@ public class ParseurXML {
 		File xml = ouvrirFichier(file);
 		Tournee tournee = new Tournee();
 		//Si le fichier existe
-		//TODO : normaliser les exceptions si bug
 		if (xml.exists()) {
 			
 			//TODO A mettre dans un objet Tournee

@@ -4,13 +4,17 @@ import java.util.ArrayList;
 
 import org.w3c.dom.Element;
 
-public class Noeud {
+public class Noeud implements Comparable<Noeud>{
 	
 	protected Integer id;
 	protected Integer x;
 	protected Integer y;
 	protected Lieu lieu;
 	protected ArrayList<Troncon> tronconsSortants;
+	
+	//Attributs utiles pour Dijkstra
+	protected double minTemps = Double.POSITIVE_INFINITY;
+	protected Noeud previous;
 
 	
 	public Noeud() {
@@ -25,6 +29,32 @@ public class Noeud {
 		this.tronconsSortants = tronconsSortants;
 	}
 	
+	public String toString() {
+		String idString = Integer.toString(id);
+		return idString;
+	}
+	
+	@Override
+	public int compareTo(Noeud o) {
+		return Double.compare(minTemps, o.minTemps);
+	}
+	
+	public double getMinTemps() {
+		return minTemps;
+	}
+
+	public void setMinTemps(double minTemps) {
+		this.minTemps = minTemps;
+	}
+
+	public Noeud getPrevious() {
+		return previous;
+	}
+
+	public void setPrevious(Noeud previous) {
+		this.previous = previous;
+	}
+
 	public void setLieu(Lieu lieu) {
 		this.lieu = lieu;
 	}
@@ -39,14 +69,6 @@ public class Noeud {
 	
 	public Lieu getLieu() {
 		return this.lieu;
-	}
-	
-	public ArrayList<Troncon> getTroncons() {
-		return this.tronconsSortants;
-	}
-	
-	public void setTroncons(ArrayList<Troncon> troncons) {
-		this.tronconsSortants = troncons;
 	}
 	
 	public void construireAPartirDeDOMXML(Element noeudDOMRacine) {

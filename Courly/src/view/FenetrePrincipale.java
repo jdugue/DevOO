@@ -44,6 +44,7 @@ public class FenetrePrincipale extends JFrame {
 	private JTextField textFieldX;
 	private JTextField textFieldY;
 	private JSpinner zoomSpinner;
+	private JTextField textFieldError;
 
 	/**
 	 * Launch the application.
@@ -56,7 +57,7 @@ public class FenetrePrincipale extends JFrame {
 					frame.setVisible(true);
 					
 					SpinnerNumberModel model = new SpinnerNumberModel(100.0, 5.0, 200.0, 5.0);
-	                frame.zoomSpinner.setModel(model);
+                                        frame.zoomSpinner.setModel(model);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -87,6 +88,7 @@ public class FenetrePrincipale extends JFrame {
 		mntmChargerPlan.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				
+				textFieldError.setText("");
 				JFileChooser fChooser = new JFileChooser();
 				FileNameExtensionFilter filter = new FileNameExtensionFilter("Fichier plan", "xml");
 				fChooser.setFileFilter(filter);
@@ -106,13 +108,16 @@ public class FenetrePrincipale extends JFrame {
 	                	} 
 					} catch (NumberFormatException e) {
 						// TODO Auto-generated catch block
-						e.printStackTrace();
+						textFieldError.setForeground(Color.RED);
+						textFieldError.setText("Fichier XML incorrect");
 					} catch (FileNotFoundException e) {
 						// TODO Auto-generated catch block
-						e.printStackTrace();
+						textFieldError.setForeground(Color.RED);
+						textFieldError.setText("Fichier inexistant");
 					} catch (SAXException e) {
 						// TODO Auto-generated catch block
-						e.printStackTrace();
+						textFieldError.setForeground(Color.RED);
+						textFieldError.setText("Fichier XML incorrect");
 					}
 					
 			    }
@@ -124,25 +129,49 @@ public class FenetrePrincipale extends JFrame {
 		JMenuItem mntmChargerLivraison = new JMenuItem("Charger livraison...");
 		mntmChargerLivraison.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				System.out.println(plan.getNoeuds().size());
-				JFileChooser fChooser = new JFileChooser();
-				FileNameExtensionFilter filter = new FileNameExtensionFilter("Fichier livraison", "xml");
-				fChooser.setFileFilter(filter);
-				int returnVal = fChooser.showOpenDialog(FenetrePrincipale.this);
-			    if( returnVal == JFileChooser.APPROVE_OPTION ) {
-			    	String file = fChooser.getSelectedFile().getAbsolutePath();
-			    	ParseurXML p = new ParseurXML();
-					
-					Tournee tournee = p.construireTourneeXML(file);
-					for (int i=0;i< tournee.getLivraisons().size();i++) {
-						Integer adresse = tournee.getLivraisons().get(i).getAdresse();
-						tournee.getLivraisons().get(i).setNoeud(plan.getNoeuds().get(adresse));
+				textFieldError.setText("");
+
+				if( plan!=null) {
+					JFileChooser fChooser = new JFileChooser();
+					FileNameExtensionFilter filter = new FileNameExtensionFilter("Fichier livraison", "xml");
+					fChooser.setFileFilter(filter);
+					int returnVal = fChooser.showOpenDialog(FenetrePrincipale.this);
+					if( returnVal == JFileChooser.APPROVE_OPTION ) {
+						String file = fChooser.getSelectedFile().getAbsolutePath();
+						ParseurXML p = new ParseurXML();
+
+						Tournee tournee = p.construireTourneeXML(file);
+						for (int i=0;i< tournee.getLivraisons().size();i++) {
+							Integer adresse = tournee.getLivraisons().get(i).getAdresse();
+							tournee.getLivraisons().get(i).setNoeud(plan.getNoeuds().get(adresse));
+						}
+						contPlan.paint();
 					}
-					contPlan.paint();
-			    }
+				}
+				else {
+					textFieldError.setForeground(Color.RED);
+					textFieldError.setText("Aucun plan en mémoire !");
+				}
 			}
 		});
 		mnFichier.add(mntmChargerLivraison);
+		
+		JMenuItem mntmEnregisterTourne = new JMenuItem("Enregister tourn\u00E9e...");
+		mntmEnregisterTourne.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				JFileChooser fChooser = new JFileChooser();
+				FileNameExtensionFilter filter = new FileNameExtensionFilter("Fichier tourn\u00E9e", "txt");
+				fChooser.setFileFilter(filter);
+				int returnVal = fChooser.showOpenDialog(FenetrePrincipale.this);
+				if( returnVal == JFileChooser.APPROVE_OPTION ) {
+					String file = fChooser.getSelectedFile().getAbsolutePath();
+					System.out.println(file); //FIXME
+					//ControleurTournee.tourneeToTxt ( tournee, file );
+				}
+			}
+		});
+		mnFichier.add(mntmEnregisterTourne);
 		
 		JMenu mnEditer = new JMenu("Editer");
 		menuBar.add(mnEditer);
@@ -150,7 +179,7 @@ public class FenetrePrincipale extends JFrame {
 		JMenuItem mntmAnnuler = new JMenuItem("Annuler");
 		mnEditer.add(mntmAnnuler);
 		
-		JMenuItem mntmRfaire = new JMenuItem("Refaire");
+		JMenuItem mntmRfaire = new JMenuItem("Restaurer");
 		mnEditer.add(mntmRfaire);
 		
 		JMenu mnAide = new JMenu("Aide");
@@ -160,7 +189,7 @@ public class FenetrePrincipale extends JFrame {
 		mnAide.add(mntmAPropos);
 		
 		scrollPane = new JScrollPane();
-		scrollPane.setBounds(0, 21, 909, 640);
+		scrollPane.setBounds(10, 21, 899, 614);
 		contentPane.add(scrollPane);
 		
 		contPlan = new ControleurPlan(scrollPane, FenetrePrincipale.this);
@@ -197,6 +226,11 @@ public class FenetrePrincipale extends JFrame {
 		});
 		zoomSpinner.setBounds(945, 147, 73, 21);
 		contentPane.add(zoomSpinner);
+		
+		textFieldError = new JTextField();
+		textFieldError.setBounds(12, 669, 385, 19);
+		contentPane.add(textFieldError);
+		textFieldError.setColumns(10);
 	}
 	
 	private void zoomSpinnerStateChangedHandler(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_zoomSpinnerStateChangedHandler
