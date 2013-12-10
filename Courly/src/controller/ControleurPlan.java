@@ -13,12 +13,10 @@ import model.Livraison;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Point;
 import java.util.ArrayList;
 
 import javax.swing.JScrollPane;
 
-import view.FenetrePrincipale;
 import view.VueDepot;
 import view.VueLivraison;
 import view.VueNoeud;
