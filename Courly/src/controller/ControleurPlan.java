@@ -8,6 +8,7 @@ package controller;
 
 import model.Noeud;
 import model.Plan;
+import model.Trajet;
 import model.Troncon;
 import model.Livraison;
 
@@ -267,6 +268,14 @@ public class ControleurPlan {
     public void loadVuePlanFromModel(Plan aPlan) {
     	
     	this.plan = aPlan;
+    	
+    	/* remove this
+    	 * 
+    	 */
+    	
+    	aPlan.getTroncons().get(10).getTrajets().add(new Trajet());
+    	
+    	
     	this.paint();
     }
     

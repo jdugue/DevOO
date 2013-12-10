@@ -110,7 +110,7 @@ public class ControleurFenetrePrincipale {
         
     }
     
-    public void shouldLoadLivraison() {
+    public void shouldLoadLivraison() { 
 
         if( this.plan!=null) {
                 JFileChooser fChooser = new JFileChooser();

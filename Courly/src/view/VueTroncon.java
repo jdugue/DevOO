@@ -72,7 +72,13 @@ public class VueTroncon extends javax.swing.JPanel {
     public void paintComponent(Graphics g)
     {
         super.paintComponent(g);
-        g.setColor(Color.gray);
+        
+        if (this.getTroncon().getTrajets() != null && !this.getTroncon().getTrajets().isEmpty()) {
+        	g.setColor(Color.RED);
+        } else {
+            g.setColor(Color.gray);
+        }
+        
         Graphics2D g2D = (Graphics2D) g;
         g2D.setStroke(new BasicStroke(lineWidth));
         
