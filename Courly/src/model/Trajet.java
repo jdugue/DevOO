@@ -6,6 +6,7 @@ import java.util.List;
 public class Trajet {
 
 	protected ArrayList<Troncon> troncons = new ArrayList<Troncon>();
+	protected PlageHoraire plage;
 
 	public Trajet() {
 		

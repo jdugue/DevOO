@@ -11,7 +11,8 @@ public class Troncon {
 	protected String nomRue;
 	protected Double longueur;
 	protected Double vitesse;
-
+	protected ArrayList<Trajet> trajets = new ArrayList<Trajet>();
+	
 	public Troncon(Noeud origine,Noeud destination, String nomRue, Double longueur, Double vitesse) {
 		this.origine = origine;
 		this.destination = destination;
@@ -20,6 +21,14 @@ public class Troncon {
 		this.vitesse = vitesse;
 	}
 	
+	public ArrayList<Trajet> getTrajets() {
+		return trajets;
+	}
+
+	public void setTrajets(ArrayList<Trajet> trajets) {
+		this.trajets = trajets;
+	}
+
 	public Troncon() {
 		
 	}
