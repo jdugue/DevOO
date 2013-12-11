@@ -10,9 +10,6 @@ import java.awt.Color;
 import java.io.FileNotFoundException;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
-
-import model.Lieu;
-import model.Livraison;
 import model.Noeud;
 import model.Plan;
 import model.Tournee;
@@ -32,7 +29,6 @@ public class ControleurFenetrePrincipale {
     private ControleurInspecteur controleurInspecteur;
     
     private Plan plan;
-    private Tournee parsedTournee;
     
     private double zoomScale = 1.0;
     private static final double zoomDelta = 0.05;
@@ -114,15 +110,6 @@ public class ControleurFenetrePrincipale {
         
     }
     
-    private void traitementDijkstra (Tournee tournee)
-    {
-    	 Dijkstra dijkstra = new Dijkstra();
-         dijkstra.initTournee(plan, tournee);
-                                 
-         this.controleurPlan.setTournee(tournee);
-         this.controleurPlan.paint();
-    }
-    
     public void shouldLoadLivraison() { 
 
         if( this.plan!=null) {
@@ -135,10 +122,13 @@ public class ControleurFenetrePrincipale {
                         ParseurXML p = new ParseurXML();
 
                         Tournee tournee = p.construireTourneeXML(file);
-                        this.parsedTournee = tournee;
                         p.setTrajetsFromTournee(tournee, plan);
                         
-                       traitementDijkstra(tournee);
+                        Dijkstra dijkstra = new Dijkstra();
+                        dijkstra.initTournee(plan, tournee);
+                                                
+                        this.controleurPlan.setTournee(tournee);
+                        this.controleurPlan.paint();
                 }
         }
         else {
@@ -146,14 +136,6 @@ public class ControleurFenetrePrincipale {
         }
     }
     
-    public void shouldAddLivraisonAndReload(Livraison livraison)
-    {
-    	Tournee tournee = new Tournee();
-    	tournee = parsedTournee;
-    	tournee.addLivraison(livraison);
-    	
-    	traitementDijkstra(tournee);
-    }
 
     public void setMessage(String msg, int msgType) {
         javax.swing.JEditorPane editorPane = fenetre.getCommentArea();
