@@ -6,6 +6,7 @@
 
 package controller;
 
+import model.Lieu;
 import model.Noeud;
 import model.Plan;
 import model.Trajet;
@@ -83,8 +84,6 @@ public class ControleurPlan {
     public ControleurFenetrePrincipale getControleurParent() {
         return controleurParent;
     }
-    
-    
     
     public void setVuePlan(VuePlan vuePlan) {
         this.vuePlan = vuePlan;

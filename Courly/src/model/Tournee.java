@@ -23,17 +23,26 @@ public class Tournee {
 	public void setTrajets(ArrayList<Trajet> trajets) {
 		this.trajets = trajets;
 	}
+
+		
+	public ArrayList<Trajet> getTrajet() {
+		return trajets;
+	}
+	
+	public void setTrajet(ArrayList<Trajet> trajet) {
+		this.trajets = trajet;
+	}
 	
 	public ArrayList<PlageHoraire> getPlagesHoraire() {
 		return plagesHoraire;
 	}
 	
 	public void setPlagesHoraire(ArrayList<PlageHoraire> plagesHoraire) {
-		this.plagesHoraire = plagesHoraire;
+		this.plagesHoraire = plagesHoraire;	
 	}
 	
-	public void addLieux(Lieu lieu){
-		lieux.add(lieu);	
+	public void addLivraison(Livraison livraison){
+		lieux.add(livraison);	
 	}
 
 }
