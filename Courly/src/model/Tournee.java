@@ -23,6 +23,7 @@ public class Tournee {
 	public void setTrajets(ArrayList<Trajet> trajets) {
 		this.trajets = trajets;
 	}
+
 		
 	public ArrayList<Trajet> getTrajet() {
 		return trajets;
