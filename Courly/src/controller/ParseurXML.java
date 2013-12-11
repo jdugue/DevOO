@@ -96,10 +96,7 @@ public class ParseurXML {
                    plan.setNoeuds(vectNoeuds);
                    plan.setTroncons(vectTroncons);
                    
-               }	
-               else {
-            	   throw new SAXException();
-               }
+               }			
 			}
 			catch (ParserConfigurationException e) {
 				System.out.println(e);
