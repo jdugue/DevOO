@@ -43,5 +43,10 @@ public class Tournee {
 	public void addLivraison(Livraison livraison){
 		lieux.add(livraison);	
 	}
+	
+	public void removeLivraison(Livraison livraison)
+	{
+		lieux.remove(livraison);
+	}
 
 }
