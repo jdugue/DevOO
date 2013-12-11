@@ -157,7 +157,9 @@ public class Dijkstra {
 	}
 
 	public void initTrajetsTroncons(Tournee tournee){
+            System.out.println(tournee.getTrajet().size());
 		for(Trajet t : tournee.getTrajet()) {
+                    System.out.println(t.getTroncons().size());
 			for (Troncon tr : t.getTroncons()) {
 				tr.getTrajets().add(t);
 			}
@@ -210,16 +212,14 @@ public class Dijkstra {
 			abs=ord;
 		}
 		tournee.setTrajet(trajetsTournee);
+		//System.out.println(xTotalCost.getValue());
 		initTrajetsTroncons(tournee);
-		System.out.println(xTotalCost.getValue());
 	}
 	
-	public Tournee returnTournee(Plan plan, Tournee tournee){
+	public void initTournee(Plan plan, Tournee tournee){
 		List<ArrayList<Trajet>> trajets = genererMatriceTrajets(plan, tournee);
 
 		choco(tournee,trajets,-1);
-		
-		return tournee;
 	}
 
 	public static void main (String[] args) throws NumberFormatException, FileNotFoundException, SAXException{
@@ -238,6 +238,6 @@ public class Dijkstra {
 
 		d.choco(tournee,trajets,-1);
 		
-		System.out.println(tournee.getTrajet().size());
+		//System.out.println(tournee.getTrajet().size());
 	}
 }

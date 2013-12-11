@@ -122,10 +122,12 @@ public class ControleurFenetrePrincipale {
                         ParseurXML p = new ParseurXML();
 
                         Tournee tournee = p.construireTourneeXML(file);
-                        for (int i=0;i< tournee.getLivraisons().size();i++) {
-                                Integer adresse = tournee.getLivraisons().get(i).getAdresse();
-                                tournee.getLivraisons().get(i).setNoeud(plan.getNoeuds().get(adresse));
-                        }
+                        p.setTrajetsFromTournee(tournee, plan);
+                        
+                        Dijkstra dijkstra = new Dijkstra();
+                        dijkstra.initTournee(plan, tournee);
+                                                
+                        this.controleurPlan.setTournee(tournee);
                         this.controleurPlan.paint();
                 }
         }
