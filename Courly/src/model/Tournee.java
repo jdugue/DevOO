@@ -40,9 +40,8 @@ public class Tournee {
 		this.plagesHoraire = plagesHoraire;
 	}
 	
-	public void addLivraison(Livraison livraison , Integer pos)
-	{
-		lieux.add(pos, livraison);
+	public void addLieux(Lieu lieu){
+		lieux.add(lieu);	
 	}
 
 }
