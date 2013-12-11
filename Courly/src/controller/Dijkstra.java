@@ -67,31 +67,34 @@ public class Dijkstra {
 		}
 	}
 
-	public Integer trouverArcMini(List<Trajet> trajets) {
+	public Integer trouverArcMini(List<ArrayList<Trajet>> trajets) {
 		Integer ret=(int)Double.POSITIVE_INFINITY;
 
-		for(Trajet t : trajets) {
-			if (t.getTempsTrajet()<ret) {
-				ret = t.getTempsTrajet();
+		for(ArrayList<Trajet> l : trajets) {
+			for(Trajet t : l) {
+				if (t!=null && t.getTempsTrajet()<ret) {
+					ret = t.getTempsTrajet();
+				}
 			}
 		}
 		return ret;
 	}
 
-	public Integer trouverArcMaxi(List<Trajet> trajets) {
+	public Integer trouverArcMaxi(List<ArrayList<Trajet>> trajets) {
 		Integer ret=0;
 
-		for(Trajet t : trajets) {
-			if (t.getTempsTrajet()>ret) {
-				ret = t.getTempsTrajet();
+		for(ArrayList<Trajet> l : trajets) {
+			for(Trajet t : l) {
+				if (t!=null && t.getTempsTrajet()>ret) {
+					ret = t.getTempsTrajet();
+				}
 			}
 		}
 		return ret;
 	}
 
-	public int[][] generateMatriceCost(List<Trajet> trajets,Integer nbLivraisons) {
+	public int[][] generateMatriceCost(List<ArrayList<Trajet>> trajets,Integer nbLivraisons) {
 		int[][] ret = new int[nbLivraisons][nbLivraisons];
-		int indexTrajet=0;
 
 		for(int i=0;i<nbLivraisons;i++){
 			int[] current = new int[nbLivraisons];
@@ -101,7 +104,7 @@ public class Dijkstra {
 					current[j]=(int)Double.POSITIVE_INFINITY;
 				}
 				else {
-					current[j]=trajets.get(indexTrajet++).getTempsTrajet();
+					current[j]=trajets.get(i).get(j).getTempsTrajet();
 				}
 			}
 			ret[i]=current;
@@ -125,45 +128,50 @@ public class Dijkstra {
 		return ret;
 	}
 
-	public static void main (String[] args) throws NumberFormatException, FileNotFoundException, SAXException{
-		Dijkstra d = new Dijkstra();
-		ParseurXML parseur = new ParseurXML();
-
-		Plan plan = parseur.construirePlanXML("../XML Examples/plan10x10.xml");		
-		Tournee tournee = parseur.construireTourneeXML("../XML Examples/livraison10x10-1.xml");
-
-		for (int i=0;i< tournee.getLivraisons().size();i++) {
-			Integer adresse = tournee.getLivraisons().get(i).getAdresse();
-			tournee.getLivraisons().get(i).setNoeud(plan.getNoeuds().get(adresse));
-		}
-
-		List<Trajet> trajets = new ArrayList<Trajet>();
+	public List<ArrayList<Trajet>> genererMatriceTrajets(Plan plan, Tournee tournee) {
+		List<ArrayList<Trajet>> trajets = new ArrayList<ArrayList<Trajet>>();
 
 		for(int i=0;i<tournee.getLivraisons().size();i++){
-			d.resetPlan(plan);
+			resetPlan(plan);
+			ArrayList<Trajet> trajetsCourants = new ArrayList<Trajet>();
 			Noeud noeudLivraison = tournee.getLivraisons().get(i).getNoeud();
 
 			//System.out.println("\nOrigine : " + noeudLivraison);
-			d.computePaths(noeudLivraison);
+			computePaths(noeudLivraison);
 			for (int j=0;j<tournee.getLivraisons().size();j++) {
 				if(j!=i) {
 					//System.out.println("Cible : " +tournee.getLivraisons().get(j).getNoeud());
-					List<Noeud> chemin = d.plusCourtCheminVers(tournee.getLivraisons().get(j).getNoeud());
+					List<Noeud> chemin = plusCourtCheminVers(tournee.getLivraisons().get(j).getNoeud());
 
 					Trajet trajet = new Trajet(chemin);
-					trajets.add(trajet);
+					trajetsCourants.add(j,trajet);
+				}
+				else {
+					trajetsCourants.add(j,null);
 				}
 			}
+			trajets.add(trajetsCourants);
 		}
-		//System.out.println(trajets.get(0).getTempsTrajet());
 
+		return trajets;
+	}
+
+	public void initTrajetsTroncons(Tournee tournee){
+		for(Trajet t : tournee.getTrajet()) {
+			for (Troncon tr : t.getTroncons()) {
+				tr.getTrajets().add(t);
+			}
+		}
+	}
+	
+	public void choco(Tournee tournee,List<ArrayList<Trajet>> trajets) {
 		//Param Choco
 		Integer nbLivraisons = tournee.getLivraisons().size();
-		Integer arcMini = d.trouverArcMini(trajets);
-		Integer arcMaxi = d.trouverArcMaxi(trajets);
+		Integer arcMini = trouverArcMini(trajets);
+		Integer arcMaxi = trouverArcMaxi(trajets);
 		//TODO Cost et succ
-		int[][] matriceCosts = d.generateMatriceCost(trajets,nbLivraisons);
-		int[][] matriceSucc = d.generateMatriceSucc(nbLivraisons);
+		int[][] matriceCosts = generateMatriceCost(trajets,nbLivraisons);
+		int[][] matriceSucc = generateMatriceSucc(nbLivraisons);
 
 		// Création du solveur
 		Solver solver = new Solver();
@@ -187,8 +195,37 @@ public class Dijkstra {
 		// Résolution
 		solver.set(IntStrategyFactory.firstFail_InDomainMin(xNext));
 		solver.findOptimalSolution(ResolutionPolicy.MINIMIZE,xTotalCost);
-		System.out.println(xNext[3]);
 
+		ArrayList<Trajet> trajetsTournee = new ArrayList<Trajet>();
+		int abs = 0;
+		for (int i =0; i<nbLivraisons;i++) {		
+			int ord = xNext[abs].getValue();			
 
+			Trajet trajetCourant = trajets.get(abs).get(ord);
+			trajetsTournee.add(trajetCourant);
+
+			abs=ord;
+		}
+		tournee.setTrajet(trajetsTournee);
+		initTrajetsTroncons(tournee);
+	}
+
+	public static void main (String[] args) throws NumberFormatException, FileNotFoundException, SAXException{
+		Dijkstra d = new Dijkstra();
+		ParseurXML parseur = new ParseurXML();
+
+		Plan plan = parseur.construirePlanXML("../XML Examples/plan10x10.xml");		
+		Tournee tournee = parseur.construireTourneeXML("../XML Examples/livraison10x10-1.xml");
+
+		for (int i=0;i< tournee.getLivraisons().size();i++) {
+			Integer adresse = tournee.getLivraisons().get(i).getAdresse();
+			tournee.getLivraisons().get(i).setNoeud(plan.getNoeuds().get(adresse));
+		}
+
+		List<ArrayList<Trajet>> trajets = d.genererMatriceTrajets(plan, tournee);
+
+		d.choco(tournee,trajets);
+		
+		System.out.println(tournee.getTrajet().size());
 	}
 }
