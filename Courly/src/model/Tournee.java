@@ -5,9 +5,6 @@ import java.util.ArrayList;
 public class Tournee {
 	
 	protected ArrayList<Lieu> lieux;
-	protected ArrayList<Trajet> trajets;
-	protected ArrayList<PlageHoraire> plagesHoraire;
-	
 	public ArrayList<Lieu> getLieux() {
 		return lieux;
 	}
@@ -22,6 +19,17 @@ public class Tournee {
 
 	public void setTrajets(ArrayList<Trajet> trajets) {
 		this.trajets = trajets;
+	}
+
+	protected ArrayList<Trajet> trajets;
+	protected ArrayList<PlageHoraire> plagesHoraire;
+		
+	public ArrayList<Trajet> getTrajet() {
+		return trajets;
+	}
+	
+	public void setTrajet(ArrayList<Trajet> trajet) {
+		this.trajets = trajet;
 	}
 	
 	public ArrayList<PlageHoraire> getPlagesHoraire() {
