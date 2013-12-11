@@ -16,6 +16,8 @@ import solver.search.strategy.IntStrategyFactory;
 import solver.variables.IntVar;
 import solver.variables.VariableFactory;
 
+import model.Lieu;
+import model.Livraison;
 import model.Noeud;
 import model.Plan;
 import model.Tournee;
@@ -100,6 +102,7 @@ public class Dijkstra {
 			int[] current = new int[nbLivraisons];
 
 			for(int j=0;j<nbLivraisons;j++) {
+				System.out.println(i + " " + j);
 				if(j==i) {
 					current[j]=(int)Double.POSITIVE_INFINITY;
 				}
@@ -128,20 +131,20 @@ public class Dijkstra {
 		return ret;
 	}
 
-	public List<ArrayList<Trajet>> genererMatriceTrajets(Plan plan, Tournee tournee) {
+	public List<ArrayList<Trajet>> genererMatriceTrajets(Plan plan, ArrayList<Lieu> lieux) {
 		List<ArrayList<Trajet>> trajets = new ArrayList<ArrayList<Trajet>>();
 
-		for(int i=0;i<tournee.getLieux().size();i++){
+		for(int i=0;i<lieux.size();i++){
 			resetPlan(plan);
 			ArrayList<Trajet> trajetsCourants = new ArrayList<Trajet>();
-			Noeud noeudLivraison = tournee.getLieux().get(i).getNoeud();
+			Noeud noeudLivraison = lieux.get(i).getNoeud();
 
 			//System.out.println("\nOrigine : " + noeudLivraison);
 			computePaths(noeudLivraison);
-			for (int j=0;j<tournee.getLieux().size();j++) {
+			for (int j=0;j<lieux.size();j++) {
 				if(j!=i) {
 					//System.out.println("Cible : " +tournee.getLivraisons().get(j).getNoeud());
-					List<Noeud> chemin = plusCourtCheminVers(tournee.getLieux().get(j).getNoeud());
+					List<Noeud> chemin = plusCourtCheminVers(lieux.get(j).getNoeud());
 
 					Trajet trajet = new Trajet(chemin);
 					trajetsCourants.add(j,trajet);
@@ -215,27 +218,11 @@ public class Dijkstra {
 	}
 	
 	public void initTournee(Plan plan, Tournee tournee){
-		List<ArrayList<Trajet>> trajets = genererMatriceTrajets(plan, tournee);
+		List<ArrayList<Trajet>> trajets = genererMatriceTrajets(plan, tournee.getLieux());
 
+		System.out.println(trajets);
+		System.out.println();
+		
 		choco(tournee,trajets,-1);
 	}
-
-	/*public static void main (String[] args) throws NumberFormatException, FileNotFoundException, SAXException{
-		Dijkstra d = new Dijkstra();
-		ParseurXML parseur = new ParseurXML();
-
-		Plan plan = parseur.construirePlanXML("../XML Examples/plan10x10.xml");		
-		Tournee tournee = parseur.construireTourneeXML("../XML Examples/livraison10x10-1.xml");
-
-		for (int i=0;i< tournee.getLivraisons().size();i++) {
-			Integer adresse = tournee.getLivraisons().get(i).getAdresse();
-			tournee.getLivraisons().get(i).setNoeud(plan.getNoeuds().get(adresse));
-		}
-
-		List<ArrayList<Trajet>> trajets = d.genererMatriceTrajets(plan, tournee);
-
-		d.choco(tournee,trajets,-1);
-<<<<<<< HEAD
-	}*/		
-		//System.out.println(tournee.getTrajet().size());
 }
