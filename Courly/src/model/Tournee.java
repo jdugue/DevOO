@@ -41,7 +41,7 @@ public class Tournee {
 	}
 	
 	public void addLieux(Lieu lieu){
-		lieux.add(lieu);
+		lieux.add(lieu);	
 	}
 
 }
