@@ -4,27 +4,26 @@ import java.util.ArrayList;
 
 public class Tournee {
 	
-	protected ArrayList<Livraison> livraisons;
+	protected ArrayList<Lieu> lieux;
+	public ArrayList<Lieu> getLieux() {
+		return lieux;
+	}
+
+	public void setLieux(ArrayList<Lieu> lieux) {
+		this.lieux = lieux;
+	}
+
+	public ArrayList<Trajet> getTrajets() {
+		return trajets;
+	}
+
+	public void setTrajets(ArrayList<Trajet> trajets) {
+		this.trajets = trajets;
+	}
+
 	protected ArrayList<Trajet> trajets;
 	protected ArrayList<PlageHoraire> plagesHoraire;
-
-        public Tournee() {
-        }
-
-        public Tournee(Tournee tournee) {
-            this.lieux = new ArrayList<Lieu>(tournee.getLieux());
-            this.trajets = new ArrayList<Trajet>(tournee.getTrajets());
-            this.plagesHoraire = new ArrayList<PlageHoraire>(tournee.getPlagesHoraire());
-        }       
-	
-	public ArrayList<Livraison> getLivraisons() {
-		return livraisons;
-	}
-	
-	public void setLivraisons(ArrayList<Livraison> livraisons) {
-		this.livraisons = livraisons;
-	}
-	
+		
 	public ArrayList<Trajet> getTrajet() {
 		return trajets;
 	}
@@ -41,9 +40,8 @@ public class Tournee {
 		this.plagesHoraire = plagesHoraire;
 	}
 	
-	public void addLivraison(Livraison livraison){
-		livraisons.add(livraison);
-		
+	public void addLieux(Lieu lieu){
+		lieux.add(lieu);	
 	}
 
 }
