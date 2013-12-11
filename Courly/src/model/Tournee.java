@@ -23,6 +23,7 @@ public class Tournee {
 	public void setTrajets(ArrayList<Trajet> trajets) {
 		this.trajets = trajets;
 	}
+<<<<<<< HEAD
 
 		
 	public ArrayList<Trajet> getTrajet() {
@@ -32,6 +33,8 @@ public class Tournee {
 	public void setTrajet(ArrayList<Trajet> trajet) {
 		this.trajets = trajet;
 	}
+=======
+>>>>>>> 4055d6d483de6a4166cc7045d0bd9e61075610f4
 	
 	public ArrayList<PlageHoraire> getPlagesHoraire() {
 		return plagesHoraire;

@@ -25,7 +25,6 @@ import view.VueFenetrePrincipale;
  */
 public class ControleurFenetrePrincipale {
     
-    private ArrayList<String> colorMsg = new ArrayList();
     
     private VueFenetrePrincipale fenetre;
     private ControleurPlan controleurPlan;
@@ -45,15 +44,6 @@ public class ControleurFenetrePrincipale {
         this.controleurPlan = new ControleurPlan(this.fenetre.getScrollPanePlan(), this);
         this.controleurInspecteur = new ControleurInspecteur(this.fenetre.getScrollPaneInspecteur(), this);
         
-        this.initColors();
-        
-    }
-    
-    private void initColors() {
-        colorMsg.add("#a00a11"); // ERROR
-        colorMsg.add("#d49e15"); // WARNING
-        colorMsg.add("#2ca024"); // SUCCESS
-        colorMsg.add("#333333"); // LOG
     }
 
     public void setZoomScale(double zoomScale) {
@@ -87,26 +77,30 @@ public class ControleurFenetrePrincipale {
             ParseurXML p = new ParseurXML();
 
             try {
-                    this.plan = p.construirePlanXML(file);
-                    if (plan !=null) {
+                    Plan tempPlan = p.construirePlanXML(file);
+                    if (tempPlan !=null) {
+                        this.plan = tempPlan;
                             this.controleurPlan.loadVuePlanFromModel(plan);
                     } else {
-                        System.out.print("Une erreur inconnue est survenue");
+                        this.fenetre.setMessage("Impossible de charger le plan", VueFenetrePrincipale.MessageType.MessageTypeError);
                     }
             } catch (NumberFormatException e) {
                     // TODO Auto-generated catch block
                     //textFieldError.setForeground(Color.RED);
                     //textFieldError.setText("Fichier XML incorrect");
+                        this.fenetre.setMessage("Fichier XML incorrect", VueFenetrePrincipale.MessageType.MessageTypeError);
                 System.out.print("Fichier XML incorrect");
             } catch (FileNotFoundException e) {
                     // TODO Auto-generated catch block
                     //textFieldError.setForeground(Color.RED);
                     //textFieldError.setText("Fichier inexistant");
+                        this.fenetre.setMessage("Fichier inexistant", VueFenetrePrincipale.MessageType.MessageTypeError);
                 System.out.print("Fichier inexistant");
             } catch (SAXException e) {
                     // TODO Auto-generated catch block
                     //textFieldError.setForeground(Color.RED);
                     //textFieldError.setText("Fichier XML incorrect");
+                        this.fenetre.setMessage("Fichier XML incorrect", VueFenetrePrincipale.MessageType.MessageTypeError);
                 System.out.print("Fichier XML incorrect");
             }
 
@@ -153,14 +147,6 @@ public class ControleurFenetrePrincipale {
     	tournee.addLivraison(livraison);
     	
     	traitementDijkstra(tournee);
-    }
-
-    public void setMessage(String msg, int msgType) {
-        javax.swing.JEditorPane editorPane = fenetre.getCommentArea();
-        editorPane.setEditable(false);
-        editorPane.setContentType("text/html");
-        String text = "<font color='"+colorMsg.get(msgType)+"'>" + msg + "</font><br>";
-        editorPane.setText(text + fenetre.getCommentArea().getText());
     }
 
     public void didSelectNoeud(Noeud noeud) {
