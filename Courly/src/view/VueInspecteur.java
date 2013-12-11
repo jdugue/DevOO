@@ -26,6 +26,7 @@ public class VueInspecteur extends javax.swing.JPanel {
     }
 
     public VueInspecteur(ControleurInspecteur controleur) {
+        
         initComponents();
         this.clean();
         this.controleur = controleur;

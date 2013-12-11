@@ -8,6 +8,7 @@ package view;
 
 import controller.ControleurFenetrePrincipale;
 import controller.ControleurPlan;
+import java.awt.Dimension;
 import java.util.ArrayList;
 import javax.swing.JEditorPane;
 import javax.swing.JScrollPane;
@@ -62,6 +63,7 @@ public class VueFenetrePrincipale extends javax.swing.JFrame {
     private void initComponents() {
 
         jMenuItem1 = new javax.swing.JMenuItem();
+        jPopupMenu1 = new javax.swing.JPopupMenu();
         scrollPanePlan = new javax.swing.JScrollPane();
         scrollPaneInspecteur = new javax.swing.JScrollPane();
         scrollPaneComment = new javax.swing.JScrollPane();
@@ -76,6 +78,10 @@ public class VueFenetrePrincipale extends javax.swing.JFrame {
         menuVenu = new javax.swing.JMenu();
         itemZoomOut = new javax.swing.JMenuItem();
         itemZoomIn = new javax.swing.JMenuItem();
+        jSeparator1 = new javax.swing.JPopupMenu.Separator();
+        subMenuFrameSize = new javax.swing.JMenu();
+        radioItemFrameLitle = new javax.swing.JRadioButtonMenuItem();
+        radioItemFrameBig = new javax.swing.JRadioButtonMenuItem();
 
         jMenuItem1.setText("jMenuItem1");
 
@@ -84,10 +90,12 @@ public class VueFenetrePrincipale extends javax.swing.JFrame {
         setPreferredSize(new java.awt.Dimension(1200, 800));
 
         scrollPanePlan.setMaximumSize(new java.awt.Dimension(800, 678));
-        scrollPanePlan.setMinimumSize(new java.awt.Dimension(200, 100));
+        scrollPanePlan.setMinimumSize(new java.awt.Dimension(0, 0));
         scrollPanePlan.setPreferredSize(new java.awt.Dimension(800, 678));
         scrollPanePlan.setSize(new java.awt.Dimension(800, 678));
 
+        commentArea.setEditable(false);
+        commentArea.setDragEnabled(false);
         commentArea.setMaximumSize(new java.awt.Dimension(800, 88));
         commentArea.setMinimumSize(new java.awt.Dimension(200, 88));
         commentArea.setPreferredSize(new java.awt.Dimension(800, 88));
@@ -163,6 +171,28 @@ public class VueFenetrePrincipale extends javax.swing.JFrame {
             }
         });
         menuVenu.add(itemZoomIn);
+        menuVenu.add(jSeparator1);
+
+        subMenuFrameSize.setText("Interface");
+
+        radioItemFrameLitle.setText("Petite");
+        radioItemFrameLitle.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                radioItemFrameLitleMousePressed(evt);
+            }
+        });
+        subMenuFrameSize.add(radioItemFrameLitle);
+
+        radioItemFrameBig.setSelected(true);
+        radioItemFrameBig.setText("Grande");
+        radioItemFrameBig.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                radioItemFrameBigMousePressed(evt);
+            }
+        });
+        subMenuFrameSize.add(radioItemFrameBig);
+
+        menuVenu.add(subMenuFrameSize);
 
         menuBar.add(menuVenu);
 
@@ -190,7 +220,7 @@ public class VueFenetrePrincipale extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(scrollPanePlan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(scrollPaneComment, javax.swing.GroupLayout.DEFAULT_SIZE, 82, Short.MAX_VALUE)))
+                        .addComponent(scrollPaneComment, javax.swing.GroupLayout.DEFAULT_SIZE, 77, Short.MAX_VALUE)))
                 .addContainerGap())
         );
 
@@ -237,6 +267,35 @@ public class VueFenetrePrincipale extends javax.swing.JFrame {
         this.controleurFenetrePrincipale.shouldZoomIn();
     }//GEN-LAST:event_itemZoomInActionPerformed
 
+    private void radioItemFrameLitleMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_radioItemFrameLitleMousePressed
+        // TODO add your handling code here:
+        this.setFrameSizeBig(false);
+    }//GEN-LAST:event_radioItemFrameLitleMousePressed
+
+    private void radioItemFrameBigMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_radioItemFrameBigMousePressed
+        // TODO add your handling code here:
+        this.setFrameSizeBig(true);
+    }//GEN-LAST:event_radioItemFrameBigMousePressed
+
+    
+    private void setFrameSizeBig(boolean big) {
+        if (big) {
+            Dimension fenetreSize = new Dimension(600, 400);
+            Dimension planSize = new Dimension(200, 200);
+            this.setPreferredSize(fenetreSize);
+            this.setSize(fenetreSize);
+            this.scrollPanePlan.setPreferredSize(planSize);
+            this.pack();
+            this.validate();
+        } else {
+            Dimension fenetreSize = new Dimension(1200, 600);
+            Dimension planSize = new Dimension(400, 350);
+            this.setSize(fenetreSize);
+            this.scrollPanePlan.setPreferredSize(planSize);
+            this.scrollPanePlan.setSize(planSize);
+        }
+    }
+    
     /**
      * @param args the command line arguments
      */
@@ -298,12 +357,17 @@ public class VueFenetrePrincipale extends javax.swing.JFrame {
     private javax.swing.JMenuItem itemZoomIn;
     private javax.swing.JMenuItem itemZoomOut;
     private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JPopupMenu jPopupMenu1;
+    private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JMenuBar menuBar;
     private javax.swing.JMenu menuEdition;
     private javax.swing.JMenu menuFichier;
     private javax.swing.JMenu menuVenu;
+    private javax.swing.JRadioButtonMenuItem radioItemFrameBig;
+    private javax.swing.JRadioButtonMenuItem radioItemFrameLitle;
     private javax.swing.JScrollPane scrollPaneComment;
     private javax.swing.JScrollPane scrollPaneInspecteur;
     private javax.swing.JScrollPane scrollPanePlan;
+    private javax.swing.JMenu subMenuFrameSize;
     // End of variables declaration//GEN-END:variables
 }
