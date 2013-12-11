@@ -33,17 +33,34 @@ public class ControleurInspecteur {
     
     public void setVueFromNoeud(Noeud noeud) {
         if (noeud != null) {
+            // Noeud ok
+            
             this.vue.setAdresse(Integer.toString(noeud.getId()));
             if (noeud.getLieu() != null) {
+                
+                // Le noeud a un lieu
+                this.vue.setLivraisonEnabled(false);
                 Lieu lieu = noeud.getLieu();
+                
                 if (lieu.getClass() == Livraison.class) {
+                    
+                    // le lieu est une livraison
                     this.vue.setLivraison((Livraison)lieu);
                 } else if (lieu.getClass() == Depot.class) {
-                    
+                    // le lieu est un depot
+                    this.vue.cleanLivraison();
                 }
+            } else {
+                
+                // le noeud n'a pas de lieu
+                this.vue.setLivraisonEnabled(true);
+                this.vue.cleanLivraison();
             }
         } else {
+            
+            // noeud null
             this.vue.setAdresse("");
+            this.vue.cleanLivraison();
         }
     }
     

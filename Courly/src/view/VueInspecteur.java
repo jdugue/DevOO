@@ -52,6 +52,22 @@ public class VueInspecteur extends javax.swing.JPanel {
         this.plageHoraireFinTextField.setText(livraison.getPlageHoraire().getHeureFin());
         //this.heurePassageTextField.setText(livraison.getHeurePassage());
     }
+    
+    public void setLivraisonEnabled(boolean enable) {
+        this.livraisonIDLabel.setText("");
+        this.clientIDTextField.setEnabled(enable);
+        this.plageHoraireDebutTextField.setEnabled(enable);
+        this.plageHoraireFinTextField.setEnabled(enable);
+        this.heurePassageTextField.setEnabled(enable);
+    }
+    
+    public void cleanLivraison() {
+        this.livraisonIDLabel.setText("");
+        this.clientIDTextField.setText("");
+        this.plageHoraireDebutTextField.setText("");
+        this.plageHoraireFinTextField.setText("");
+        this.heurePassageTextField.setText("");
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
