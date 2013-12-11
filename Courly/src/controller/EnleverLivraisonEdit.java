@@ -4,12 +4,21 @@ import javax.swing.undo.AbstractUndoableEdit;
 import javax.swing.undo.CannotRedoException;
 import javax.swing.undo.CannotUndoException;
 
+import model.Livraison;
+
 public class EnleverLivraisonEdit extends AbstractUndoableEdit {
 
         private static final String presentationName = "Enlever livraison";
+        private Livraison livraison = null;
+        private ControleurFenetrePrincipale controleur = null;
         
-        public EnleverLivraisonEdit() {
-                // TODO Auto-generated constructor stub
+        public EnleverLivraisonEdit(Livraison l, ControleurFenetrePrincipale c) {
+               this.livraison = l;
+               this.controleur = c;
+        }
+        
+        public void execute(){
+        	
         }
         
         @Override
