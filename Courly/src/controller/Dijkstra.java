@@ -164,7 +164,7 @@ public class Dijkstra {
 		}
 	}
 	
-	public void choco(Tournee tournee,List<ArrayList<Trajet>> trajets) {
+	public void choco(Tournee tournee,List<ArrayList<Trajet>> trajets,int bound) {
 		//Param Choco
 		Integer nbLivraisons = tournee.getLivraisons().size();
 		Integer arcMini = trouverArcMini(trajets);
@@ -182,8 +182,11 @@ public class Dijkstra {
 			xNext[i] = VariableFactory.enumerated("Next " + i, matriceSucc[i], solver);
 		}
 		IntVar[] xCost = VariableFactory.boundedArray("Cost ", nbLivraisons, arcMini, arcMaxi, solver);
-		int bound=150000;
-		IntVar xTotalCost = VariableFactory.bounded("Total cost ", nbLivraisons*arcMini, bound - 1, solver);
+		if(bound==-1) {
+			bound=nbLivraisons*arcMaxi - 1;
+		}
+		//bound : cpmax*nbliv si bloq mettre derniere valeur
+		IntVar xTotalCost = VariableFactory.bounded("Total cost ", nbLivraisons*arcMini, bound , solver);
 
 		// Déclaration des contraintes
 		for (int i = 0; i < nbLivraisons; i++) {
@@ -208,6 +211,7 @@ public class Dijkstra {
 		}
 		tournee.setTrajet(trajetsTournee);
 		initTrajetsTroncons(tournee);
+		System.out.println(xTotalCost.getValue());
 	}
 
 	public static void main (String[] args) throws NumberFormatException, FileNotFoundException, SAXException{
@@ -224,7 +228,7 @@ public class Dijkstra {
 
 		List<ArrayList<Trajet>> trajets = d.genererMatriceTrajets(plan, tournee);
 
-		d.choco(tournee,trajets);
+		d.choco(tournee,trajets,-1);
 		
 		System.out.println(tournee.getTrajet().size());
 	}
