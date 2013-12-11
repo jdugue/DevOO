@@ -159,4 +159,12 @@ public class ParseurXML {
 				
 		return tournee;
 	}
+        
+        public void setTrajetsFromTournee(Tournee tournee, Plan plan) {
+            
+                        for (int i=0;i< tournee.getLivraisons().size();i++) {
+                                Integer adresse = tournee.getLivraisons().get(i).getAdresse();
+                                tournee.getLivraisons().get(i).setNoeud(plan.getNoeuds().get(adresse));
+                        }
+        }
 }
