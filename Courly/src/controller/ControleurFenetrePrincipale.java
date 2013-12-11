@@ -151,20 +151,18 @@ public class ControleurFenetrePrincipale {
     
         public void shouldAddLivraisonAndReload(Livraison livraison)
     {
-    	Tournee tournee = new Tournee();
-    	
     	parsedTournee.addLivraison(livraison);
+    	Tournee tournee = new Tournee(parsedTournee);
+    	
     	tournee = parsedTournee;
     	
     	traitementDijkstra(tournee);
     }
     
     public void shouldRemoveLivraisonAndReload(Livraison livraison)
-    {
-    	Tournee tournee = new Tournee();
-    	
+    {    	
     	parsedTournee.removeLivraison(livraison);
-    	tournee = parsedTournee;
+    	Tournee tournee = new Tournee(parsedTournee);
     	
     	traitementDijkstra(tournee);
     }

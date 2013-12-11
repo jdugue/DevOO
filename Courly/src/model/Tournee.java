@@ -7,6 +7,15 @@ public class Tournee {
 	protected ArrayList<Lieu> lieux;
 	protected ArrayList<Trajet> trajets;
 	protected ArrayList<PlageHoraire> plagesHoraire;
+
+        public Tournee() {
+        }
+
+        public Tournee(Tournee tournee) {
+            this.lieux = new ArrayList<Lieu>(tournee.getLieux());
+            this.trajets = new ArrayList<Trajet>(tournee.getTrajets());
+            this.plagesHoraire = new ArrayList<PlageHoraire>(tournee.getPlagesHoraire());
+        }       
 	
 	public ArrayList<Lieu> getLieux() {
 		return lieux;
