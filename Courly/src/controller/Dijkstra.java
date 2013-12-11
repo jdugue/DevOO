@@ -222,7 +222,7 @@ public class Dijkstra {
 		return tournee;
 	}
 
-	public static void main (String[] args) throws NumberFormatException, FileNotFoundException, SAXException{
+	/*public static void main (String[] args) throws NumberFormatException, FileNotFoundException, SAXException{
 		Dijkstra d = new Dijkstra();
 		ParseurXML parseur = new ParseurXML();
 
@@ -237,5 +237,5 @@ public class Dijkstra {
 		List<ArrayList<Trajet>> trajets = d.genererMatriceTrajets(plan, tournee);
 
 		d.choco(tournee,trajets,-1);
-	}
+	}*/
 }
