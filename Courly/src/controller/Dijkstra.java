@@ -156,6 +156,14 @@ public class Dijkstra {
 		return trajets;
 	}
 
+	public void initTrajetsTroncons(Tournee tournee){
+		for(Trajet t : tournee.getTrajet()) {
+			for (Troncon tr : t.getTroncons()) {
+				tr.getTrajets().add(t);
+			}
+		}
+	}
+	
 	public void choco(Tournee tournee,List<ArrayList<Trajet>> trajets) {
 		//Param Choco
 		Integer nbLivraisons = tournee.getLivraisons().size();
@@ -199,6 +207,7 @@ public class Dijkstra {
 			abs=ord;
 		}
 		tournee.setTrajet(trajetsTournee);
+		initTrajetsTroncons(tournee);
 	}
 
 	public static void main (String[] args) throws NumberFormatException, FileNotFoundException, SAXException{
