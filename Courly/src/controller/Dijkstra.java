@@ -131,17 +131,17 @@ public class Dijkstra {
 	public List<ArrayList<Trajet>> genererMatriceTrajets(Plan plan, Tournee tournee) {
 		List<ArrayList<Trajet>> trajets = new ArrayList<ArrayList<Trajet>>();
 
-		for(int i=0;i<tournee.getLieux().size();i++){
+		for(int i=0;i<tournee.getLivraisons().size();i++){
 			resetPlan(plan);
 			ArrayList<Trajet> trajetsCourants = new ArrayList<Trajet>();
-			Noeud noeudLivraison = tournee.getLieux().get(i).getNoeud();
+			Noeud noeudLivraison = tournee.getLivraisons().get(i).getNoeud();
 
 			//System.out.println("\nOrigine : " + noeudLivraison);
 			computePaths(noeudLivraison);
-			for (int j=0;j<tournee.getLieux().size();j++) {
+			for (int j=0;j<tournee.getLivraisons().size();j++) {
 				if(j!=i) {
 					//System.out.println("Cible : " +tournee.getLivraisons().get(j).getNoeud());
-					List<Noeud> chemin = plusCourtCheminVers(tournee.getLieux().get(j).getNoeud());
+					List<Noeud> chemin = plusCourtCheminVers(tournee.getLivraisons().get(j).getNoeud());
 
 					Trajet trajet = new Trajet(chemin);
 					trajetsCourants.add(j,trajet);
@@ -157,7 +157,9 @@ public class Dijkstra {
 	}
 
 	public void initTrajetsTroncons(Tournee tournee){
-		for(Trajet t : tournee.getTrajets()) {
+            System.out.println(tournee.getTrajet().size());
+		for(Trajet t : tournee.getTrajet()) {
+                    System.out.println(t.getTroncons().size());
 			for (Troncon tr : t.getTroncons()) {
 				tr.getTrajets().add(t);
 			}
@@ -166,7 +168,7 @@ public class Dijkstra {
 	
 	public void choco(Tournee tournee,List<ArrayList<Trajet>> trajets,int bound) {
 		//Param Choco
-		Integer nbLivraisons = tournee.getLieux().size();
+		Integer nbLivraisons = tournee.getLivraisons().size();
 		Integer arcMini = trouverArcMini(trajets);
 		Integer arcMaxi = trouverArcMaxi(trajets);
 		//TODO Cost et succ
@@ -209,7 +211,7 @@ public class Dijkstra {
 
 			abs=ord;
 		}
-		tournee.setTrajets(trajetsTournee);
+		tournee.setTrajet(trajetsTournee);
 		//System.out.println(xTotalCost.getValue());
 		initTrajetsTroncons(tournee);
 	}
@@ -220,7 +222,7 @@ public class Dijkstra {
 		choco(tournee,trajets,-1);
 	}
 
-	/*public static void main (String[] args) throws NumberFormatException, FileNotFoundException, SAXException{
+	public static void main (String[] args) throws NumberFormatException, FileNotFoundException, SAXException{
 		Dijkstra d = new Dijkstra();
 		ParseurXML parseur = new ParseurXML();
 
@@ -235,7 +237,7 @@ public class Dijkstra {
 		List<ArrayList<Trajet>> trajets = d.genererMatriceTrajets(plan, tournee);
 
 		d.choco(tournee,trajets,-1);
-<<<<<<< HEAD
-	}*/		
+		
 		//System.out.println(tournee.getTrajet().size());
+	}
 }
