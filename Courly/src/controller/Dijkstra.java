@@ -157,7 +157,7 @@ public class Dijkstra {
 	}
 
 	public void initTrajetsTroncons(Tournee tournee){
-		for(Trajet t : tournee.getTrajet()) {
+		for(Trajet t : tournee.getTrajets()) {
 			for (Troncon tr : t.getTroncons()) {
 				tr.getTrajets().add(t);
 			}
@@ -209,7 +209,7 @@ public class Dijkstra {
 
 			abs=ord;
 		}
-		tournee.setTrajet(trajetsTournee);
+		tournee.setTrajets(trajetsTournee);
 		//System.out.println(xTotalCost.getValue());
 		initTrajetsTroncons(tournee);
 	}
