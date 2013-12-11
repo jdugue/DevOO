@@ -219,20 +219,35 @@ public class ControleurPlan {
     
     public void createVueTronconFromTroncon(Troncon troncon) {
 
-        // Vue Troncon
-        VueTroncon vueTroncon = new VueTroncon(troncon);
-        this.vueTroncons.add(vueTroncon);
-                
-        int x = Math.min(troncon.getOrigine().getX(), troncon.getDestination().getX());
-        int y = Math.min(troncon.getOrigine().getY(), troncon.getDestination().getY());
-        vueTroncon.setLocation(this.scaledCoordonateHorizontal(x) - noeudSize/2, this.scaledCoordonateVertical(y) - noeudSize/2);
+        VueTroncon vueTroncon = this.vueForTroncon(troncon);
+        if (vueTroncon == null) {
+            // Vue Troncon
+            vueTroncon = new VueTroncon(troncon);
+            this.vueTroncons.add(vueTroncon);
+
+            int x = Math.min(troncon.getOrigine().getX(), troncon.getDestination().getX());
+            int y = Math.min(troncon.getOrigine().getY(), troncon.getDestination().getY());
+            vueTroncon.setLocation(this.scaledCoordonateHorizontal(x) - noeudSize/2, this.scaledCoordonateVertical(y) - noeudSize/2);
+
+            int width = Math.abs(troncon.getDestination().getX() - troncon.getOrigine().getX());
+            int height = Math.abs(troncon.getDestination().getY() - troncon.getOrigine().getY());
+
+            vueTroncon.setSize(this.scaledSize(width) + noeudSize, this.scaledSize(height) + noeudSize);
+
+            this.vuePlan.add(vueTroncon);
+        } else {
+           vueTroncon.setTronconRetour(troncon);
+        }
         
-        int width = Math.abs(troncon.getDestination().getX() - troncon.getOrigine().getX());
-        int height = Math.abs(troncon.getDestination().getY() - troncon.getOrigine().getY());
-        
-        vueTroncon.setSize(this.scaledSize(width) + noeudSize, this.scaledSize(height) + noeudSize);
-        
-        this.vuePlan.add(vueTroncon);
+    }
+    
+    public VueTroncon vueForTroncon(Troncon troncon) {
+        for (VueTroncon vueTroncon : this.vueTroncons) {
+            if (vueTroncon.getTronconAller().isEqualToTroncon(troncon)) {
+                return vueTroncon;
+            }
+        }        
+        return null;
     }
     
     public void addTroncon(Troncon troncon) {

@@ -19,7 +19,9 @@ import java.awt.Graphics2D;
  */
 public class VueTroncon extends javax.swing.JPanel {
     
-    private Troncon troncon;
+    private Troncon tronconAller;
+    private Troncon tronconRetour;
+    
     private static final int minWidth = 4; 
     private static final int minHeight = 4; 
     private static final int lineWidth = 4;
@@ -36,18 +38,18 @@ public class VueTroncon extends javax.swing.JPanel {
 
     public VueTroncon(Troncon troncon) {
         initComponents();
-        this.setTroncon(troncon);
+        this.setTronconAller(troncon);
         this.setVisible(true);
         this.setOpaque(false);
         this.setBackground(Color.BLACK);        
     }
 
-    public Troncon getTroncon() {
-        return troncon;
+    public Troncon getTronconAller() {
+        return tronconAller;
     }
 
-    public final void setTroncon(Troncon troncon) {
-        this.troncon = troncon;
+    public final void setTronconAller(Troncon troncon) {
+        this.tronconAller = troncon;
         
         /*
         int x = Math.min(this.getTroncon().getOrigine().getX(), this.getTroncon().getDestination().getX());
@@ -67,16 +69,27 @@ public class VueTroncon extends javax.swing.JPanel {
         this.setSize(width, height);
         */
     }
+
+    public Troncon getTronconRetour() {
+        return tronconRetour;
+    }
+
+    public void setTronconRetour(Troncon tronconRetour) {
+        this.tronconRetour = tronconRetour;
+    }
+    
     
         @Override
     public void paintComponent(Graphics g)
     {
         super.paintComponent(g);
         
-        if (this.getTroncon().getTrajets() != null && !this.getTroncon().getTrajets().isEmpty()) {
-        	g.setColor(Color.RED);
+        if (this.getTronconAller().getTrajets() != null && !this.getTronconAller().getTrajets().isEmpty()) {
+            g.setColor(Color.RED);
+        } else if (this.getTronconRetour().getTrajets() != null && !this.getTronconRetour().getTrajets().isEmpty()) {
+            g.setColor(Color.RED);
         } else {
-            g.setColor(Color.gray);
+            g.setColor(Color.GRAY);
         }
         
         Graphics2D g2D = (Graphics2D) g;
@@ -87,7 +100,7 @@ public class VueTroncon extends javax.swing.JPanel {
          if (this.getWidth() <= minWidth) {
             xDepart = minWidth/2;
             xArrivee = minWidth/2;
-        } else if (this.getTroncon().getOrigine().getX() > this.getTroncon().getDestination().getX()) {
+        } else if (this.getTronconAller().getOrigine().getX() > this.getTronconAller().getDestination().getX()) {
             xDepart = this.getWidth() - noeudSize/2;
             xArrivee = noeudSize/2;
         } else {
@@ -98,7 +111,7 @@ public class VueTroncon extends javax.swing.JPanel {
         if (this.getHeight() <= minHeight) {
             yDepart = minHeight/2;
             yArrivee = minHeight/2;
-        } else if (this.getTroncon().getOrigine().getY() > this.getTroncon().getDestination().getY()) {
+        } else if (this.getTronconAller().getOrigine().getY() > this.getTronconAller().getDestination().getY()) {
             yDepart = this.getHeight() - noeudSize/2;
             yArrivee = noeudSize/2;
         } else {
