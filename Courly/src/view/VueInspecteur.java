@@ -7,9 +7,11 @@
 package view;
 
 import controller.ControleurInspecteur;
+import java.util.ArrayList;
 import javax.swing.JLabel;
 import model.Livraison;
 import model.Noeud;
+import model.PlageHoraire;
 
 /**
  *
@@ -36,8 +38,8 @@ public class VueInspecteur extends javax.swing.JPanel {
         this.adresseLabel.setText("");
         this.livraisonIDLabel.setText("");
         this.clientIDTextField.setText("");
-        this.plageHoraireDebutTextField.setText("");
-        this.plageHoraireFinTextField.setText("");
+        //this.plageHoraireDebutTextField.setText("");
+        //this.plageHoraireFinTextField.setText("");
         this.heurePassageTextField.setText("");
         
     }
@@ -49,25 +51,32 @@ public class VueInspecteur extends javax.swing.JPanel {
     public void setLivraison(Livraison livraison) {
         //this.livraisonIDLabel.setText(Integer.toString(livraison.getId()));
         this.clientIDTextField.setText(Integer.toString(livraison.getClient()));
-        this.plageHoraireDebutTextField.setText(livraison.getPlageHoraire().getHeureDebut());
-        this.plageHoraireFinTextField.setText(livraison.getPlageHoraire().getHeureFin());
         //this.heurePassageTextField.setText(livraison.getHeurePassage());
+        this.plagesHorairesComboBox.getModel().setSelectedItem(livraison.getPlageHoraire());
     }
     
     public void setLivraisonEnabled(boolean enable) {
         this.livraisonIDLabel.setText("");
         this.clientIDTextField.setEnabled(enable);
-        this.plageHoraireDebutTextField.setEnabled(enable);
-        this.plageHoraireFinTextField.setEnabled(enable);
         this.heurePassageTextField.setEnabled(enable);
+        this.plagesHorairesComboBox.setEnabled(enable);
     }
+    
+    
     
     public void cleanLivraison() {
         this.livraisonIDLabel.setText("");
         this.clientIDTextField.setText("");
-        this.plageHoraireDebutTextField.setText("");
-        this.plageHoraireFinTextField.setText("");
         this.heurePassageTextField.setText("");
+        this.plagesHorairesComboBox.getModel().setSelectedItem(0);
+    }
+    
+    public void setPlagesHoraires(ArrayList<PlageHoraire> plagesHoraires) {
+        
+        this.plagesHorairesComboBox.removeAllItems();
+        for (PlageHoraire plageHoraire : plagesHoraires) {
+            this.plagesHorairesComboBox.addItem(plageHoraire);
+        }
     }
 
     /**
@@ -88,11 +97,8 @@ public class VueInspecteur extends javax.swing.JPanel {
         livraisonIDLabel = new javax.swing.JLabel();
         heurePassageTextField = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
-        plageHoraireDebutTextField = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
-        plageHoraireFinTextField = new javax.swing.JTextField();
-        jLabel5 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
+        plagesHorairesComboBox = new javax.swing.JComboBox();
 
         setAlignmentX(0.0F);
         setAlignmentY(0.0F);
@@ -128,25 +134,7 @@ public class VueInspecteur extends javax.swing.JPanel {
 
         jLabel3.setText("Heure de passage");
 
-        plageHoraireDebutTextField.setText("jTextField1");
-        plageHoraireDebutTextField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                plageHoraireDebutTextFieldActionPerformed(evt);
-            }
-        });
-
-        jLabel4.setText("Plage horaire");
-
-        plageHoraireFinTextField.setText("jTextField1");
-        plageHoraireFinTextField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                plageHoraireFinTextFieldActionPerformed(evt);
-            }
-        });
-
-        jLabel5.setText("De");
-
-        jLabel6.setText("à");
+        jLabel4.setText("Plages horaires");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -169,20 +157,11 @@ public class VueInspecteur extends javax.swing.JPanel {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(7, 7, 7)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel5)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 9, Short.MAX_VALUE)
-                                .addComponent(plageHoraireDebutTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabel6)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(plageHoraireFinTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel3)
-                                    .addComponent(jLabel4)
-                                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(0, 0, Short.MAX_VALUE)))))
+                            .addComponent(jLabel3)
+                            .addComponent(jLabel4)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 186, Short.MAX_VALUE))
+                    .addComponent(plagesHorairesComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -208,13 +187,9 @@ public class VueInspecteur extends javax.swing.JPanel {
                 .addComponent(heurePassageTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel4)
-                .addGap(0, 0, 0)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(plageHoraireDebutTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(plageHoraireFinTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel5)
-                    .addComponent(jLabel6))
-                .addContainerGap(339, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(plagesHorairesComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(334, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -226,14 +201,6 @@ public class VueInspecteur extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_heurePassageTextFieldActionPerformed
 
-    private void plageHoraireDebutTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_plageHoraireDebutTextFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_plageHoraireDebutTextFieldActionPerformed
-
-    private void plageHoraireFinTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_plageHoraireFinTextFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_plageHoraireFinTextFieldActionPerformed
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel adresseLabel;
@@ -243,12 +210,9 @@ public class VueInspecteur extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JLabel livraisonIDLabel;
-    private javax.swing.JTextField plageHoraireDebutTextField;
-    private javax.swing.JTextField plageHoraireFinTextField;
+    private javax.swing.JComboBox plagesHorairesComboBox;
     private javax.swing.JLabel titleLabel;
     // End of variables declaration//GEN-END:variables
 }

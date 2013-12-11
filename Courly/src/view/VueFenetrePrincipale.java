@@ -279,21 +279,28 @@ public class VueFenetrePrincipale extends javax.swing.JFrame {
 
     
     private void setFrameSizeBig(boolean big) {
-        if (big) {
-            Dimension fenetreSize = new Dimension(600, 400);
-            Dimension planSize = new Dimension(200, 200);
-            this.setPreferredSize(fenetreSize);
-            this.setSize(fenetreSize);
-            this.scrollPanePlan.setPreferredSize(planSize);
-            this.pack();
-            this.validate();
+
+        Dimension fenetreSize;
+        Dimension planSize;
+        Dimension commentAreaSize;
+            
+        if (big) {            
+            fenetreSize = new Dimension(1200, 800);
+            planSize = new Dimension(800, 678);
+            commentAreaSize = new Dimension (800, 88);
         } else {
-            Dimension fenetreSize = new Dimension(1200, 600);
-            Dimension planSize = new Dimension(400, 350);
-            this.setSize(fenetreSize);
-            this.scrollPanePlan.setPreferredSize(planSize);
-            this.scrollPanePlan.setSize(planSize);
+            fenetreSize = new Dimension(1200, 600);
+            planSize = new Dimension(400, 478);
+            commentAreaSize = new Dimension (400, 88);
         }
+        
+        this.setSize(fenetreSize);
+        this.scrollPanePlan.setPreferredSize(planSize);
+        this.scrollPanePlan.setSize(planSize);
+        this.commentArea.setSize(commentAreaSize);
+        
+        this.radioItemFrameBig.setSelected(big);
+        this.radioItemFrameLitle.setSelected(!big);
     }
     
     /**

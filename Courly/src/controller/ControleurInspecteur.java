@@ -6,11 +6,13 @@
 
 package controller;
 
+import java.util.ArrayList;
 import javax.swing.JScrollPane;
 import model.Lieu;
 import model.Noeud;
 import model.Livraison;
 import model.Depot;
+import model.PlageHoraire;
 import view.VueInspecteur;
 
 /**
@@ -29,6 +31,9 @@ public class ControleurInspecteur {
         scrollPane.setViewportView(this.vue);
     }
     
+    public void setPlagesHoraires(ArrayList<PlageHoraire> plagesHoraires) {
+        this.vue.setPlagesHoraires(plagesHoraires);
+    }
     
     
     public void setVueFromNoeud(Noeud noeud) {
