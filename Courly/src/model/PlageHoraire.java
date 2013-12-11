@@ -14,6 +14,10 @@ public class PlageHoraire {
 	public String getHeureDebut() {
 		return heureDebut;
 	}
+	
+	public String toString() {
+		return "Entre " + heureDebut + " et " + heureFin;
+	}
 
 	public void setHeureDebut(String heureDebut) {
 		this.heureDebut = heureDebut;
