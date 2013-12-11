@@ -237,7 +237,5 @@ public class Dijkstra {
 		List<ArrayList<Trajet>> trajets = d.genererMatriceTrajets(plan, tournee);
 
 		d.choco(tournee,trajets,-1);
-		
-		System.out.println(tournee.getTrajet().size());
 	}
 }
