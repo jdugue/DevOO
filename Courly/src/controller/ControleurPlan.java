@@ -17,6 +17,7 @@ import java.awt.Dimension;
 import java.util.ArrayList;
 
 import javax.swing.JScrollPane;
+import model.Tournee;
 
 import view.VueDepot;
 import view.VueLivraison;
@@ -33,6 +34,7 @@ public class ControleurPlan {
     //private JScrollPane scrollPane;
     private VuePlan vuePlan;
     private Plan plan = new Plan();
+    private Tournee tournee = new Tournee();
     private ArrayList<VueNoeud> vueNoeuds = new ArrayList<VueNoeud>();
     //private ArrayList<Noeud> noeuds = new ArrayList<Noeud>();
     private ArrayList<VueTroncon> vueTroncons = new ArrayList<VueTroncon>();
@@ -117,6 +119,11 @@ public class ControleurPlan {
         this.maxY = maxY;
         this.updateVuePlanFrame();
     }
+
+    public void setTournee(Tournee tournee) {
+        this.tournee = tournee;
+    }
+    
     
     private void updateVuePlanFrame() {
         Dimension dimension = new Dimension(this.scaledSize(maxX) + padding*2, this.scaledSize(maxY) + padding*2);
@@ -216,7 +223,7 @@ public class ControleurPlan {
         // Vue Troncon
         VueTroncon vueTroncon = new VueTroncon(troncon);
         this.vueTroncons.add(vueTroncon);
-        
+                
         int x = Math.min(troncon.getOrigine().getX(), troncon.getDestination().getX());
         int y = Math.min(troncon.getOrigine().getY(), troncon.getDestination().getY());
         vueTroncon.setLocation(this.scaledCoordonateHorizontal(x) - noeudSize/2, this.scaledCoordonateVertical(y) - noeudSize/2);
@@ -227,8 +234,6 @@ public class ControleurPlan {
         vueTroncon.setSize(this.scaledSize(width) + noeudSize, this.scaledSize(height) + noeudSize);
         
         this.vuePlan.add(vueTroncon);
-        
-        
     }
     
     public void addTroncon(Troncon troncon) {
@@ -267,15 +272,7 @@ public class ControleurPlan {
     
     public void loadVuePlanFromModel(Plan aPlan) {
     	
-    	this.plan = aPlan;
-    	
-    	/* remove this
-    	 * 
-    	 */
-    	
-    	aPlan.getTroncons().get(10).getTrajets().add(new Trajet());
-    	
-    	
+    	this.plan = aPlan;   	
     	this.paint();
     }
     
