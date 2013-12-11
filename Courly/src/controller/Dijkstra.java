@@ -157,9 +157,7 @@ public class Dijkstra {
 	}
 
 	public void initTrajetsTroncons(Tournee tournee){
-            System.out.println(tournee.getTrajet().size());
 		for(Trajet t : tournee.getTrajet()) {
-                    System.out.println(t.getTroncons().size());
 			for (Troncon tr : t.getTroncons()) {
 				tr.getTrajets().add(t);
 			}
