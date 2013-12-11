@@ -10,6 +10,7 @@ import java.awt.Color;
 import java.io.FileNotFoundException;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import model.Livraison;
 import model.Noeud;
 import model.Plan;
 import model.Tournee;
@@ -33,6 +34,9 @@ public class ControleurFenetrePrincipale {
     private static final double zoomDelta = 0.05;
     private static final double zoomMin = 0.1;
     private static final double zoomMax = 2.0;
+    
+    private Tournee parsedTournee;
+
 
     public ControleurFenetrePrincipale(VueFenetrePrincipale aFenetre) {
         
@@ -76,7 +80,8 @@ public class ControleurFenetrePrincipale {
                     Plan tempPlan = p.construirePlanXML(file);
                     if (tempPlan !=null) {
                         this.plan = tempPlan;
-                            this.controleurPlan.loadVuePlanFromModel(plan);
+                        this.controleurPlan.loadVuePlanFromModel(plan);
+                        this.fenetre.setMessage("Plan chargé avec succés", VueFenetrePrincipale.MessageType.MessageTypeSuccess);
                     } else {
                         this.fenetre.setMessage("Impossible de charger le plan", VueFenetrePrincipale.MessageType.MessageTypeError);
                     }
@@ -112,26 +117,59 @@ public class ControleurFenetrePrincipale {
                 fChooser.setFileFilter(filter);
                 int returnVal = fChooser.showOpenDialog(this.fenetre);
                 if( returnVal == JFileChooser.APPROVE_OPTION ) {
+                    this.fenetre.setMessage("Calcul de la tournée...", VueFenetrePrincipale.MessageType.MessageTypeLog);
                         String file = fChooser.getSelectedFile().getAbsolutePath();
                         ParseurXML p = new ParseurXML();
 
                         Tournee tournee = p.construireTourneeXML(file);
+                        this.parsedTournee = tournee;
                         p.setTrajetsFromTournee(tournee, plan);
                         
-                        Dijkstra dijkstra = new Dijkstra();
-                        dijkstra.initTournee(plan, tournee);
+                        traitementDijkstra(tournee);
                                                 
                         this.controleurInspecteur.setPlagesHoraires(tournee.getPlagesHoraire());
                         this.controleurPlan.setTournee(tournee);
                         this.controleurPlan.paint();
+                        
+                        this.fenetre.setMessage("Livraisons chargées avec succés", VueFenetrePrincipale.MessageType.MessageTypeSuccess);
                 }
         }
         else {
-                System.out.print("Aucun plan en mémoire !");
+                this.fenetre.setMessage("Vous devez d\'abord charger un plan", VueFenetrePrincipale.MessageType.MessageTypeLog);
         }
     }
     
+    private void traitementDijkstra (Tournee tournee)
+    {
+    	 Dijkstra dijkstra = new Dijkstra();
+         dijkstra.initTournee(plan, tournee);
+                                 
+         this.controleurPlan.setTournee(tournee);
+         this.controleurPlan.paint();
+    }
 
+    
+        public void shouldAddLivraisonAndReload(Livraison livraison)
+    {
+    	Tournee tournee = new Tournee();
+    	
+    	parsedTournee.addLivraison(livraison);
+    	tournee = parsedTournee;
+    	
+    	traitementDijkstra(tournee);
+    }
+    
+    public void shouldRemoveLivraisonAndReload(Livraison livraison)
+    {
+    	Tournee tournee = new Tournee();
+    	
+    	parsedTournee.removeLivraison(livraison);
+    	tournee = parsedTournee;
+    	
+    	traitementDijkstra(tournee);
+    }
+
+    
     public void didSelectNoeud(Noeud noeud) {
         this.controleurInspecteur.setVueFromNoeud(noeud);
     }

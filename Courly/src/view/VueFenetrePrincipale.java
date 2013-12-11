@@ -229,7 +229,6 @@ public class VueFenetrePrincipale extends javax.swing.JFrame {
 
     private void itemChargerLivraisonsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemChargerLivraisonsActionPerformed
         // TODO add your handling code here:
-        this.controleurFenetrePrincipale.shouldLoadLivraison();
     }//GEN-LAST:event_itemChargerLivraisonsActionPerformed
 
     private void itemChargerPlanClickedHandler(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_itemChargerPlanClickedHandler
