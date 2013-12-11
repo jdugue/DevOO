@@ -213,6 +213,14 @@ public class Dijkstra {
 		initTrajetsTroncons(tournee);
 		System.out.println(xTotalCost.getValue());
 	}
+	
+	public Tournee returnTournee(Plan plan, Tournee tournee){
+		List<ArrayList<Trajet>> trajets = genererMatriceTrajets(plan, tournee);
+
+		choco(tournee,trajets,-1);
+		
+		return tournee;
+	}
 
 	public static void main (String[] args) throws NumberFormatException, FileNotFoundException, SAXException{
 		Dijkstra d = new Dijkstra();
