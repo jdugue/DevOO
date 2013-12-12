@@ -23,6 +23,8 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
+import com.sun.xml.internal.messaging.saaj.packaging.mime.internet.ParseException;
+
 
 public class ParseurXML {
 	
@@ -148,7 +150,12 @@ public class ParseurXML {
             		   Element plageElement = (Element) listePlages.item(i);
             		   ArrayList<Livraison> livraisonsPlage = plage.construireAPartirDeDOMXML(plageElement);
             		   lieux.addAll(livraisonsPlage);
-            		   plages.add(plage);
+            		   if(plages.isEmpty() || !intersectionPlages(plage,plages)){
+            			   plages.add(plage);
+            		   }
+            		   else {
+            			   throw new ParseException();
+            		   }
             	   }
             	   
                }
@@ -165,6 +172,18 @@ public class ParseurXML {
 		return tournee;
 	}
         
+	private boolean intersectionPlages(PlageHoraire plage,ArrayList<PlageHoraire> plages) {
+		for(PlageHoraire p : plages) {
+			if(plage.getHeureDebut().before(p.getHeureFin()) && plage.getHeureFin().after(p.getHeureFin())) {
+				return true;
+			}
+			else if(plage.getHeureDebut().before(p.getHeureDebut()) && plage.getHeureFin().after(p.getHeureDebut())){
+				return true;
+			}
+		}
+		return false;
+	}
+
 	public void setTrajetsFromTournee(Tournee tournee, Plan plan) {
 
 		for (int i=0;i< tournee.getLieux().size();i++) {

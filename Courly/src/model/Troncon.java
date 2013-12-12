@@ -92,5 +92,13 @@ public class Troncon {
 	public Double getCost() {
 		return this.longueur/this.vitesse;
 	}
+        
+        public boolean isEqualToTroncon(Troncon otherTroncon) {
+            if ((this.destination == otherTroncon.destination && this.origine == this.origine) || (this.destination == otherTroncon.origine && this.origine == otherTroncon.destination)) {
+                return true;  
+            } else {
+                return false;
+            }
+        }
 
 }

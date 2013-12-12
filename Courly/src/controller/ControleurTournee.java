@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
+import model.Lieu;
 import model.Livraison;
 import model.PlageHoraire;
 import model.Tournee;
@@ -53,7 +54,7 @@ public class ControleurTournee {
 			
 			for ( PlageHoraire plage : aEcrire.getPlagesHoraire() ){
 				bw.write( getRepetition(INDENTATION_PLAGE_HORAIRE, TAB) + PLAGE_HORAIRE + DP + ESP );
-				bw.write( plage.getHeureDebut() + " à " + plage.getHeureFin() + RC);
+				bw.write( plage.getHeureDebut() + " ï¿½ " + plage.getHeureFin() + RC);
 				
 				for ( Livraison livraison : plage.getLivraisons() ){
 					bw.write( getRepetition(INDENTATION_LIVRAISON, TAB) + 
