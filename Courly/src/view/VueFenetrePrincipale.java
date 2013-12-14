@@ -21,6 +21,8 @@ public class VueFenetrePrincipale extends javax.swing.JFrame {
     
     private ControleurFenetrePrincipale controleurFenetrePrincipale;
     
+    private String commentText;
+    
     public static enum MessageType {
      MessageTypeError, MessageTypeWarning, MessageTypeSuccess, MessageTypeLog
 }
@@ -36,6 +38,9 @@ public class VueFenetrePrincipale extends javax.swing.JFrame {
         initColors();
         
         this.setFrameSizeBig(true);
+        this.commentText = "";
+        this.commentArea.setEditable(false);
+        this.commentArea.setContentType("text/html");
         
         this.controleurFenetrePrincipale = new ControleurFenetrePrincipale(this);
     }
@@ -47,12 +52,10 @@ public class VueFenetrePrincipale extends javax.swing.JFrame {
         colorMsg.add("#333333"); // LOG
     }
 
-    public void setMessage(String msg, MessageType msgType) {
-        javax.swing.JEditorPane editorPane = this.commentArea;
-        editorPane.setEditable(false);
-        editorPane.setContentType("text/html");
-        String text = "<br><font color='"+colorMsg.get(msgType.ordinal())+"'>" + msg + "</font>";
-        editorPane.setText(this.commentArea.getText() + text);
+    public void setMessage(String msg, MessageType msgType) {        
+        String text = "<font color='"+colorMsg.get(msgType.ordinal())+"'>" + msg + "</font><br>";
+        this.commentText = text + this.commentText;
+        this.commentArea.setText("<html><head></head><body>"+this.commentText+"</body></html>");
     }
 
     /**
@@ -287,12 +290,12 @@ public class VueFenetrePrincipale extends javax.swing.JFrame {
             
         if (big) {            
             fenetreSize = new Dimension(1400, 800);
-            planSize = new Dimension(1000, 678);
-            commentAreaSize = new Dimension (800, 88);
+            planSize = new Dimension(1000, 658);
+            commentAreaSize = new Dimension (800, 108);
         } else {
             fenetreSize = new Dimension(1200, 600);
-            planSize = new Dimension(400, 478);
-            commentAreaSize = new Dimension (400, 88);
+            planSize = new Dimension(400, 458);
+            commentAreaSize = new Dimension (400, 108);
         }
         
         this.setSize(fenetreSize);
