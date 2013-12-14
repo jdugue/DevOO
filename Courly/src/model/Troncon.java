@@ -94,8 +94,11 @@ public class Troncon {
 	}
         
         public boolean isEqualToTroncon(Troncon otherTroncon) {
-            if ((this.destination == otherTroncon.destination && this.origine == this.origine) || (this.destination == otherTroncon.origine && this.origine == otherTroncon.destination)) {
-                return true;  
+            if (this.destination.equals(otherTroncon.destination) && this.origine.equals(otherTroncon.origine)) {
+                
+                return true;
+            } else if (this.destination.equals(otherTroncon.origine) && this.origine.equals(otherTroncon.destination)) {
+                return true; 
             } else {
                 return false;
             }

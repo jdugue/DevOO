@@ -14,6 +14,7 @@ import model.Livraison;
 import model.Noeud;
 import model.Plan;
 import model.Tournee;
+import model.Troncon;
 import org.xml.sax.SAXException;
 import view.VueFenetrePrincipale;
 
@@ -43,7 +44,28 @@ public class ControleurFenetrePrincipale {
         this.fenetre = aFenetre;
         this.controleurPlan = new ControleurPlan(this.fenetre.getScrollPanePlan(), this);
         this.controleurInspecteur = new ControleurInspecteur(this.fenetre.getScrollPaneInspecteur(), this);
+    }
+    
+    private void testVues() {
+        System.out.println("Do not call testVues(), ControleurFenetrePrincipale line 50");
         
+        Noeud noeud1 = new Noeud();
+        noeud1.setX(200);
+        noeud1.setY(200);
+        
+        Noeud noeud2 = new Noeud();
+        noeud2.setX(400);
+        noeud2.setY(200);
+        
+        Troncon troncon1 = new Troncon();
+        troncon1.setOrigine(noeud1);
+        troncon1.setDestination(noeud2);
+        
+        ArrayList<Noeud> noeuds = new ArrayList<Noeud>();
+        noeuds.add(noeud1);
+        noeuds.add(noeud2);
+        this.controleurPlan.addAllNoeuds(noeuds);
+        this.controleurPlan.addTroncon(troncon1);
     }
 
     public void setZoomScale(double zoomScale) {
@@ -60,11 +82,11 @@ public class ControleurFenetrePrincipale {
     
     
     public void shouldZoomOut() {
-        this.setZoomScale(zoomScale - zoomDelta);
+        this.setZoomScale(zoomScale + zoomDelta);
     }
     
     public void shouldZoomIn() {
-        this.setZoomScale(zoomScale + zoomDelta);
+        this.setZoomScale(zoomScale - zoomDelta);
     }
     
     public void shouldLoadPlan() {
@@ -81,6 +103,7 @@ public class ControleurFenetrePrincipale {
                     if (tempPlan !=null) {
                         this.plan = tempPlan;
                         this.controleurPlan.loadVuePlanFromModel(plan);
+                        this.controleurInspecteur.setVueFromNoeud(null);
                         this.fenetre.setMessage("Plan chargé avec succés", VueFenetrePrincipale.MessageType.MessageTypeSuccess);
                     } else {
                         this.fenetre.setMessage("Impossible de charger le plan", VueFenetrePrincipale.MessageType.MessageTypeError);

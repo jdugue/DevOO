@@ -50,7 +50,8 @@ public class ControleurInspecteur {
                 if (lieu.getClass() == Livraison.class) {
                     
                     // le lieu est une livraison
-                    this.vue.setLivraison((Livraison)lieu);
+                    this.displayLivraison((Livraison)lieu);
+                    
                 } else if (lieu.getClass() == Depot.class) {
                     // le lieu est un depot
                     this.vue.cleanLivraison();
@@ -58,15 +59,32 @@ public class ControleurInspecteur {
             } else {
                 
                 // le noeud n'a pas de lieu
-                this.vue.setLivraisonEnabled(true);
-                this.vue.cleanLivraison();
+                this.canCreateLivraison();
             }
         } else {
             
             // noeud null
-            this.vue.setAdresse("");
-            this.vue.cleanLivraison();
+            this.lockLivraisonInspecteur();
         }
+    }
+    
+    private void lockLivraisonInspecteur() {
+        this.vue.setAdresse("");
+        this.vue.cleanLivraison();
+        this.vue.setLivraisonEnabled(false);
+    }
+    
+    private void canCreateLivraison() {
+        this.vue.setLivraisonEnabled(true);
+        this.vue.setLivraisonAreaTitle("Ajouter une livraison");
+        this.vue.cleanLivraison();
+    }
+    
+    private void displayLivraison(Livraison livraison) {
+        this.vue.setLivraisonEnabled(false);
+        this.vue.setLivraisonAreaTitle("Livraison n°" + livraison.getId());
+        this.vue.setLivraison(livraison);
+        
     }
     
 }

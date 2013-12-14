@@ -1,5 +1,6 @@
 package controller;
 
+import com.sun.org.apache.xerces.internal.impl.xpath.regex.ParseException;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -23,7 +24,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-import com.sun.xml.internal.messaging.saaj.packaging.mime.internet.ParseException;
+//import com.sun.xml.internal.messaging.saaj.packaging.mime.internet.ParseException;
 
 
 public class ParseurXML {
@@ -154,7 +155,7 @@ public class ParseurXML {
             			   plages.add(plage);
             		   }
             		   else {
-            			   throw new ParseException();
+            			   //throw new ParseException();
             		   }
             	   }
             	   

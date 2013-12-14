@@ -31,6 +31,7 @@ public class VueInspecteur extends javax.swing.JPanel {
         
         initComponents();
         this.clean();
+        this.setLivraisonEnabled(false);
         this.controleur = controleur;
     }
     
@@ -42,6 +43,10 @@ public class VueInspecteur extends javax.swing.JPanel {
         //this.plageHoraireFinTextField.setText("");
         this.heurePassageTextField.setText("");
         
+    }
+    
+    public void setLivraisonAreaTitle(String title) {
+        this.livraisonTitleLabel.setText(title);
     }
 
     public void setAdresse(String adresse) {
@@ -91,7 +96,7 @@ public class VueInspecteur extends javax.swing.JPanel {
         jSeparator1 = new javax.swing.JSeparator();
         titleLabel = new javax.swing.JLabel();
         adresseLabel = new javax.swing.JLabel();
-        jLabel1 = new javax.swing.JLabel();
+        livraisonTitleLabel = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         clientIDTextField = new javax.swing.JTextField();
         livraisonIDLabel = new javax.swing.JLabel();
@@ -103,16 +108,17 @@ public class VueInspecteur extends javax.swing.JPanel {
         setAlignmentX(0.0F);
         setAlignmentY(0.0F);
         setMaximumSize(new java.awt.Dimension(1000, 1000));
-        setPreferredSize(new java.awt.Dimension(350, 600));
-        setSize(new java.awt.Dimension(350, 600));
+        setMinimumSize(new java.awt.Dimension(0, 0));
+        setPreferredSize(new java.awt.Dimension(350, 350));
+        setSize(new java.awt.Dimension(350, 350));
 
         titleLabel.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // NOI18N
         titleLabel.setText("Noeud");
 
         adresseLabel.setText("adresse");
 
-        jLabel1.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // NOI18N
-        jLabel1.setText("Livraison");
+        livraisonTitleLabel.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // NOI18N
+        livraisonTitleLabel.setText("Livraison");
 
         jLabel2.setText("ID Client");
 
@@ -151,7 +157,7 @@ public class VueInspecteur extends javax.swing.JPanel {
                     .addComponent(clientIDTextField, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(heurePassageTextField, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel1)
+                        .addComponent(livraisonTitleLabel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(livraisonIDLabel))
                     .addGroup(layout.createSequentialGroup()
@@ -176,7 +182,7 @@ public class VueInspecteur extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(livraisonIDLabel)
-                    .addComponent(jLabel1))
+                    .addComponent(livraisonTitleLabel))
                 .addGap(23, 23, 23)
                 .addComponent(jLabel2)
                 .addGap(0, 0, 0)
@@ -189,7 +195,7 @@ public class VueInspecteur extends javax.swing.JPanel {
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(plagesHorairesComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(334, Short.MAX_VALUE))
+                .addContainerGap(84, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -206,12 +212,12 @@ public class VueInspecteur extends javax.swing.JPanel {
     private javax.swing.JLabel adresseLabel;
     private javax.swing.JTextField clientIDTextField;
     private javax.swing.JTextField heurePassageTextField;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JLabel livraisonIDLabel;
+    private javax.swing.JLabel livraisonTitleLabel;
     private javax.swing.JComboBox plagesHorairesComboBox;
     private javax.swing.JLabel titleLabel;
     // End of variables declaration//GEN-END:variables

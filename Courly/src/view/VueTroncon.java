@@ -86,7 +86,7 @@ public class VueTroncon extends javax.swing.JPanel {
         
         if (this.getTronconAller().getTrajets() != null && !this.getTronconAller().getTrajets().isEmpty()) {
             g.setColor(Color.RED);
-        } else if (this.getTronconRetour().getTrajets() != null && !this.getTronconRetour().getTrajets().isEmpty()) {
+        } else if (this.getTronconRetour() != null && this.getTronconRetour().getTrajets() != null && !this.getTronconRetour().getTrajets().isEmpty()) {
             g.setColor(Color.RED);
         } else {
             g.setColor(Color.GRAY);

@@ -35,6 +35,8 @@ public class VueFenetrePrincipale extends javax.swing.JFrame {
         
         initColors();
         
+        this.setFrameSizeBig(true);
+        
         this.controleurFenetrePrincipale = new ControleurFenetrePrincipale(this);
     }
     
@@ -49,8 +51,8 @@ public class VueFenetrePrincipale extends javax.swing.JFrame {
         javax.swing.JEditorPane editorPane = this.commentArea;
         editorPane.setEditable(false);
         editorPane.setContentType("text/html");
-        String text = "<font color='"+colorMsg.get(msgType.ordinal())+"'>" + msg + "</font><br>";
-        editorPane.setText(text + this.commentArea.getText());
+        String text = "<br><font color='"+colorMsg.get(msgType.ordinal())+"'>" + msg + "</font>";
+        editorPane.setText(this.commentArea.getText() + text);
     }
 
     /**
@@ -284,8 +286,8 @@ public class VueFenetrePrincipale extends javax.swing.JFrame {
         Dimension commentAreaSize;
             
         if (big) {            
-            fenetreSize = new Dimension(1200, 800);
-            planSize = new Dimension(800, 678);
+            fenetreSize = new Dimension(1400, 800);
+            planSize = new Dimension(1000, 678);
             commentAreaSize = new Dimension (800, 88);
         } else {
             fenetreSize = new Dimension(1200, 600);
