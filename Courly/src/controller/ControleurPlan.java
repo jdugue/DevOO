@@ -274,7 +274,6 @@ public class ControleurPlan {
         for (Troncon troncon : this.plan.getTroncons()) {
             this.createVueTronconFromTroncon(troncon);
         }
-          
     }
     
     private void cleanVuePlan() {

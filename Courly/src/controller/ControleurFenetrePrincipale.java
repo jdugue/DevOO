@@ -154,7 +154,7 @@ public class ControleurFenetrePrincipale {
                         this.controleurPlan.setTournee(tournee);
                         this.controleurPlan.paint();
                         
-                        this.fenetre.setMessage("Livraisons chargées avec succés", VueFenetrePrincipale.MessageType.MessageTypeSuccess);
+                        this.fenetre.setMessage("Livraisons chargées avec succès", VueFenetrePrincipale.MessageType.MessageTypeSuccess);
                 }
         }
         else {

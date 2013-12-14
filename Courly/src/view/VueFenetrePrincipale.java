@@ -149,7 +149,7 @@ public class VueFenetrePrincipale extends javax.swing.JFrame {
 
         menuVenu.setText("Vue");
 
-        itemZoomOut.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_6, java.awt.event.InputEvent.CTRL_MASK));
+        itemZoomOut.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_MINUS, java.awt.event.InputEvent.CTRL_MASK));
         itemZoomOut.setText("Zoom Out");
         itemZoomOut.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
