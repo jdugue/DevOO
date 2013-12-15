@@ -37,6 +37,7 @@ public class ControleurFenetrePrincipale {
     private static final double zoomMax = 2.0;
     
     private Tournee parsedTournee;
+    private ArrayList<Tournee> tournees = new ArrayList<Tournee>();
 
 
     public ControleurFenetrePrincipale(VueFenetrePrincipale aFenetre) {
@@ -147,21 +148,26 @@ public class ControleurFenetrePrincipale {
                         ParseurXML p = new ParseurXML();
 
                         Tournee tournee = p.construireTourneeXML(file);
-                        this.parsedTournee = tournee;
+                        if (tournee != null) {
+                            this.tournees.add(tournee);
+                        }
                         p.setTrajetsFromTournee(tournee, plan);
                         
                         traitementDijkstra(tournee);
-                                                
-                        this.controleurInspecteur.setPlagesHoraires(tournee.getPlagesHoraire());
-                        this.controleurPlan.setTournee(tournee);
-                        this.controleurPlan.paint();
                         
+                        this.selectTournee(tournee);
                         this.fenetre.setMessage("Livraisons chargées avec succès", VueFenetrePrincipale.MessageType.MessageTypeSuccess);
                 }
         }
         else {
                 this.fenetre.setMessage("Vous devez d\'abord charger un plan", VueFenetrePrincipale.MessageType.MessageTypeLog);
         }
+    }
+    
+    private void selectTournee(Tournee tournee) { 
+        this.controleurInspecteur.setPlagesHoraires(tournee.getPlagesHoraire());
+        this.controleurPlan.setTournee(tournee);
+        this.controleurPlan.paint();
     }
     
     private void traitementDijkstra (Tournee tournee)

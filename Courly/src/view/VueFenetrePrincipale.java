@@ -54,7 +54,7 @@ public class VueFenetrePrincipale extends javax.swing.JFrame {
 
     public void setMessage(String msg, MessageType msgType) {        
         String text = "<font color='"+colorMsg.get(msgType.ordinal())+"'>" + msg + "</font><br>";
-        this.commentText = text + this.commentText;
+        this.commentText = this.commentText + text;
         this.commentArea.setText("<html><head></head><body>"+this.commentText+"</body></html>");
     }
 

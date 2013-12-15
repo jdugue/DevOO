@@ -6,18 +6,17 @@
 
 package controller;
 
-import model.Lieu;
+import java.awt.Color;
 import model.Noeud;
 import model.Plan;
-import model.Trajet;
 import model.Troncon;
 import model.Livraison;
 
-import java.awt.Color;
 import java.awt.Dimension;
 import java.util.ArrayList;
 
 import javax.swing.JScrollPane;
+import model.PlageHoraire;
 import model.Tournee;
 
 import view.VueDepot;
@@ -36,10 +35,10 @@ public class ControleurPlan {
     private VuePlan vuePlan;
     private Plan plan = new Plan();
     private Tournee tournee = new Tournee();
-    private ArrayList<VueNoeud> vueNoeuds = new ArrayList<VueNoeud>();
-    //private ArrayList<Noeud> noeuds = new ArrayList<Noeud>();
-    private ArrayList<VueTroncon> vueTroncons = new ArrayList<VueTroncon>();
-   // private ArrayList<Troncon> troncons = new ArrayList<Troncon>();
+    private final ArrayList<VueNoeud> vueNoeuds = new ArrayList<VueNoeud>();
+    private final ArrayList<VueTroncon> vueTroncons = new ArrayList<VueTroncon>();
+    
+    private static ArrayList<Color> plageHoraireColors;
     
     public static final int noeudSize = 14;
     public static final int padding = 30;
@@ -48,7 +47,7 @@ public class ControleurPlan {
     
     protected double zoomScale = 1.0;
     
-    private ControleurFenetrePrincipale controleurParent;
+    private final ControleurFenetrePrincipale controleurParent;
     
     private VueNoeud selectedVueNoeud;
     private Noeud selectedNoeud;
@@ -78,6 +77,18 @@ public class ControleurPlan {
         scrollPane.setViewportView(this.vuePlan);
         
         this.controleurParent = controleurFenetreParent;
+        this.initPlageHoraireColors();
+    }
+    
+    private void initPlageHoraireColors() {
+        ControleurPlan.plageHoraireColors = new ArrayList<Color>();
+        
+        plageHoraireColors.add(Color.red);
+        plageHoraireColors.add(Color.green);
+        plageHoraireColors.add(Color.blue);
+        plageHoraireColors.add(Color.pink);
+        plageHoraireColors.add(Color.black);
+        plageHoraireColors.add(Color.yellow);
     }
 
     public ControleurFenetrePrincipale getControleurParent() {
@@ -194,7 +205,7 @@ public class ControleurPlan {
     }
     
     public void addNoeud(Noeud noeud) {        
-        this.plan.addNoeud(noeud);;  
+        this.plan.addNoeud(noeud);  
         this.createVueNoeudFromNoeud(noeud);
     }
     
@@ -221,25 +232,34 @@ public class ControleurPlan {
         VueTroncon vueTroncon = this.vueForTroncon(troncon);
         if (vueTroncon == null) {
             // Vue Troncon
-            vueTroncon = new VueTroncon(troncon);
+            vueTroncon = new VueTroncon(troncon, this);
             this.vueTroncons.add(vueTroncon);
 
             int x = Math.min(troncon.getOrigine().getX(), troncon.getDestination().getX());
             int y = Math.min(troncon.getOrigine().getY(), troncon.getDestination().getY());
             vueTroncon.setLocation(this.scaledCoordonateHorizontal(x) - noeudSize/2, this.scaledCoordonateVertical(y) - noeudSize/2);
-            //vueTroncon.setLocation(this.scaledCoordonateHorizontal(x), this.scaledCoordonateVertical(y));
 
             int width = Math.abs(troncon.getDestination().getX() - troncon.getOrigine().getX());
             int height = Math.abs(troncon.getDestination().getY() - troncon.getOrigine().getY());
 
             vueTroncon.setSize(this.scaledSize(width) + noeudSize, this.scaledSize(height) + noeudSize);
-            //vueTroncon.setSize(this.scaledSize(width), this.scaledSize(height));
 
             this.vuePlan.add(vueTroncon);
         } else {
            vueTroncon.setTronconRetour(troncon);
         }
         
+    }
+    
+    public Color colorForPlageHoraire(PlageHoraire plageHoraire) {
+        int plageIndex = this.tournee.getPlagesHoraire().indexOf(plageHoraire);
+        
+        if (plageIndex >= 0) {
+            return plageHoraireColors.get(plageIndex);
+        } else {
+            System.out.println("Un trajet n'a pas de plage horaire !!\nIl apparait en rouge.");
+            return Color.RED;
+        }
     }
     
     public VueTroncon vueForTroncon(Troncon troncon) {
@@ -252,7 +272,7 @@ public class ControleurPlan {
     }
     
     public void addTroncon(Troncon troncon) {
-        this.plan.addTroncon(troncon);;
+        this.plan.addTroncon(troncon);
         this.createVueTronconFromTroncon(troncon);
         //this.paint();
     }

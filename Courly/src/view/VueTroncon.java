@@ -12,8 +12,10 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.RenderingHints;
+import java.awt.Stroke;
 import java.awt.geom.AffineTransform;
+import java.util.ArrayList;
+import model.Trajet;
 
 /**
  *
@@ -23,12 +25,17 @@ public class VueTroncon extends javax.swing.JPanel {
     
     private Troncon tronconAller;
     private Troncon tronconRetour;
+    private ArrayList<Trajet> trajets;
     
-    private static final int minWidth = 4; 
-    private static final int minHeight = 4; 
+    private final ControleurPlan controleur;
+    
+    private static final int noeudSize = ControleurPlan.noeudSize;
+    private static final int minWidth = noeudSize; 
+    private static final int minHeight = noeudSize; 
     private static final int tronconWidth = 8;
     private static final int bordersWidth = 1;
-    private static final int noeudSize = ControleurPlan.noeudSize;
+    private static final int trajetWidth = 4;
+    private static final int trajetPadding = 2;
     
     private static final Color FillColor = Color.WHITE;
     private static final Color BorderColor = new Color(198, 190, 180);
@@ -37,16 +44,16 @@ public class VueTroncon extends javax.swing.JPanel {
 
     /**
      * Creates new form VueTroncon
+     * @param troncon
+     * @param controleur
      */
-    public VueTroncon() {
-        initComponents();
-    }
 
-    public VueTroncon(Troncon troncon) {
+    public VueTroncon(Troncon troncon, ControleurPlan controleur) {
         initComponents();
         this.setTronconAller(troncon);
         this.setVisible(true);
         this.setOpaque(false);
+        this.controleur = controleur;
         this.setBackground(Color.BLACK);        
     }
 
@@ -56,6 +63,7 @@ public class VueTroncon extends javax.swing.JPanel {
 
     public final void setTronconAller(Troncon troncon) {
         this.tronconAller = troncon;
+        this.updateTrajets();
         
         /*
         int x = Math.min(this.getTroncon().getOrigine().getX(), this.getTroncon().getDestination().getX());
@@ -82,22 +90,29 @@ public class VueTroncon extends javax.swing.JPanel {
 
     public void setTronconRetour(Troncon tronconRetour) {
         this.tronconRetour = tronconRetour;
+        this.updateTrajets();
+    }
+    
+    public void addTrajet(Trajet trajet) {
+        if (this.trajets == null) {
+            this.trajets = new ArrayList<Trajet>();
+        }
+        this.trajets.add(trajet);
+    }
+    
+    private void updateTrajets() {
+        this.trajets = new ArrayList<Trajet>();
+        this.trajets.addAll(this.tronconAller.getTrajets());
+        if (this.tronconRetour != null && this.tronconRetour.getTrajets() != null) {
+            this.trajets.addAll(this.tronconRetour.getTrajets());
+        }
     }
     
     
         @Override
     public void paintComponent(Graphics g)
     {
-        super.paintComponent(g);
-        
-        if (this.getTronconAller().getTrajets() != null && !this.getTronconAller().getTrajets().isEmpty()) {
-            g.setColor(Color.RED);
-        } else if (this.getTronconRetour() != null && this.getTronconRetour().getTrajets() != null && !this.getTronconRetour().getTrajets().isEmpty()) {
-            g.setColor(Color.RED);
-        } else {
-            g.setColor(Color.GRAY);
-        }
-        
+        super.paintComponent(g);       
         
         Graphics2D g2D = (Graphics2D) g;
         g2D.setStroke(new BasicStroke(tronconWidth));
@@ -161,6 +176,20 @@ public class VueTroncon extends javax.swing.JPanel {
         g2D.setStroke(new BasicStroke(bordersWidth));
         g.drawLine(x1Draw - tronconWidth/2, y1Draw, x2Draw - tronconWidth/2, y2Draw);
         g.drawLine(x1Draw + tronconWidth/2, y1Draw, x2Draw + tronconWidth/2, y2Draw);
+        
+        // draw Trajets
+        if (this.trajets != null) {
+            int dephasage = (this.trajets.size() - 1)*(trajetWidth + trajetPadding)/2;            
+
+            Stroke trajetStroke = new BasicStroke(trajetWidth, BasicStroke.CAP_ROUND, BasicStroke.JOIN_BEVEL, 0, new float[]{3, 8}, 0);
+            g2D.setStroke(trajetStroke);
+
+            for (Trajet trajet : this.trajets) {
+                g.setColor(this.controleur.colorForPlageHoraire(trajet.getPlage()));
+                g.drawLine(x1Draw - dephasage, y1Draw, x2Draw - dephasage, y2Draw);
+                dephasage -= (trajetWidth + trajetPadding);
+            }
+        }        
         
         /* End */
         g2D.setTransform(matrix);
