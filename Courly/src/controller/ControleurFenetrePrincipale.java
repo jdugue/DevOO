@@ -44,18 +44,20 @@ public class ControleurFenetrePrincipale {
         this.fenetre = aFenetre;
         this.controleurPlan = new ControleurPlan(this.fenetre.getScrollPanePlan(), this);
         this.controleurInspecteur = new ControleurInspecteur(this.fenetre.getScrollPaneInspecteur(), this);
+        
+        this.testVues();
     }
     
     private void testVues() {
         System.out.println("Do not call testVues(), ControleurFenetrePrincipale line 50");
         
         Noeud noeud1 = new Noeud();
-        noeud1.setX(200);
+        noeud1.setX(410);
         noeud1.setY(200);
         
         Noeud noeud2 = new Noeud();
         noeud2.setX(400);
-        noeud2.setY(200);
+        noeud2.setY(410);
         
         Troncon troncon1 = new Troncon();
         troncon1.setOrigine(noeud1);

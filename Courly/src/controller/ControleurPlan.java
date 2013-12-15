@@ -228,11 +228,13 @@ public class ControleurPlan {
             int x = Math.min(troncon.getOrigine().getX(), troncon.getDestination().getX());
             int y = Math.min(troncon.getOrigine().getY(), troncon.getDestination().getY());
             vueTroncon.setLocation(this.scaledCoordonateHorizontal(x) - noeudSize/2, this.scaledCoordonateVertical(y) - noeudSize/2);
+            //vueTroncon.setLocation(this.scaledCoordonateHorizontal(x), this.scaledCoordonateVertical(y));
 
             int width = Math.abs(troncon.getDestination().getX() - troncon.getOrigine().getX());
             int height = Math.abs(troncon.getDestination().getY() - troncon.getOrigine().getY());
 
             vueTroncon.setSize(this.scaledSize(width) + noeudSize, this.scaledSize(height) + noeudSize);
+            //vueTroncon.setSize(this.scaledSize(width), this.scaledSize(height));
 
             this.vuePlan.add(vueTroncon);
         } else {
