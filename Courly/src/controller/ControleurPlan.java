@@ -300,6 +300,11 @@ public class ControleurPlan {
                 }
             }
         }
+        
+        for (VueTroncon vueTroncon : this.vueTroncons.values())
+        {
+            vueTroncon.repaint();
+        }
     }
     
     private void cleanVuePlan() {

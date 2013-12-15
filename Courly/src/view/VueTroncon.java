@@ -63,25 +63,6 @@ public class VueTroncon extends javax.swing.JPanel {
 
     public final void setTronconAller(Troncon troncon) {
         this.tronconAller = troncon;
-        this.updateTrajets();
-        
-        /*
-        int x = Math.min(this.getTroncon().getOrigine().getX(), this.getTroncon().getDestination().getX());
-        int y = Math.min(this.getTroncon().getOrigine().getY(), this.getTroncon().getDestination().getY());
-        this.setLocation(x, y);
-        
-        int width = Math.abs(this.getTroncon().getDestination().getX() - this.getTroncon().getOrigine().getX());
-        int height = Math.abs(this.getTroncon().getDestination().getY() - this.getTroncon().getOrigine().getY());
-        
-        if (width < minWidth) {
-            width = minWidth;
-        }
-        if (height < minHeight) {
-            height = minHeight;
-        }
-        
-        this.setSize(width, height);
-        */
     }
 
     public Troncon getTronconRetour() {
@@ -90,7 +71,6 @@ public class VueTroncon extends javax.swing.JPanel {
 
     public void setTronconRetour(Troncon tronconRetour) {
         this.tronconRetour = tronconRetour;
-        this.updateTrajets();
     }
     
     public void addTrajet(Trajet trajet) {
@@ -99,16 +79,7 @@ public class VueTroncon extends javax.swing.JPanel {
         }
         this.trajets.add(trajet);
         this.repaint();
-    }
-    
-    private void updateTrajets() {
-        this.trajets = new ArrayList<Trajet>();
-        /*this.trajets.addAll(this.tronconAller.getTrajets());
-        if (this.tronconRetour != null && this.tronconRetour.getTrajets() != null) {
-            this.trajets.addAll(this.tronconRetour.getTrajets());
-        }*/
-    }
-    
+    }    
     
         @Override
     public void paintComponent(Graphics g)
@@ -179,7 +150,7 @@ public class VueTroncon extends javax.swing.JPanel {
         g.drawLine(x1Draw + tronconWidth/2, y1Draw, x2Draw + tronconWidth/2, y2Draw);
         
         // draw Trajets
-        if (this.trajets != null) {
+        if (this.trajets != null && !this.trajets.isEmpty()) {
             int dephasage = (this.trajets.size() - 1)*(trajetWidth + trajetPadding)/2;            
 
             Stroke trajetStroke = new BasicStroke(trajetWidth, BasicStroke.CAP_ROUND, BasicStroke.JOIN_BEVEL, 0, new float[]{3, 8}, 0);
@@ -187,6 +158,7 @@ public class VueTroncon extends javax.swing.JPanel {
 
             for (Trajet trajet : this.trajets) {
                 g.setColor(this.controleur.colorForPlageHoraire(trajet.getPlage()));
+                System.out.println(g.getColor());
                 g.drawLine(x1Draw - dephasage, y1Draw, x2Draw - dephasage, y2Draw);
                 dephasage -= (trajetWidth + trajetPadding);
             }
