@@ -84,11 +84,11 @@ public class ControleurFenetrePrincipale {
     
     
     public void shouldZoomOut() {
-        this.setZoomScale(zoomScale + zoomDelta);
+        this.setZoomScale(zoomScale - zoomDelta);
     }
     
     public void shouldZoomIn() {
-        this.setZoomScale(zoomScale - zoomDelta);
+        this.setZoomScale(zoomScale + zoomDelta);
     }
     
     public void shouldLoadPlan() {

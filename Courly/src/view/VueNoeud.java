@@ -21,10 +21,12 @@ public class VueNoeud extends javax.swing.JPanel {
     public boolean highlighted;
     public boolean selected;
     
-    private final Color normalColor = new Color(220, 160, 60);
-    private final Color highlightedColor = new Color(240, 60, 40);
-    private final Color selectedColor = new Color(30, 80, 170);
-    private final Color selectedHighlightedColor = new Color(80, 150, 255);
+    private static final Color normalEmptyColor = Color.WHITE;
+    private static final Color normalLieuColor = new Color(220, 160, 60);
+    private static final Color highlightedColor = new Color(240, 60, 40);
+    private static final Color selectedColor = new Color(30, 80, 170);
+    private static final Color selectedHighlightedColor = new Color(80, 150, 255);
+    private static final Color BorderColor = new Color(198, 190, 180);
     
     protected VueLieu vueLieu;
     
@@ -192,7 +194,11 @@ public class VueNoeud extends javax.swing.JPanel {
         } else if (this.highlighted) {
             return this.highlightedColor;
         } else {
-            return this.normalColor;
+            if (this.noeud.getLieu() == null) {
+                return this.normalEmptyColor;
+            } else {
+                return this.normalLieuColor;
+            }
         }
     }
     
@@ -201,8 +207,8 @@ public class VueNoeud extends javax.swing.JPanel {
     {
         super.paintComponent(g);
         g.setColor(this.colorForActualState());
-        if (this.getNoeud().getLieu() == null) {
-            g.fillOval(0,0,this.getWidth(),this.getHeight());
-        }
+        g.fillOval(0,0,this.getWidth(),this.getHeight());
+        g.setColor(BorderColor);
+        g.drawOval(0,0,this.getWidth(),this.getHeight());
     }
 }

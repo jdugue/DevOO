@@ -26,8 +26,12 @@ public class VueTroncon extends javax.swing.JPanel {
     
     private static final int minWidth = 4; 
     private static final int minHeight = 4; 
-    private static final int lineWidth = 4;
+    private static final int tronconWidth = 8;
+    private static final int bordersWidth = 1;
     private static final int noeudSize = ControleurPlan.noeudSize;
+    
+    private static final Color FillColor = Color.WHITE;
+    private static final Color BorderColor = new Color(198, 190, 180);
     
     private static final int padding = 10;
 
@@ -94,10 +98,11 @@ public class VueTroncon extends javax.swing.JPanel {
             g.setColor(Color.GRAY);
         }
         
-        Graphics2D g2D = (Graphics2D) g;
-        g2D.setStroke(new BasicStroke(lineWidth));
         
-        /*int xDepart, yDepart, xArrivee, yArrivee;
+        Graphics2D g2D = (Graphics2D) g;
+        g2D.setStroke(new BasicStroke(tronconWidth));
+        
+        int xDepart, yDepart, xArrivee, yArrivee;
         
          if (this.getWidth() <= minWidth) {
             xDepart = minWidth/2;
@@ -119,31 +124,44 @@ public class VueTroncon extends javax.swing.JPanel {
         } else {
             yDepart = noeudSize/2;
             yArrivee = this.getHeight() - noeudSize/2;
-        }*/
-        
-        int xOrigine = this.getTronconAller().getOrigine().getX();
-        int yOrigine = this.getTronconAller().getOrigine().getY();
-        int xDestination = this.getTronconAller().getDestination().getX();
-        int yDestination = this.getTronconAller().getDestination().getY();
+        }
         
         int width = this.getWidth();
         int height = this.getHeight();
         
-        double size = Math.sqrt(Math.pow((xOrigine - xDestination), 2) + Math.pow((yOrigine - yDestination), 2));
+        double size = Math.sqrt(Math.pow((xDepart - xArrivee), 2) + Math.pow((yDepart - yArrivee), 2));
         int intSize = (int)Math.round(size);
+        //System.out.println(intSize);
         
         double angle;
-        if (yOrigine != yDestination) {
-            angle = Math.atan((double)(xOrigine - xDestination)/(yOrigine - yDestination));
+        if (yDepart != yArrivee) {
+            angle = Math.atan((double)(xDepart - xArrivee)/(yDepart - yArrivee));
         } else {
             angle = Math.PI/2;
         }        
-        System.out.println(angle);
+        //System.out.println(angle);
         
         AffineTransform matrix = g2D.getTransform(); // Backup
         g2D.rotate(-angle, width/2, height/2);
+        
+        int x1Draw = width/2;
+        int y1Draw = height/2 - intSize/2;
+        int x2Draw = width/2;
+        int y2Draw = height/2 + intSize/2;
+        
         /* Begin */
-        g.drawLine(width/2, height/2 - intSize/2, width/2, height/2 + intSize/2);
+        
+        // fill troncon
+        g.setColor(FillColor);
+        g2D.setStroke(new BasicStroke(tronconWidth));
+        g.drawLine(x1Draw, y1Draw, x2Draw, y2Draw);
+        
+        // draw borders
+        g.setColor(BorderColor);
+        g2D.setStroke(new BasicStroke(bordersWidth));
+        g.drawLine(x1Draw - tronconWidth/2, y1Draw, x2Draw - tronconWidth/2, y2Draw);
+        g.drawLine(x1Draw + tronconWidth/2, y1Draw, x2Draw + tronconWidth/2, y2Draw);
+        
         /* End */
         g2D.setTransform(matrix);
     }

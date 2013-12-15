@@ -7,6 +7,7 @@
 package view;
 
 import controller.ControleurPlan;
+import java.awt.Color;
 import java.util.ArrayList;
 
 /**
@@ -16,6 +17,8 @@ import java.util.ArrayList;
 public class VuePlan extends javax.swing.JPanel {
     
     private ControleurPlan controleur;
+    
+    private static final Color BackgroundColor = new Color(233, 229, 220);
 
     public void setControleur(ControleurPlan controleur) {
         this.controleur = controleur;
@@ -40,6 +43,7 @@ public class VuePlan extends javax.swing.JPanel {
      */
     public VuePlan() {
         initComponents();
+        this.setBackground(BackgroundColor);
     }
 
     /**

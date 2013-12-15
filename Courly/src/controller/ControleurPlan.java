@@ -75,7 +75,6 @@ public class ControleurPlan {
     public ControleurPlan(JScrollPane scrollPane, ControleurFenetrePrincipale controleurFenetreParent) {
         this.setVuePlan(new VuePlan());
         
-        this.vuePlan.setBackground(Color.WHITE);
         scrollPane.setViewportView(this.vuePlan);
         
         this.controleurParent = controleurFenetreParent;
