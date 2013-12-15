@@ -158,14 +158,6 @@ public class Dijkstra {
 
 		return trajets;
 	}
-
-	public void initTrajetsTroncons(Tournee tournee){
-		for(Trajet t : tournee.getTrajets()) {
-			for (Troncon tr : t.getTroncons()) {
-				tr.getTrajets().add(t);
-			}
-		}
-	}
 	
 	public void choco(Tournee tournee,List<ArrayList<Trajet>> trajets,int bound) {
 		//Param Choco
@@ -213,8 +205,6 @@ public class Dijkstra {
 			abs=ord;
 		}
 		tournee.setTrajets(trajetsTournee);
-		//System.out.println(xTotalCost.getValue());
-		initTrajetsTroncons(tournee);
 	}
 	
 	public void initTournee(Plan plan, Tournee tournee){

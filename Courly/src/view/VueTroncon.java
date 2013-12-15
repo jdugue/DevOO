@@ -98,14 +98,15 @@ public class VueTroncon extends javax.swing.JPanel {
             this.trajets = new ArrayList<Trajet>();
         }
         this.trajets.add(trajet);
+        this.repaint();
     }
     
     private void updateTrajets() {
         this.trajets = new ArrayList<Trajet>();
-        this.trajets.addAll(this.tronconAller.getTrajets());
+        /*this.trajets.addAll(this.tronconAller.getTrajets());
         if (this.tronconRetour != null && this.tronconRetour.getTrajets() != null) {
             this.trajets.addAll(this.tronconRetour.getTrajets());
-        }
+        }*/
     }
     
     
