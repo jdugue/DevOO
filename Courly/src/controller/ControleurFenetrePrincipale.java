@@ -5,12 +5,17 @@
  */
 package controller;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.awt.Color;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
+
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.xml.parsers.ParserConfigurationException;
+
 import model.Livraison;
 import model.Noeud;
 import model.Plan;
@@ -119,23 +124,11 @@ public class ControleurFenetrePrincipale {
                         this.fenetre.setMessage("Impossible de charger le plan", VueFenetrePrincipale.MessageType.MessageTypeError);
                     }
             } catch (NumberFormatException e) {
-                    // TODO Auto-generated catch block
-                    //textFieldError.setForeground(Color.RED);
-                    //textFieldError.setText("Fichier XML incorrect");
-                        this.fenetre.setMessage("Fichier XML incorrect", VueFenetrePrincipale.MessageType.MessageTypeError);
-                System.out.print("Fichier XML incorrect");
+                    this.fenetre.setMessage("Fichier XML incorrect", VueFenetrePrincipale.MessageType.MessageTypeError);
             } catch (FileNotFoundException e) {
-                    // TODO Auto-generated catch block
-                    //textFieldError.setForeground(Color.RED);
-                    //textFieldError.setText("Fichier inexistant");
-                        this.fenetre.setMessage("Fichier inexistant", VueFenetrePrincipale.MessageType.MessageTypeError);
-                System.out.print("Fichier inexistant");
+            	this.fenetre.setMessage("Fichier inexistant", VueFenetrePrincipale.MessageType.MessageTypeError);
             } catch (SAXException e) {
-                    // TODO Auto-generated catch block
-                    //textFieldError.setForeground(Color.RED);
-                    //textFieldError.setText("Fichier XML incorrect");
-                        this.fenetre.setMessage("Fichier XML incorrect", VueFenetrePrincipale.MessageType.MessageTypeError);
-                System.out.print("Fichier XML incorrect");
+            	this.fenetre.setMessage("Fichier XML incorrect", VueFenetrePrincipale.MessageType.MessageTypeError);
             }
 
         }
@@ -145,6 +138,7 @@ public class ControleurFenetrePrincipale {
     public void shouldLoadLivraison() { 
 
         if( this.plan!=null) {
+        	try {
                 JFileChooser fChooser = new JFileChooser();
                 fChooser.setCurrentDirectory( lastUsedFolder == null ? new java.io.File(".") : new File(lastUsedFolder));
                 FileNameExtensionFilter filter = new FileNameExtensionFilter("Fichier livraison", "xml");
@@ -167,6 +161,18 @@ public class ControleurFenetrePrincipale {
                         this.selectTournee(tournee);
                         this.fenetre.setMessage("Livraisons chargées avec succès", VueFenetrePrincipale.MessageType.MessageTypeSuccess);
                 }
+        	}
+        	catch (FileNotFoundException e) {
+        		this.fenetre.setMessage("Fichier inexistant", VueFenetrePrincipale.MessageType.MessageTypeError);
+        	} catch (SAXException e) {
+        		this.fenetre.setMessage("Fichier XML incorrect", VueFenetrePrincipale.MessageType.MessageTypeError);
+        	} catch (ParseException e) {
+        		this.fenetre.setMessage("Fichier XML incorrect", VueFenetrePrincipale.MessageType.MessageTypeError);
+			} catch (ParserConfigurationException e) {
+        		this.fenetre.setMessage("Fichier XML incorrect", VueFenetrePrincipale.MessageType.MessageTypeError);
+			} catch (IOException e) {
+        		this.fenetre.setMessage("Probleme de lecture du fichier", VueFenetrePrincipale.MessageType.MessageTypeError);
+			}
         }
         else {
                 this.fenetre.setMessage("Vous devez d\'abord charger un plan", VueFenetrePrincipale.MessageType.MessageTypeLog);

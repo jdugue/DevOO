@@ -265,33 +265,4 @@ public class Dijkstra {
 		
 		choco(tournee,trajets,-1);
 	}
-	
-	public static void main (String[] args) throws NumberFormatException, FileNotFoundException, SAXException {
-		
-		Dijkstra d = new Dijkstra();
-		ParseurXML parseur = new ParseurXML();
-		Plan plan = parseur.construirePlanXML("../XML Examples/plan10x10.xml");
-		
-		Tournee tournee = parseur.construireTourneeXML("../XML Examples/livraison10x10-2.xml");
-		
-		Integer adresseDepot = tournee.getDepot().getAdresse();
-		tournee.getDepot().setNoeud(plan.getNoeuds().get(adresseDepot));
-		for (int i=0;i< tournee.getLivraisons().size();i++) {
-			Integer adresse = tournee.getLivraisons().get(i).getAdresse();
-			tournee.getLivraisons().get(i).setNoeud(plan.getNoeuds().get(adresse));
-		}
-		
-		List<ArrayList<Trajet>> trajets = d.genererMatriceTrajets(plan, tournee);
-		
-		d.choco(tournee, trajets, -1);
-		
-		for(int i=0; i<tournee.getTrajets().size(); i++) {
-			ArrayList<Troncon> troncons = tournee.getTrajets().get(i).getTroncons();
-			for (int j=0; j< troncons.size(); j++) {
-				System.out.print("De " + troncons.get(j).getOrigine());
-				System.out.println(" à " + troncons.get(j).getDestination());
-			}
-		}
-		
-	}
 }
