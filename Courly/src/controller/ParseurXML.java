@@ -1,6 +1,7 @@
 package controller;
 
 import com.sun.org.apache.xerces.internal.impl.xpath.regex.ParseException;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -123,7 +124,7 @@ public class ParseurXML {
 		if (xml.exists()) {
 			
 			//TODO A mettre dans un objet Tournee
-			ArrayList<Lieu> lieux = new ArrayList<Lieu>();
+			ArrayList<Livraison> livraisons = new ArrayList<Livraison>();
 			ArrayList<PlageHoraire> plages = new ArrayList<PlageHoraire>();
 
 			Depot depot = new Depot();
@@ -142,7 +143,7 @@ public class ParseurXML {
             	   //TODO Demander si il peut en avoir plusieurs (de depots)
             	   Element depotElement = (Element) listeDepot.item(0);
             	   depot.construireAPartirDeDOMXML(depotElement);
-            	   lieux.add(depot);
+            	   tournee.setDepot(depot);
             	   
             	   //Traitement des plages horaires
             	   NodeList listePlages = racine.getElementsByTagName("Plage");
@@ -150,7 +151,7 @@ public class ParseurXML {
             		   PlageHoraire plage = new PlageHoraire();
             		   Element plageElement = (Element) listePlages.item(i);
             		   ArrayList<Livraison> livraisonsPlage = plage.construireAPartirDeDOMXML(plageElement);
-            		   lieux.addAll(livraisonsPlage);
+            		   livraisons.addAll(livraisonsPlage);
             		   if(plages.isEmpty() || !intersectionPlages(plage,plages)){
             			   plages.add(plage);
             		   }
@@ -167,7 +168,7 @@ public class ParseurXML {
 			}
 			
 			tournee.setPlagesHoraire(plages);
-			tournee.setLieux(lieux);
+			tournee.setLivraisons(livraisons);
 		}
 				
 		return tournee;
@@ -185,11 +186,13 @@ public class ParseurXML {
 		return false;
 	}
 
-	public void setTrajetsFromTournee(Tournee tournee, Plan plan) {
+	public void setNoeudsFromTournee(Tournee tournee, Plan plan) {
 
-		for (int i=0;i< tournee.getLieux().size();i++) {
-			Integer adresse = tournee.getLieux().get(i).getAdresse();
-			tournee.getLieux().get(i).setNoeud(plan.getNoeuds().get(adresse));
+		Integer adresseDepot = tournee.getDepot().getAdresse();
+		tournee.getDepot().setNoeud(plan.getNoeuds().get(adresseDepot));
+		for (int i=0;i< tournee.getLivraisons().size();i++) {
+			Integer adresse = tournee.getLivraisons().get(i).getAdresse();
+			tournee.getLivraisons().get(i).setNoeud(plan.getNoeuds().get(adresse));
 		}
 	}
 }

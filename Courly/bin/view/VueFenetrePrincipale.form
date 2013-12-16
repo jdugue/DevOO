@@ -71,7 +71,7 @@
             <MenuItem class="javax.swing.JMenuItem" name="itemZoomOut">
               <Properties>
                 <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
-                  <KeyStroke key="Ctrl+6"/>
+                  <KeyStroke key="Ctrl+MINUS"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Zoom Out"/>
               </Properties>

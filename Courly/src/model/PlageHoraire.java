@@ -12,7 +12,7 @@ public class PlageHoraire {
 	
 	protected Date heureDebut;
 	protected Date heureFin;
-	protected ArrayList<Livraison> livraisons;
+	protected ArrayList<Livraison> livraisons = new ArrayList<Livraison>();
 	static final SimpleDateFormat FORMATTER = new SimpleDateFormat("HH:mm:s");
 		
 	public String toString() {

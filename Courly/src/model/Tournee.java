@@ -4,7 +4,8 @@ import java.util.ArrayList;
 
 public class Tournee {
 	
-	protected ArrayList<Lieu> lieux;
+	protected Lieu depot;
+	protected ArrayList<Livraison> livraisons;
 	protected ArrayList<Trajet> trajets;
 	protected ArrayList<PlageHoraire> plagesHoraire;
 
@@ -12,17 +13,25 @@ public class Tournee {
         }
 
         public Tournee(Tournee tournee) {
-            this.lieux = new ArrayList<Lieu>(tournee.getLieux());
+            this.livraisons = new ArrayList<Livraison>(tournee.getLivraisons());
             this.trajets = new ArrayList<Trajet>(tournee.getTrajets());
             this.plagesHoraire = new ArrayList<PlageHoraire>(tournee.getPlagesHoraire());
         }       
 	
-	public ArrayList<Lieu> getLieux() {
-		return lieux;
+	public ArrayList<Livraison> getLivraisons() {
+		return livraisons;
+	}
+	
+	public void setLivraisons (ArrayList<Livraison> livraisons) {
+		this.livraisons = livraisons;
+	}
+	
+	public Lieu getDepot() {
+		return depot;
 	}
 
-	public void setLieux(ArrayList<Lieu> lieux) {
-		this.lieux = lieux;
+	public void setDepot(Lieu depot){
+		this.depot = depot;
 	}
 
 	public ArrayList<Trajet> getTrajets() {
@@ -49,13 +58,25 @@ public class Tournee {
 		this.plagesHoraire = plagesHoraire;	
 	}
 	
+	public PlageHoraire getFirstPlageHoraire () {
+		PlageHoraire plage = plagesHoraire.get(0);
+		if (plagesHoraire.size()>1){
+			for(int i=1; i<plagesHoraire.size();i++) {
+				if(plagesHoraire.get(i).getHeureDebut().before(plage.getHeureDebut())) {
+					plage = plagesHoraire.get(i);
+				}
+			}
+		}
+		return plage;
+	}
+	
 	public void addLivraison(Livraison livraison){
-		lieux.add(livraison);	
+		livraisons.add(livraison);	
 	}
 	
 	public void removeLivraison(Livraison livraison)
 	{
-		lieux.remove(livraison);
+		livraisons.remove(livraison);
 	}
 
 }

@@ -151,7 +151,7 @@ public class ControleurFenetrePrincipale {
                         if (tournee != null) {
                             this.tournees.add(tournee);
                         }
-                        p.setTrajetsFromTournee(tournee, plan);
+                        p.setNoeudsFromTournee(tournee, plan);
                         
                         traitementDijkstra(tournee);
                         
