@@ -188,16 +188,16 @@ public class VueNoeud extends javax.swing.JPanel {
     
     private Color colorForActualState() {
         if (this.selected && this.highlighted) {
-            return this.selectedHighlightedColor;
+            return VueNoeud.selectedHighlightedColor;
         } else if (this.selected) {
-            return this.selectedColor;
+            return VueNoeud.selectedColor;
         } else if (this.highlighted) {
-            return this.highlightedColor;
+            return VueNoeud.highlightedColor;
         } else {
             if (this.noeud.getLieu() == null) {
-                return this.normalEmptyColor;
+                return VueNoeud.normalEmptyColor;
             } else {
-                return this.normalLieuColor;
+                return VueNoeud.normalLieuColor;
             }
         }
     }

@@ -8,10 +8,7 @@ package controller;
 
 import java.util.ArrayList;
 import javax.swing.JScrollPane;
-import model.Lieu;
 import model.Noeud;
-import model.Livraison;
-import model.Depot;
 import model.PlageHoraire;
 import view.VueInspecteur;
 
@@ -23,6 +20,7 @@ public class ControleurInspecteur {
     
     private VueInspecteur vue;
     private ControleurFenetrePrincipale controleurParent;
+    private Noeud noeud;
 
     public ControleurInspecteur(JScrollPane scrollPane, ControleurFenetrePrincipale controleurParent) {
         this.controleurParent = controleurParent;
@@ -36,55 +34,30 @@ public class ControleurInspecteur {
     }
     
     
-    public void setVueFromNoeud(Noeud noeud) {
-        if (noeud != null) {
-            // Noeud ok
-            
-            this.vue.setAdresse(Integer.toString(noeud.getId()));
-            if (noeud.getLieu() != null) {
-                
-                // Le noeud a un lieu
-                this.vue.setLivraisonEnabled(false);
-                Lieu lieu = noeud.getLieu();
-                
-                if (lieu.getClass() == Livraison.class) {
-                    
-                    // le lieu est une livraison
-                    this.displayLivraison((Livraison)lieu);
-                    
-                } else if (lieu.getClass() == Depot.class) {
-                    // le lieu est un depot
-                    this.vue.cleanLivraison();
-                }
-            } else {
-                
-                // le noeud n'a pas de lieu
-                this.canCreateLivraison();
-            }
-        } else {
-            
-            // noeud null
-            this.lockLivraisonInspecteur();
-        }
+    public boolean setVueFromNoeud(Noeud noeud) {
+        this.noeud = noeud;
+        this.vue.setNoeud(noeud);
+        return true;
     }
     
-    private void lockLivraisonInspecteur() {
-        this.vue.setAdresse("");
-        this.vue.cleanLivraison();
-        this.vue.setLivraisonEnabled(false);
+    public boolean shouldEditLivraison() {
+        this.vue.setMode(VueInspecteur.AffichageMode.LivraisonEdit);
+        return true;
     }
     
-    private void canCreateLivraison() {
-        this.vue.setLivraisonEnabled(true);
-        this.vue.setLivraisonAreaTitle("Ajouter une livraison");
-        this.vue.cleanLivraison();
+    public boolean shouldCreateLivraison() {
+        this.vue.setMode(VueInspecteur.AffichageMode.LivraisonSelected);
+        return true;
     }
     
-    private void displayLivraison(Livraison livraison) {
-        this.vue.setLivraisonEnabled(false);
-        this.vue.setLivraisonAreaTitle("Livraison n°" + livraison.getId());
-        this.vue.setLivraison(livraison);
-        
+    public boolean shouldCancelLivraisonEdit() {
+        this.vue.setMode(VueInspecteur.AffichageMode.LivraisonSelected);
+        this.vue.setNoeud(this.noeud);
+        return true;
     }
     
+    public boolean canEditLivraison() {
+        this.vue.setMode(VueInspecteur.AffichageMode.LivraisonEdit);
+        return true;
+    }
 }

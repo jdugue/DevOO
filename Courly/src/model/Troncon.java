@@ -95,4 +95,19 @@ public class Troncon {
             }
         }
 
+        @Override
+        public int hashCode() {
+            int hash = 7;
+            hash = 89 * hash + (this.origine != null ? this.origine.hashCode() : 0);
+            hash = 89 * hash + (this.destination != null ? this.destination.hashCode() : 0);
+            hash = 89 * hash + (this.nomRue != null ? this.nomRue.hashCode() : 0);
+            hash = 89 * hash + (this.longueur != null ? this.longueur.hashCode() : 0);
+            hash = 89 * hash + (this.vitesse != null ? this.vitesse.hashCode() : 0);
+            return hash;
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            return (this.hashCode() == obj.hashCode());
+        }
 }

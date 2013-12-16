@@ -179,6 +179,18 @@ public class VueTroncon extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">                          
     private void initComponents() {
 
+        addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                mouseClickedHandler(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                mouseExitedHandler(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                mouseEnterHandler(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -189,7 +201,20 @@ public class VueTroncon extends javax.swing.JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 300, Short.MAX_VALUE)
         );
-    }// </editor-fold>                        
+    }// </editor-fold>                      
+
+    private void mouseEnterHandler(java.awt.event.MouseEvent evt) {                                   
+        // TODO add your handling code here:
+    }                                  
+
+    private void mouseExitedHandler(java.awt.event.MouseEvent evt) {                                    
+        // TODO add your handling code here:
+    }                                   
+
+    private void mouseClickedHandler(java.awt.event.MouseEvent evt) {                                     
+        // TODO add your handling code here:
+        System.out.println(this);
+    }                       
 
 
     // Variables declaration - do not modify                     

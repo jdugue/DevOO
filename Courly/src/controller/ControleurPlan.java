@@ -232,6 +232,12 @@ public class ControleurPlan {
     public void createVueTronconFromTroncon(Troncon troncon) {
 
         VueTroncon vueTroncon = this.vueTroncons.get(troncon);
+        
+        if (this.vueTroncons.containsKey(troncon))
+        {
+            System.out.print("encore heureux");
+        }
+        
         if (vueTroncon == null) {
             // Vue Troncon
             vueTroncon = new VueTroncon(troncon, this);
