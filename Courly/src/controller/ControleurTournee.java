@@ -4,6 +4,7 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 
 import model.Lieu;
 import model.Livraison;
@@ -30,6 +31,8 @@ public class ControleurTournee {
 	private final int INDENTATION_PLAGE_HORAIRE = 1;
 	private final int INDENTATION_LIVRAISON = 2;
 	private final int INDENTATION_INFO = 3;
+	
+	static final SimpleDateFormat FORMATTER = new SimpleDateFormat("HH:mm:s");
 
 	public ControleurTournee() {
 		// TODO Auto-generated constructor stub
@@ -39,7 +42,6 @@ public class ControleurTournee {
 		filename = fixExtension(filename);
 		BufferedWriter bw = null;
 		try {
-			 
 			int compteurLivraison = 1;			
  
 			File file = new File(filename);
@@ -56,7 +58,7 @@ public class ControleurTournee {
 			
 			for ( PlageHoraire plage : aEcrire.getPlagesHoraire() ){
 				bw.write( getRepetition(INDENTATION_PLAGE_HORAIRE, TAB) + PLAGE_HORAIRE + DP + ESP );
-				bw.write( plage.getHeureDebut() + " � " + plage.getHeureFin() + RC);
+				bw.write( FORMATTER.format(plage.getHeureDebut()) + " - " + FORMATTER.format(plage.getHeureFin()) + RC);
 				
 				for ( Livraison livraison : plage.getLivraisons() ){
 					bw.write( getRepetition(INDENTATION_LIVRAISON, TAB) + 
@@ -69,7 +71,7 @@ public class ControleurTournee {
 							ADRESSE + DP + ESP + livraison.getAdresse() + RC );
 					
 					bw.write ( getRepetition(INDENTATION_INFO, TAB) + 
-							HEURE_PASSAGE + DP + ESP + livraison.getHeurePassage() + RC );
+							HEURE_PASSAGE + DP + ESP + this.FORMATTER.format(livraison.getHeurePassage()) + RC );
 					
 					compteurLivraison++;
 				}

@@ -157,7 +157,7 @@ public class ControleurFenetrePrincipale {
                         p.setNoeudsFromTournee(tournee, plan);
                         
                         traitementDijkstra(tournee);
-                        
+                        System.out.println(tournee.getPlagesHoraire().size());
                         this.selectTournee(tournee);
                         this.fenetre.setMessage("Livraisons chargées avec succès", VueFenetrePrincipale.MessageType.MessageTypeSuccess);
                 }
@@ -182,6 +182,7 @@ public class ControleurFenetrePrincipale {
     private void selectTournee(Tournee tournee) { 
         this.controleurInspecteur.setPlagesHoraires(tournee.getPlagesHoraire());
         this.controleurPlan.setTournee(tournee);
+        this.selectedTournee=tournee;
         this.controleurPlan.paint();
     }
     
@@ -222,14 +223,13 @@ public class ControleurFenetrePrincipale {
 		if( returnVal == JFileChooser.APPROVE_OPTION ) {
 			String file = fChooser.getSelectedFile().getAbsolutePath();
 			lastUsedFolder = fChooser.getSelectedFile().getParent();
-	        boolean worked = controleurTournee.tourneeToTxt(selectedTournee, file);
+	        boolean worked = controleurTournee.tourneeToTxt(this.selectedTournee, file);
 	        
 	        if ( worked ){
 	        	this.fenetre.setMessage(TOURNEE_WRITTEN, VueFenetrePrincipale.MessageType.MessageTypeSuccess);
 	        } else {
 	        	this.fenetre.setMessage(TOURNEE_NOT_WRITTEN, VueFenetrePrincipale.MessageType.MessageTypeError);
-	        }
-	        
+	        }        
 		}
 		
 		
