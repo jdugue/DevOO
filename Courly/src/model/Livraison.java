@@ -1,5 +1,7 @@
 package model;
 
+import java.util.Date;
+
 import org.w3c.dom.Element;
 
 public class Livraison extends Lieu {
@@ -7,7 +9,7 @@ public class Livraison extends Lieu {
 	protected Integer id;
 	protected Integer client;
 	protected PlageHoraire plageHoraire;
-	protected String heurePassage;
+	protected Date heurePassage;
 	
 	private final String TAG_ID = "id";
 	private final String TAG_CLIENT = "client";
@@ -36,11 +38,11 @@ public class Livraison extends Lieu {
 		this.plageHoraire = plageHoraire;
 	}
 
-	public String getHeurePassage() {
+	public Date getHeurePassage() {
 		return heurePassage;
 	}
 
-	public void setHeurePassage(String heurePassage) {
+	public void setHeurePassage(Date heurePassage) {
 		this.heurePassage = heurePassage;
 	}
 
@@ -49,6 +51,10 @@ public class Livraison extends Lieu {
 		client = Integer.parseInt(noeudDOMRacine.getAttribute(TAG_CLIENT));
 		id =  Integer.parseInt(noeudDOMRacine.getAttribute(TAG_ID));
 		plageHoraire = plage;		
+	}
+	
+	public boolean estValide() {
+		return heurePassage.before(plageHoraire.getHeureFin());
 	}
 
 	public Livraison() {

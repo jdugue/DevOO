@@ -4,6 +4,7 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.PriorityQueue;
 
@@ -26,6 +27,8 @@ import model.Troncon;
 
 
 public class Dijkstra {
+	
+	static final long SEC_IN_MILISEC = 1000;
 
 	public void computePaths(Noeud noeudSource) {
 		noeudSource.setMinTemps(0);
@@ -231,7 +234,19 @@ public class Dijkstra {
 			if(ord==0) {
 				plage = tournee.getLivraisons().get(abs-1).getPlageHoraire();
 			} else {
+				Date heurePassage;
+				if(abs == 0) {
+					Date sortieDepot = tournee.getFirstPlageHoraire().getHeureDebut();
+					heurePassage = new Date(sortieDepot.getTime()+SEC_IN_MILISEC*trajetCourant.getTempsTrajet());
+				} else {
+					heurePassage = new Date(tournee.getLivraisons().get(abs-1).getHeurePassage().getTime() + SEC_IN_MILISEC*trajetCourant.getTempsTrajet());
+				}
 				plage = tournee.getLivraisons().get(ord-1).getPlageHoraire();
+				if(heurePassage.before(plage.getHeureDebut())) {
+					tournee.getLivraisons().get(ord-1).setHeurePassage(plage.getHeureDebut());
+				} else {
+					tournee.getLivraisons().get(ord-1).setHeurePassage(heurePassage);
+				}
 			}
 			trajetCourant.setPlage(plage);
 			trajetsTournee.add(trajetCourant);
