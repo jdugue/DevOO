@@ -7,6 +7,7 @@ package controller;
 
 import java.util.ArrayList;
 import java.awt.Color;
+import java.io.File;
 import java.io.FileNotFoundException;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -38,7 +39,10 @@ public class ControleurFenetrePrincipale {
     
     private Tournee parsedTournee;
     private ArrayList<Tournee> tournees = new ArrayList<Tournee>();
-
+    
+    private String lastUsedFolder = null;
+    
+    
 
     public ControleurFenetrePrincipale(VueFenetrePrincipale aFenetre) {
         
@@ -94,11 +98,14 @@ public class ControleurFenetrePrincipale {
     
     public void shouldLoadPlan() {
         JFileChooser fChooser = new JFileChooser();
+        
+        fChooser.setCurrentDirectory( lastUsedFolder == null ? new java.io.File(".") : new File(lastUsedFolder));
         FileNameExtensionFilter filter = new FileNameExtensionFilter("Fichier plan", "xml");
         fChooser.setFileFilter(filter);
         int returnVal = fChooser.showOpenDialog(this.fenetre);
         if( returnVal == JFileChooser.APPROVE_OPTION ) {
             String file = fChooser.getSelectedFile().getAbsolutePath();
+            lastUsedFolder = fChooser.getSelectedFile().getParent();
             ParseurXML p = new ParseurXML();
 
             try {
@@ -139,12 +146,14 @@ public class ControleurFenetrePrincipale {
 
         if( this.plan!=null) {
                 JFileChooser fChooser = new JFileChooser();
+                fChooser.setCurrentDirectory( lastUsedFolder == null ? new java.io.File(".") : new File(lastUsedFolder));
                 FileNameExtensionFilter filter = new FileNameExtensionFilter("Fichier livraison", "xml");
                 fChooser.setFileFilter(filter);
                 int returnVal = fChooser.showOpenDialog(this.fenetre);
                 if( returnVal == JFileChooser.APPROVE_OPTION ) {
                     this.fenetre.setMessage("Calcul de la tournée...", VueFenetrePrincipale.MessageType.MessageTypeLog);
                         String file = fChooser.getSelectedFile().getAbsolutePath();
+                        lastUsedFolder = fChooser.getSelectedFile().getParent();
                         ParseurXML p = new ParseurXML();
 
                         Tournee tournee = p.construireTourneeXML(file);
