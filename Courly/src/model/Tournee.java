@@ -50,6 +50,11 @@ public class Tournee {
 	public void setPlagesHoraire(ArrayList<PlageHoraire> plagesHoraire) {
 		this.plagesHoraire = plagesHoraire;	
 	}
+        
+        public void removeLivraison(Livraison livraison) {
+            livraison.getPlageHoraire().livraisons.remove(livraison);
+            this.livraisons.remove(livraison);
+        }
 	
 	public PlageHoraire getFirstPlageHoraire () {
 		PlageHoraire plage = plagesHoraire.get(0);
@@ -65,11 +70,6 @@ public class Tournee {
 	
 	public void addLivraison(Livraison livraison){
 		livraisons.add(livraison);	
-	}
-	
-	public void removeLivraison(Livraison livraison)
-	{
-		livraisons.remove(livraison);
 	}
 
 }

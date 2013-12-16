@@ -37,12 +37,12 @@ public class Livraison extends Lieu {
 
 	}
 
-    public Livraison( Noeud noeud, Integer adresse, Integer client, PlageHoraire plageHoraire) {
-        super(adresse, noeud);
-        this.client = client;
-        this.setPlageHoraire(plageHoraire);
-	this.setId(++MAX_ID);
-    }
+        public Livraison( Noeud noeud, Integer adresse, Integer client, PlageHoraire plageHoraire) {
+            super(adresse, noeud);
+            this.client = client;
+            this.setPlageHoraire(plageHoraire);
+            this.setId(++MAX_ID);
+        }
         
         
 	

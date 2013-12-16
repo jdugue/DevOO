@@ -27,8 +27,8 @@ public class VueInspecteur extends javax.swing.JPanel {
     private AffichageMode mode = AffichageMode.Empty;
     
     public static enum AffichageMode {
-     Empty, NoeudSelected, LivraisonSelected, LivraisonEdit
-}
+        Empty, NoeudSelected, LivraisonSelected
+    }
     /**
      * Creates new form VueInspecteur
      */
@@ -144,17 +144,9 @@ public class VueInspecteur extends javax.swing.JPanel {
             case LivraisonSelected:
                 this.setLivraisonEnabled(false);
                 this.actionButton.setVisible(true);
-                this.actionButton.setText("Modifier livraison");
+                this.actionButton.setText("Supprimer livraison");
                 this.actionButton.setEnabled(true);
                 this.cancelButton.setVisible(false);
-                break; 
-                
-            case LivraisonEdit:
-                this.setLivraisonEnabled(true);
-                this.actionButton.setVisible(true);
-                this.actionButton.setText("Valider les modifications");
-                this.actionButton.setEnabled(true);
-                this.cancelButton.setVisible(true);
                 break;               
         } 
                 
@@ -163,11 +155,7 @@ public class VueInspecteur extends javax.swing.JPanel {
     private void actionButtonPressedHandler() {
         switch (this.mode) {
             case LivraisonSelected:
-                this.controleur.canEditLivraison();
-                break;
-                
-            case LivraisonEdit:
-                this.controleur.shouldEditLivraison();
+                this.controleur.shouldRemoveLivraison();
                 break;
                 
             case NoeudSelected:
@@ -178,10 +166,6 @@ public class VueInspecteur extends javax.swing.JPanel {
     
     private void cancelButtonPressedHandler() {
         switch (this.mode) {
-                
-            case LivraisonEdit:
-                this.controleur.shouldCancelLivraisonEdit();
-                break;
         }
     }
 

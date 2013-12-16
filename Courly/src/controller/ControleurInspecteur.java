@@ -41,16 +41,13 @@ public class ControleurInspecteur {
     public void setVueFromNoeud(Noeud noeud) {
         this.noeud = noeud;
         this.vue.setNoeud(noeud);
+        this.vue.setMode(VueInspecteur.AffichageMode.NoeudSelected);
     }
     
     public void setVueFromLieu(Lieu lieu) {
         this.lieu = lieu;
         this.vue.setLieu(lieu);
-    }
-    
-    public boolean shouldEditLivraison() {
-        this.vue.setMode(VueInspecteur.AffichageMode.LivraisonEdit);        
-        return true;
+        this.vue.setMode(VueInspecteur.AffichageMode.LivraisonSelected);
     }
     
     public boolean shouldCreateLivraison(String newClient, PlageHoraire plageHoraire) {
@@ -60,6 +57,8 @@ public class ControleurInspecteur {
             return false;
         } else {
             controleurParent.shouldAddLivraisonAndReload(livraison);
+            this.setVueFromLieu(livraison);
+            this.vue.setMode(VueInspecteur.AffichageMode.LivraisonSelected);
             return true;
         }
     }
@@ -70,8 +69,9 @@ public class ControleurInspecteur {
         return true;
     }
     
-    public boolean canEditLivraison() {
-        this.vue.setMode(VueInspecteur.AffichageMode.LivraisonEdit);
+    public boolean shouldRemoveLivraison() {
+        this.controleurParent.shouldRemoveLivraisonAndReload((Livraison)this.lieu);
+        this.vue.setMode(VueInspecteur.AffichageMode.NoeudSelected);
         return true;
     }
 }
