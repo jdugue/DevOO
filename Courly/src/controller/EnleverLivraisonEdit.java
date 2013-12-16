@@ -17,20 +17,21 @@ public class EnleverLivraisonEdit extends AbstractUndoableEdit {
 		this.controleur = c;
 	}
 
-	public void execute(){
-
+	public void execute() throws CannotUndoException {
+		//Ajouter livraison
+		controleur.removeLivraisonAndReload(livraison);
 	}
 
 	@Override
 	public void undo() throws CannotUndoException {
 		//TODO
-		controleur.shouldAddLivraisonAndReload(livraison);
+		controleur.addLivraisonAndReload(livraison);
 	}
 
 	@Override
 	public void redo() throws CannotRedoException {
 		//TODO
-		controleur.shouldRemoveLivraisonAndReload(livraison);
+		controleur.removeLivraisonAndReload(livraison);
 	}
 
 	@Override

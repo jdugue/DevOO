@@ -14,6 +14,30 @@ public class Livraison extends Lieu {
 	private final String TAG_ID = "id";
 	private final String TAG_CLIENT = "client";
 	
+	public static Livraison createLivraison( String newId , String newClient, String newAdresse, PlageHoraire plageHoraire ){
+		//FIXME
+		try {
+			Integer id = Integer.parseInt(newId);
+			Integer client = Integer.parseInt ( newClient );
+			Integer adresse = Integer.parseInt(newAdresse);
+			Livraison livraison = null;
+			if ( plageHoraire != null ){
+				
+				livraison = new Livraison();
+				livraison.setAdresse(adresse);
+				livraison.setClient(client);
+				livraison.setPlageHoraire(plageHoraire);
+				livraison.setId(id);
+				
+				return livraison;
+			}
+		}catch (NumberFormatException nfe){
+			return null;
+		}
+		return null;
+
+	}
+	
 	public Integer getId() {
 		return id;
 	}

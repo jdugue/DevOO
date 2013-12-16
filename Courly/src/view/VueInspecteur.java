@@ -175,7 +175,7 @@ public class VueInspecteur extends javax.swing.JPanel {
                 break;
                 
             case NoeudSelected:
-                this.controleur.shouldCreateLivraison();
+                //this.controleur.shouldCreateLivraison();
                 break;
         }
     }

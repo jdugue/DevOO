@@ -8,6 +8,8 @@ package controller;
 
 import java.util.ArrayList;
 import javax.swing.JScrollPane;
+
+import model.Livraison;
 import model.Noeud;
 import model.PlageHoraire;
 import view.VueInspecteur;
@@ -41,12 +43,17 @@ public class ControleurInspecteur {
     }
     
     public boolean shouldEditLivraison() {
-        this.vue.setMode(VueInspecteur.AffichageMode.LivraisonEdit);
+        this.vue.setMode(VueInspecteur.AffichageMode.LivraisonEdit);        
         return true;
     }
     
-    public boolean shouldCreateLivraison() {
+    public boolean shouldCreateLivraison(String newId, String newClient, String adresse, PlageHoraire plageHoraire) {
         this.vue.setMode(VueInspecteur.AffichageMode.LivraisonSelected);
+        Livraison livraison = Livraison.createLivraison(newId, newClient, adresse, plageHoraire);
+        if ( livraison == null ){
+        	return false;
+        }
+        controleurParent.shouldAddLivraisonAndReload(livraison);
         return true;
     }
     
