@@ -11,6 +11,7 @@ import model.Noeud;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Graphics;
+import model.Lieu;
 
 /**
  *
@@ -32,6 +33,7 @@ public class VueNoeud extends javax.swing.JPanel {
     
     private VuePlan vuePlan;
     private Noeud noeud;
+    private Lieu lieu;
 
     /**
      * Creates new form NoeudView
@@ -54,6 +56,10 @@ public class VueNoeud extends javax.swing.JPanel {
 
     public VueLieu getVueLieu() {
         return vueLieu;
+    }
+
+    public void setLieu(Lieu lieu) {
+        this.lieu = lieu;
     }
 
     public void setVueLieu(VueLieu vueLieu) {
@@ -159,6 +165,10 @@ public class VueNoeud extends javax.swing.JPanel {
         return noeud;
     }
 
+    public Lieu getLieu() {
+        return lieu;
+    }
+
     public void setSelected(boolean selected) {
         this.selected = selected;
         
@@ -194,7 +204,7 @@ public class VueNoeud extends javax.swing.JPanel {
         } else if (this.highlighted) {
             return VueNoeud.highlightedColor;
         } else {
-            if (this.noeud.getLieu() == null) {
+            if (this.lieu == null) {
                 return VueNoeud.normalEmptyColor;
             } else {
                 return VueNoeud.normalLieuColor;

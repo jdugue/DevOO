@@ -87,6 +87,7 @@ public class VueFenetrePrincipale extends javax.swing.JFrame {
         subMenuFrameSize = new javax.swing.JMenu();
         radioItemFrameLitle = new javax.swing.JRadioButtonMenuItem();
         radioItemFrameBig = new javax.swing.JRadioButtonMenuItem();
+        jMenu1 = new javax.swing.JMenu();
 
         jMenuItem1.setText("jMenuItem1");
 
@@ -213,6 +214,9 @@ public class VueFenetrePrincipale extends javax.swing.JFrame {
         menuVenu.add(subMenuFrameSize);
 
         menuBar.add(menuVenu);
+
+        jMenu1.setText("jMenu1");
+        menuBar.add(jMenu1);
 
         setJMenuBar(menuBar);
 
@@ -390,6 +394,7 @@ public class VueFenetrePrincipale extends javax.swing.JFrame {
     private javax.swing.JMenuItem itemRefaire;
     private javax.swing.JMenuItem itemZoomIn;
     private javax.swing.JMenuItem itemZoomOut;
+    private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JPopupMenu jPopupMenu1;
     private javax.swing.JPopupMenu.Separator jSeparator1;

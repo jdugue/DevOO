@@ -12,6 +12,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
+import model.Livraison;
 
 /**
  *
@@ -31,6 +32,7 @@ public class VueLivraison extends VueLieu {
     public VueLivraison() {
         initComponents();
         this.setOpaque(false);
+        this.setSize(50, 50);
     }
 
     /*

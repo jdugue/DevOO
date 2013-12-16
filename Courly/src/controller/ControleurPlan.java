@@ -174,30 +174,22 @@ public class ControleurPlan {
             }
         }
         
-        // Vue noeud
-        VueNoeud vueNoeud = new VueNoeud(noeud);
-        this.vueNoeuds.put(noeud, vueNoeud);
-        
-        vueNoeud.setSize(noeudSize, noeudSize);
-        int xLocation = this.scaledCoordonateHorizontal(vueNoeud.getNoeud().getX()) - vueNoeud.getWidth()/2;
-        int yLocation = this.scaledCoordonateVertical(vueNoeud.getNoeud().getY()) - vueNoeud.getHeight()/2;
-        vueNoeud.setLocation(xLocation, yLocation);
-        vueNoeud.setPlan(this.vuePlan);
-        
-        // Vue lieu
-        if (noeud.getLieu() != null) {
-            if (noeud.getLieu().getClass() == Livraison.class) {
-                VueLivraison vueLivraison = new VueLivraison();
-                vueLivraison.setSize(50, 50);
-                vueNoeud.setVueLieu(vueLivraison);
-            } else {
-                VueDepot vueDepot = new VueDepot();
-                vueDepot.setSize(40, 40);
-                vueNoeud.setVueLieu(vueDepot);
-            }                    
+        VueNoeud vueNoeud = this.vueNoeuds.get(noeud);
+        if (vueNoeud == null) {
+            // Vue noeud
+            vueNoeud = new VueNoeud(noeud);
+            this.vueNoeuds.put(noeud, vueNoeud);
+
+            vueNoeud.setSize(noeudSize, noeudSize);
+            int xLocation = this.scaledCoordonateHorizontal(vueNoeud.getNoeud().getX()) - vueNoeud.getWidth()/2;
+            int yLocation = this.scaledCoordonateVertical(vueNoeud.getNoeud().getY()) - vueNoeud.getHeight()/2;
+            vueNoeud.setLocation(xLocation, yLocation);
+            vueNoeud.setPlan(this.vuePlan);
+
+            this.vuePlan.addVueNoeud(vueNoeud);
         }
         
-        this.vuePlan.addVueNoeud(vueNoeud);
+
         
           
         if (this.selectedNoeud == noeud) {
@@ -285,24 +277,64 @@ public class ControleurPlan {
         for (Noeud noeud : this.plan.getNoeuds()) {
             this.createVueNoeudFromNoeud(noeud);
         }
+        this.paintLivraisons();
+        this.paintDepot();
+        
         for (Troncon troncon : this.plan.getTroncons()) {
             this.createVueTronconFromTroncon(troncon);
         }
-        if (this.tournee != null && this.tournee.getTrajets() != null) {
-            for (Trajet trajet : this.tournee.getTrajets()) {
-                for (Troncon troncon : trajet.getTroncons()) {
-                    VueTroncon vueTroncon = this.vueTroncons.get(troncon);
-
-                    if (vueTroncon != null) {
-                        vueTroncon.addTrajet(trajet);
-                    }
-                }
-            }
-        }
+        this.paintTrajets();
         
         for (VueTroncon vueTroncon : this.vueTroncons.values())
         {
             vueTroncon.repaint();
+        }
+    }
+    
+    private void paintTrajets() {
+        if (this.tournee != null) {
+            if (this.tournee.getTrajets() != null) {
+                for (Trajet trajet : this.tournee.getTrajets()) {
+                    for (Troncon troncon : trajet.getTroncons()) {
+                        VueTroncon vueTroncon = this.vueTroncons.get(troncon);
+
+                        if (vueTroncon != null) {
+                            vueTroncon.addTrajet(trajet);
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    private void paintLivraisons() {
+        if (this.tournee != null) {
+            if (this.tournee.getLivraisons() != null) {
+                for (Livraison livraison : this.tournee.getLivraisons()) {
+                    VueNoeud vueNoeud = this.vueNoeuds.get(livraison.getNoeud());
+
+                    if (vueNoeud != null) {
+                        vueNoeud.setLieu(livraison);
+                        VueLivraison vueLivraison = new VueLivraison();
+                        vueNoeud.setVueLivraison(vueLivraison);
+                        this.vuePlan.setComponentZOrder(vueNoeud, this.vuePlan.getComponentCount()-1);
+                    }
+                }
+            }
+        }
+    }
+    
+    private void paintDepot() {
+        if (this.tournee != null) {
+            if (this.tournee.getDepot() != null) {
+                VueNoeud vueNoeud = this.vueNoeuds.get(this.tournee.getDepot().getNoeud());
+
+                if (vueNoeud != null) {
+                    vueNoeud.setLieu(this.tournee.getDepot());
+                    vueNoeud.setVueLieu(new VueDepot());
+                    this.vuePlan.setComponentZOrder(vueNoeud, this.vuePlan.getComponentCount()-1);
+                }
+            }
         }
     }
     

@@ -27,7 +27,6 @@ public class Lieu {
 
     public void setNoeud(Noeud noeud) {
         this.noeud = noeud;
-        this.noeud.setLieu(this);
     }
 
 	public Integer getAdresse() {

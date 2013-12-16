@@ -1,5 +1,6 @@
 package model;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 
 import org.w3c.dom.Element;
@@ -9,7 +10,7 @@ public class Noeud implements Comparable<Noeud>{
 	protected int id;
 	protected Integer x;
 	protected Integer y;
-	protected Lieu lieu;
+	//protected WeakReference<Lieu> lieu;
 	protected ArrayList<Troncon> tronconsSortants;
 	
 	//Attributs utiles pour Dijkstra
@@ -25,7 +26,7 @@ public class Noeud implements Comparable<Noeud>{
 		this.id = id;
 		this.x = x;
 		this.y = y;
-		this.lieu = lieu;
+		//this.lieu = new WeakReference<Lieu>(lieu);
 		this.tronconsSortants = tronconsSortants;
 	}
 	
@@ -54,10 +55,18 @@ public class Noeud implements Comparable<Noeud>{
 	public void setPrevious(Noeud previous) {
 		this.previous = previous;
 	}
+/*
+        public WeakReference<Lieu> getLieu() {
+            return lieu;
+        }
 
-	public void setLieu(Lieu lieu) {
-		this.lieu = lieu;
-	}
+        public void setLieu(WeakReference<Lieu> lieu) {
+            this.lieu = lieu;
+        }
+
+        public void setLieu(Lieu lieu) {
+            this.lieu = new WeakReference<Lieu>(lieu);
+        }*/
 	
 	public Integer getX() {
 		return this.x;
@@ -65,10 +74,6 @@ public class Noeud implements Comparable<Noeud>{
 	
 	public Integer getY() {
 		return this.y;
-	}
-	
-	public Lieu getLieu() {
-		return this.lieu;
 	}
 	
 	public void construireAPartirDeDOMXML(Element noeudDOMRacine) {
@@ -100,5 +105,19 @@ public class Noeud implements Comparable<Noeud>{
 	public void setY(Integer y) {
 		this.y = y;
 	}
+
+        @Override
+        public int hashCode() {
+            int hash = 5;
+            hash = 71 * hash + this.id;
+            hash = 71 * hash + (this.x != null ? this.x.hashCode() : 0);
+            hash = 71 * hash + (this.y != null ? this.y.hashCode() : 0);
+            return hash;
+        }
+        
+        @Override
+        public boolean equals(Object obj) {
+            return (this.hashCode() == ((Noeud)obj).hashCode());
+        }
 
 }

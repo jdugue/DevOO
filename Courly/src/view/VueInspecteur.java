@@ -88,42 +88,38 @@ public class VueInspecteur extends javax.swing.JPanel {
         }
     }
 
-    public void setNoeud(Noeud noeud) {
-        if (noeud != null) {
-            // Noeud ok
-            
-            this.setAdresse(Integer.toString(noeud.getId()));
-            if (noeud.getLieu() != null) {
-                
-                // Le noeud a un lieu
-                this.setLivraisonEnabled(false);
-                Lieu lieu = noeud.getLieu();
-                
-                if (lieu.getClass() == Livraison.class) {
-                    
-                    // le lieu est une livraison
-                    this.setMode(AffichageMode.LivraisonSelected);
-                    this.setLivraison((Livraison)lieu);
-                    this.setLivraisonAreaTitle("Livraison n°" + ((Livraison)lieu).getId());
-                    
-                } else if (lieu.getClass() == Depot.class) {
-                    // le lieu est un depot
-                    this.cleanLivraison();
-                }
-            } else {
-                
-                // le noeud n'a pas de lieu
-                this.setMode(AffichageMode.NoeudSelected);
-                this.setLivraisonAreaTitle("Ajouter une livraison");
+    public void setLieu(Lieu lieu) {
+        if (lieu != null) {
+
+            // Le noeud a un lieu
+            this.setLivraisonEnabled(false);
+
+            if (lieu.getClass() == Livraison.class) {
+
+                // le lieu est une livraison
+                this.setMode(AffichageMode.LivraisonSelected);
+                this.setLivraison((Livraison)lieu);
+                this.setLivraisonAreaTitle("Livraison n°" + ((Livraison)lieu).getId());
+
+            } else if (lieu.getClass() == Depot.class) {
+                // le lieu est un depot
+                this.cleanLivraison();
             }
         } else {
-            
-            // noeud null
-            this.setMode(AffichageMode.Empty);
-        }
+
+            // le noeud n'a pas de lieu
+            this.setMode(AffichageMode.NoeudSelected);
+            this.setLivraisonAreaTitle("Ajouter une livraison");
+        }            
     }
     
-    
+    public void setNoeud(Noeud noeud) {
+        if (noeud != null) {
+            this.setAdresse(Integer.toString(noeud.getId()));
+        } else {
+            this.setAdresse("");
+        }
+    }
 
     public void setMode(AffichageMode mode) {
         this.mode = mode;

@@ -124,7 +124,7 @@ public class VueTroncon extends javax.swing.JPanel {
         if (yDepart != yArrivee) {
             angle = Math.atan((double)(xDepart - xArrivee)/(yDepart - yArrivee));
         } else {
-            angle = Math.PI/2;
+            angle = Math.PI/2.0;
         }        
         //System.out.println(angle);
         
