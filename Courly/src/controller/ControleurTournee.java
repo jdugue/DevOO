@@ -37,6 +37,7 @@ public class ControleurTournee {
 
 	public boolean tourneeToTxt (Tournee aEcrire, String filename){
 		filename = fixExtension(filename);
+		BufferedWriter bw = null;
 		try {
 			 
 			int compteurLivraison = 1;			
@@ -49,7 +50,7 @@ public class ControleurTournee {
 			}
  
 			FileWriter fw = new FileWriter(file.getAbsoluteFile());
-			BufferedWriter bw = new BufferedWriter(fw);
+			bw = new BufferedWriter(fw);
 			bw.write( getRepetition(INDENTATION_TITRE, TAB) + TITRE + RC );
 			bw.write( RC );
 			
@@ -78,7 +79,14 @@ public class ControleurTournee {
 		} catch (IOException e) {
 			e.printStackTrace();
 			return false;
+		} finally {
+			try {
+				bw.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
+	
 		return true;
 	}
 	
