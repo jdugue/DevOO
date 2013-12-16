@@ -197,6 +197,10 @@ public class ControleurFenetrePrincipale {
     	
     	traitementDijkstra(tournee);
     }
+    
+    public void shouldExportTournee() {
+        
+    }
 
     
     public void didSelectNoeud(Noeud noeud) {
