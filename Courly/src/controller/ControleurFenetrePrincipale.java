@@ -14,6 +14,7 @@ import java.io.IOException;
 
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.undo.UndoManager;
 import javax.xml.parsers.ParserConfigurationException;
 
 import model.Livraison;
@@ -44,6 +45,7 @@ public class ControleurFenetrePrincipale {
     
     private Tournee selectedTournee;
     private ArrayList<Tournee> tournees = new ArrayList<Tournee>();
+    private UndoManager undoManager = new UndoManager();
     
     private String lastUsedFolder = null;
     
@@ -196,17 +198,37 @@ public class ControleurFenetrePrincipale {
     }
 
     
-        public void shouldAddLivraisonAndReload(Livraison livraison)
+    public void undo(){
+    	undoManager.undo();
+    }
+    public void redo(){
+    	undoManager.redo();
+    }
+    public void shouldAddLivraisonAndReload(Livraison livraison)
     {
+    	AjouterLivraisonEdit addEdit = new AjouterLivraisonEdit(livraison, this);
+    	addEdit.execute();
+    	undoManager.addEdit(addEdit);
+    }
+    
+    public void addLivraisonAndReload(Livraison livraison){
     	selectedTournee.addLivraison(livraison);
     	Tournee tournee = new Tournee(selectedTournee);
-    	
+
     	tournee = selectedTournee;
-    	
+
     	traitementDijkstra(tournee);
     }
     
+    
     public void shouldRemoveLivraisonAndReload(Livraison livraison)
+    {    	
+    	EnleverLivraisonEdit removeEdit = new EnleverLivraisonEdit(livraison, this);
+    	removeEdit.execute();
+    	undoManager.addEdit(removeEdit);
+    }
+    
+    public void removeLivraisonAndReload(Livraison livraison)
     {    	
     	selectedTournee.removeLivraison(livraison);
     	Tournee tournee = new Tournee(selectedTournee);

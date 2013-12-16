@@ -8,6 +8,7 @@ package view;
 
 import controller.ControleurFenetrePrincipale;
 import java.awt.Dimension;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import javax.swing.JEditorPane;
 import javax.swing.JScrollPane;
@@ -153,10 +154,20 @@ public class VueFenetrePrincipale extends javax.swing.JFrame {
 
         itemRefaire.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_Y, java.awt.event.InputEvent.CTRL_MASK));
         itemRefaire.setText("Refaire");
+        itemRefaire.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                itemRefaireMousePressed(evt);
+            }
+        });
         menuEdition.add(itemRefaire);
 
         itemAnnuler.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_Z, java.awt.event.InputEvent.CTRL_MASK));
         itemAnnuler.setText("Annuler");
+        itemAnnuler.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                itemAnnulerMousePressed(evt);
+            }
+        });
         menuEdition.add(itemAnnuler);
 
         menuBar.add(menuEdition);
@@ -307,6 +318,15 @@ public class VueFenetrePrincipale extends javax.swing.JFrame {
         this.controleurFenetrePrincipale.shouldExportTournee();
     }//GEN-LAST:event_itemExporterMousePressed
 
+    private void itemRefaireMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_itemRefaireMousePressed
+        // TODO add your handling code here:
+        this.controleurFenetrePrincipale.redo();
+    }//GEN-LAST:event_itemRefaireMousePressed
+    
+    private void itemAnnulerMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_itemAnnulerMousePressed
+        // TODO add your handling code here:
+        this.controleurFenetrePrincipale.undo();
+    }//GEN-LAST:event_itemAnnulerMousePressed
     
     private void setFrameSizeBig(boolean big) {
 
