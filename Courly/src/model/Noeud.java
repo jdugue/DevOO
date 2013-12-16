@@ -6,7 +6,7 @@ import org.w3c.dom.Element;
 
 public class Noeud implements Comparable<Noeud>{
 	
-	protected Integer id;
+	protected int id;
 	protected Integer x;
 	protected Integer y;
 	protected Lieu lieu;

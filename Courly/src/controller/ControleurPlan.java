@@ -85,7 +85,6 @@ public class ControleurPlan {
     private void initPlageHoraireColors() {
         ControleurPlan.plageHoraireColors = new ArrayList<Color>();
         
-        plageHoraireColors.add(Color.red);
         plageHoraireColors.add(Color.green);
         plageHoraireColors.add(Color.blue);
         plageHoraireColors.add(Color.pink);
@@ -233,11 +232,6 @@ public class ControleurPlan {
 
         VueTroncon vueTroncon = this.vueTroncons.get(troncon);
         
-        if (this.vueTroncons.containsKey(troncon))
-        {
-            System.out.print("encore heureux");
-        }
-        
         if (vueTroncon == null) {
             // Vue Troncon
             vueTroncon = new VueTroncon(troncon, this);
@@ -255,13 +249,12 @@ public class ControleurPlan {
             this.vuePlan.add(vueTroncon);
         } else {
            vueTroncon.setTronconRetour(troncon);
-           this.vueTroncons.put(troncon, vueTroncon);
         }
         
     }
     
     public Color colorForPlageHoraire(PlageHoraire plageHoraire) {
-        int plageIndex = this.tournee.getPlagesHoraire().indexOf(plageHoraire);
+        int plageIndex = this.tournee.getPlagesHoraire().indexOf(plageHoraire)%plageHoraireColors.size();
         
         if (plageIndex >= 0) {
             return plageHoraireColors.get(plageIndex);

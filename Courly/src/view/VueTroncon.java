@@ -158,7 +158,6 @@ public class VueTroncon extends javax.swing.JPanel {
 
             for (Trajet trajet : this.trajets) {
                 g.setColor(this.controleur.colorForPlageHoraire(trajet.getPlage()));
-                System.out.println(g.getColor());
                 g.drawLine(x1Draw - dephasage, y1Draw, x2Draw - dephasage, y2Draw);
                 dephasage -= (trajetWidth + trajetPadding);
             }

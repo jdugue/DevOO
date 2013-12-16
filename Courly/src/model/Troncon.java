@@ -98,14 +98,14 @@ public class Troncon {
         @Override
         public int hashCode() {
             int hash = 7;
-            hash = 89 * hash + (this.origine != null ? this.origine.hashCode() : 0);
-            hash = 89 * hash + (this.destination != null ? this.destination.hashCode() : 0);
-            hash = 89 * hash + (this.nomRue != null ? this.nomRue.hashCode() : 0);
-            hash = 89 * hash + (this.longueur != null ? this.longueur.hashCode() : 0);
-            hash = 89 * hash + (this.vitesse != null ? this.vitesse.hashCode() : 0);
-            return hash;
+            int hash1 = 89 * hash + (this.origine != null ? this.origine.getId().hashCode() : 0);
+            int hash2 = 89 * hash + (this.destination != null ? this.destination.getId().hashCode() : 0);
+            return hash1 + hash2;
+            
+            // Troncon hascode do not depends wether Noeud are Origine or Destination
         }
 
+        
         @Override
         public boolean equals(Object obj) {
             return (this.hashCode() == ((Troncon)obj).hashCode());
