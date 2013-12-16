@@ -14,10 +14,12 @@ import model.Livraison;
 
 import java.awt.Dimension;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import javax.swing.JScrollPane;
 import model.PlageHoraire;
 import model.Tournee;
+import model.Trajet;
 
 import view.VueDepot;
 import view.VueLivraison;
@@ -35,8 +37,8 @@ public class ControleurPlan {
     private VuePlan vuePlan;
     private Plan plan = new Plan();
     private Tournee tournee = new Tournee();
-    private final ArrayList<VueNoeud> vueNoeuds = new ArrayList<VueNoeud>();
-    private final ArrayList<VueTroncon> vueTroncons = new ArrayList<VueTroncon>();
+    private final HashMap<Noeud, VueNoeud> vueNoeuds = new HashMap<Noeud, VueNoeud>();
+    private final HashMap<Troncon, VueTroncon> vueTroncons = new HashMap<Troncon, VueTroncon>();
     
     private static ArrayList<Color> plageHoraireColors;
     
@@ -175,7 +177,7 @@ public class ControleurPlan {
         
         // Vue noeud
         VueNoeud vueNoeud = new VueNoeud(noeud);
-        this.vueNoeuds.add(vueNoeud);
+        this.vueNoeuds.put(noeud, vueNoeud);
         
         vueNoeud.setSize(noeudSize, noeudSize);
         int xLocation = this.scaledCoordonateHorizontal(vueNoeud.getNoeud().getX()) - vueNoeud.getWidth()/2;
@@ -229,11 +231,17 @@ public class ControleurPlan {
     
     public void createVueTronconFromTroncon(Troncon troncon) {
 
-        VueTroncon vueTroncon = this.vueForTroncon(troncon);
+        VueTroncon vueTroncon = this.vueTroncons.get(troncon);
+        
+        if (this.vueTroncons.containsKey(troncon))
+        {
+            System.out.print("encore heureux");
+        }
+        
         if (vueTroncon == null) {
             // Vue Troncon
             vueTroncon = new VueTroncon(troncon, this);
-            this.vueTroncons.add(vueTroncon);
+            this.vueTroncons.put(troncon, vueTroncon);
 
             int x = Math.min(troncon.getOrigine().getX(), troncon.getDestination().getX());
             int y = Math.min(troncon.getOrigine().getY(), troncon.getDestination().getY());
@@ -247,6 +255,7 @@ public class ControleurPlan {
             this.vuePlan.add(vueTroncon);
         } else {
            vueTroncon.setTronconRetour(troncon);
+           this.vueTroncons.put(troncon, vueTroncon);
         }
         
     }
@@ -260,15 +269,6 @@ public class ControleurPlan {
             System.out.println("Un trajet n'a pas de plage horaire !!\nIl apparait en rouge.");
             return Color.RED;
         }
-    }
-    
-    public VueTroncon vueForTroncon(Troncon troncon) {
-        for (VueTroncon vueTroncon : this.vueTroncons) {
-            if (vueTroncon.getTronconAller().isEqualToTroncon(troncon)) {
-                return vueTroncon;
-            }
-        }        
-        return null;
     }
     
     public void addTroncon(Troncon troncon) {
@@ -294,6 +294,22 @@ public class ControleurPlan {
         }
         for (Troncon troncon : this.plan.getTroncons()) {
             this.createVueTronconFromTroncon(troncon);
+        }
+        if (this.tournee != null && this.tournee.getTrajets() != null) {
+            for (Trajet trajet : this.tournee.getTrajets()) {
+                for (Troncon troncon : trajet.getTroncons()) {
+                    VueTroncon vueTroncon = this.vueTroncons.get(troncon);
+
+                    if (vueTroncon != null) {
+                        vueTroncon.addTrajet(trajet);
+                    }
+                }
+            }
+        }
+        
+        for (VueTroncon vueTroncon : this.vueTroncons.values())
+        {
+            vueTroncon.repaint();
         }
     }
     

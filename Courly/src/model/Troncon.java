@@ -11,7 +11,6 @@ public class Troncon {
 	protected String nomRue;
 	protected Double longueur;
 	protected Double vitesse;
-	protected ArrayList<Trajet> trajets = new ArrayList<Trajet>();
 	
 	public Troncon(Noeud origine,Noeud destination, String nomRue, Double longueur, Double vitesse) {
 		this.origine = origine;
@@ -19,14 +18,6 @@ public class Troncon {
 		this.nomRue = nomRue;
 		this.longueur = longueur;
 		this.vitesse = vitesse;
-	}
-	
-	public ArrayList<Trajet> getTrajets() {
-		return trajets;
-	}
-
-	public void setTrajets(ArrayList<Trajet> trajets) {
-		this.trajets = trajets;
 	}
 
 	public Troncon() {
@@ -104,4 +95,19 @@ public class Troncon {
             }
         }
 
+        @Override
+        public int hashCode() {
+            int hash = 7;
+            hash = 89 * hash + (this.origine != null ? this.origine.hashCode() : 0);
+            hash = 89 * hash + (this.destination != null ? this.destination.hashCode() : 0);
+            hash = 89 * hash + (this.nomRue != null ? this.nomRue.hashCode() : 0);
+            hash = 89 * hash + (this.longueur != null ? this.longueur.hashCode() : 0);
+            hash = 89 * hash + (this.vitesse != null ? this.vitesse.hashCode() : 0);
+            return hash;
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            return (this.hashCode() == obj.hashCode());
+        }
 }
