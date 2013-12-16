@@ -7,6 +7,8 @@ public class Lieu {
 	protected Integer adresse;
     protected Noeud noeud;
 
+	private final String TAG_ADRESSE = "adresse";
+
 	public Lieu() {
 		
 	}
@@ -16,7 +18,7 @@ public class Lieu {
 	}
 	
 	public void construireAPartirDeDOMXML(Element noeudDOMRacine) {		
-		adresse = Integer.parseInt(noeudDOMRacine.getAttribute("adresse"));
+		adresse = Integer.parseInt(noeudDOMRacine.getAttribute(TAG_ADRESSE));
 	}
 
     public Noeud getNoeud() {
