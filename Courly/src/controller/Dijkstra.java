@@ -304,13 +304,10 @@ public class Dijkstra {
 	 * @param plan
 	 * @param tournee
 	 */
-	public void initTournee(Plan plan, Tournee tournee){
+	public void initTournee(Plan plan, Tournee tournee) {
 		List<ArrayList<Trajet>> trajets = genererMatriceTrajets(plan, tournee);
 
 		choco(tournee,trajets,-1);
 	}
-<<<<<<< HEAD
-	
-=======
->>>>>>> dc0f2260c3064ec18030b354fe2d031494b64587
+
 }
