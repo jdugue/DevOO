@@ -7,7 +7,6 @@
 package view;
 
 import controller.ControleurFenetrePrincipale;
-import controller.ControleurPlan;
 import java.awt.Dimension;
 import java.util.ArrayList;
 import javax.swing.JEditorPane;
@@ -77,6 +76,7 @@ public class VueFenetrePrincipale extends javax.swing.JFrame {
         menuFichier = new javax.swing.JMenu();
         itemChargerPlan = new javax.swing.JMenuItem();
         itemChargerLivraisons = new javax.swing.JMenuItem();
+        itemExporter = new javax.swing.JMenuItem();
         menuEdition = new javax.swing.JMenu();
         itemRefaire = new javax.swing.JMenuItem();
         itemAnnuler = new javax.swing.JMenuItem();
@@ -132,6 +132,19 @@ public class VueFenetrePrincipale extends javax.swing.JFrame {
             }
         });
         menuFichier.add(itemChargerLivraisons);
+
+        itemExporter.setText("Exporter...");
+        itemExporter.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                itemExporterMousePressed(evt);
+            }
+        });
+        itemExporter.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                itemExporterActionPerformed(evt);
+            }
+        });
+        menuFichier.add(itemExporter);
 
         menuBar.add(menuFichier);
 
@@ -281,6 +294,15 @@ public class VueFenetrePrincipale extends javax.swing.JFrame {
         this.setFrameSizeBig(true);
     }//GEN-LAST:event_radioItemFrameBigMousePressed
 
+    private void itemExporterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemExporterActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_itemExporterActionPerformed
+
+    private void itemExporterMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_itemExporterMousePressed
+        // TODO add your handling code here:
+        this.controleurFenetrePrincipale.shouldExportTournee();
+    }//GEN-LAST:event_itemExporterMousePressed
+
     
     private void setFrameSizeBig(boolean big) {
 
@@ -364,6 +386,7 @@ public class VueFenetrePrincipale extends javax.swing.JFrame {
     private javax.swing.JMenuItem itemAnnuler;
     private javax.swing.JMenuItem itemChargerLivraisons;
     private javax.swing.JMenuItem itemChargerPlan;
+    private javax.swing.JMenuItem itemExporter;
     private javax.swing.JMenuItem itemRefaire;
     private javax.swing.JMenuItem itemZoomIn;
     private javax.swing.JMenuItem itemZoomOut;
