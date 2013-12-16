@@ -309,5 +309,8 @@ public class Dijkstra {
 
 		choco(tournee,trajets,-1);
 	}
+<<<<<<< HEAD
 	
+=======
+>>>>>>> dc0f2260c3064ec18030b354fe2d031494b64587
 }

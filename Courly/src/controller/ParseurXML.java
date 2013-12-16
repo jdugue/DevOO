@@ -116,7 +116,7 @@ public class ParseurXML {
 		return plan;
 	}
 	
-	public Tournee construireTourneeXML(String file) {
+	public Tournee construireTourneeXML(String file) throws java.text.ParseException, ParserConfigurationException, SAXException, IOException {
 		
 		File xml = ouvrirFichier(file);
 		Tournee tournee = new Tournee();
@@ -128,7 +128,6 @@ public class ParseurXML {
 			ArrayList<PlageHoraire> plages = new ArrayList<PlageHoraire>();
 
 			Depot depot = new Depot();
-			try {
                 // creation d'un constructeur de documents a l'aide d'une fabrique
                DocumentBuilder constructeur = DocumentBuilderFactory.newInstance().newDocumentBuilder();	
                // lecture du contenu d'un fichier XML avec DOM
@@ -156,16 +155,13 @@ public class ParseurXML {
             			   plages.add(plage);
             		   }
             		   else {
-            			   //throw new ParseException();
+            			   throw new SAXException();
             		   }
             	   }
             	   
                }
                
-			}
-			catch (Exception e) {
-				System.out.println(e);
-			}
+			
 			
 			tournee.setPlagesHoraire(plages);
 			tournee.setLivraisons(livraisons);

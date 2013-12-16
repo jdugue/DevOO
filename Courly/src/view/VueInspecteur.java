@@ -7,6 +7,8 @@
 package view;
 
 import controller.ControleurInspecteur;
+
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import javax.swing.JLabel;
 import model.Lieu;
@@ -58,7 +60,7 @@ public class VueInspecteur extends javax.swing.JPanel {
     private void setLivraison(Livraison livraison) {
         //this.livraisonIDLabel.setText(Integer.toString(livraison.getId()));
         this.clientIDTextField.setText(Integer.toString(livraison.getClient()));
-        this.heurePassageTextField.setText(livraison.getHeurePassage().toString());
+        this.heurePassageTextField.setText(new SimpleDateFormat("HH:mm:s").format(livraison.getHeurePassage().getTime()));
         this.plagesHorairesComboBox.getModel().setSelectedItem(livraison.getPlageHoraire());
     }
     
