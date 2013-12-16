@@ -14,20 +14,19 @@ public class Livraison extends Lieu {
 	private final String TAG_ID = "id";
 	private final String TAG_CLIENT = "client";
 	
-	public static Livraison createLivraison( String newId , String newClient, String newAdresse, PlageHoraire plageHoraire ){
-		//FIXME
+	private static int MAX_ID = -1;
+	
+	public static Livraison createLivraison( String newClient, Integer newAdresse, PlageHoraire plageHoraire ){
 		try {
-			Integer id = Integer.parseInt(newId);
 			Integer client = Integer.parseInt ( newClient );
-			Integer adresse = Integer.parseInt(newAdresse);
 			Livraison livraison = null;
 			if ( plageHoraire != null ){
 				
 				livraison = new Livraison();
-				livraison.setAdresse(adresse);
+				livraison.setAdresse(newAdresse);
 				livraison.setClient(client);
 				livraison.setPlageHoraire(plageHoraire);
-				livraison.setId(id);
+				livraison.setId(++MAX_ID);
 				
 				return livraison;
 			}
@@ -43,6 +42,7 @@ public class Livraison extends Lieu {
 	}
 
 	public void setId(Integer id) {
+		MAX_ID = MAX_ID < id ? id : MAX_ID;
 		this.id = id;
 	}
 
