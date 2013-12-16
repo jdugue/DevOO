@@ -8,7 +8,10 @@ public class Livraison extends Lieu {
 	protected Integer client;
 	protected PlageHoraire plageHoraire;
 	protected String heurePassage;
-
+	
+	private final String TAG_ID = "id";
+	private final String TAG_CLIENT = "client";
+	
 	public Integer getId() {
 		return id;
 	}
@@ -43,7 +46,8 @@ public class Livraison extends Lieu {
 
 	public void construireAPartirDeDOMXML(Element noeudDOMRacine, PlageHoraire plage) {
 		super.construireAPartirDeDOMXML(noeudDOMRacine);
-		client = Integer.parseInt(noeudDOMRacine.getAttribute("client"));
+		client = Integer.parseInt(noeudDOMRacine.getAttribute(TAG_CLIENT));
+		id =  Integer.parseInt(noeudDOMRacine.getAttribute(TAG_ID));
 		plageHoraire = plage;		
 	}
 
