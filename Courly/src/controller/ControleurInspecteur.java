@@ -47,9 +47,9 @@ public class ControleurInspecteur {
         return true;
     }
     
-    public boolean shouldCreateLivraison(String newId, String newClient, String adresse, PlageHoraire plageHoraire) {
+    public boolean shouldCreateLivraison(String newClient, String adresse, PlageHoraire plageHoraire) {
         this.vue.setMode(VueInspecteur.AffichageMode.LivraisonSelected);
-        Livraison livraison = Livraison.createLivraison(newId, newClient, adresse, plageHoraire);
+        Livraison livraison = Livraison.createLivraison(0, newClient, adresse, plageHoraire);
         if ( livraison == null ){
         	return false;
         }

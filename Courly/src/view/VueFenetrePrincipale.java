@@ -159,6 +159,11 @@ public class VueFenetrePrincipale extends javax.swing.JFrame {
                 itemRefaireMousePressed(evt);
             }
         });
+        itemRefaire.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                itemRefaireActionPerformed(evt);
+            }
+        });
         menuEdition.add(itemRefaire);
 
         itemAnnuler.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_Z, java.awt.event.InputEvent.CTRL_MASK));
@@ -166,6 +171,11 @@ public class VueFenetrePrincipale extends javax.swing.JFrame {
         itemAnnuler.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 itemAnnulerMousePressed(evt);
+            }
+        });
+        itemAnnuler.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                itemAnnulerActionPerformed(evt);
             }
         });
         menuEdition.add(itemAnnuler);
@@ -327,6 +337,16 @@ public class VueFenetrePrincipale extends javax.swing.JFrame {
         // TODO add your handling code here:
         this.controleurFenetrePrincipale.undo();
     }//GEN-LAST:event_itemAnnulerMousePressed
+
+    private void itemAnnulerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemAnnulerActionPerformed
+        // TODO add your handling code here:
+        this.controleurFenetrePrincipale.undo();
+    }//GEN-LAST:event_itemAnnulerActionPerformed
+
+    private void itemRefaireActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemRefaireActionPerformed
+        // TODO add your handling code here:
+        this.controleurFenetrePrincipale.redo();
+    }//GEN-LAST:event_itemRefaireActionPerformed
     
     private void setFrameSizeBig(boolean big) {
 
