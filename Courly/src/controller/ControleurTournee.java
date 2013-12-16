@@ -24,6 +24,7 @@ public class ControleurTournee {
 	private final String TAB = "\t";
 	
 	private final String EXT = ".txt";
+	private final String FILETYPE_NAME = "Fichier tournée";
 	
 	private final int INDENTATION_TITRE = 4;
 	private final int INDENTATION_PLAGE_HORAIRE = 1;
@@ -94,5 +95,13 @@ public class ControleurTournee {
 			file += EXT;
 		}
 		return file;
+	}
+	
+	public String getTourneeFileExt (){
+		return EXT;
+	}
+	
+	public String getFiletypeName (){
+		return FILETYPE_NAME;
 	}
 }

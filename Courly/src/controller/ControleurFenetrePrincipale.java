@@ -37,13 +37,16 @@ public class ControleurFenetrePrincipale {
     private static final double zoomMin = 0.1;
     private static final double zoomMax = 2.0;
     
-    private Tournee parsedTournee;
+    private Tournee selectedTournee;
     private ArrayList<Tournee> tournees = new ArrayList<Tournee>();
     
     private String lastUsedFolder = null;
     
+    private final String TOURNEE_WRITTEN = "Fichier de tournee généré.";
+    private final String TOURNEE_NOT_WRITTEN = "Le fichier de tournée n'a pas pu être " +
+    		"généré suite à un problème.";
     
-
+    
     public ControleurFenetrePrincipale(VueFenetrePrincipale aFenetre) {
         
         this.fenetre = aFenetre;
@@ -97,11 +100,9 @@ public class ControleurFenetrePrincipale {
     }
     
     public void shouldLoadPlan() {
-        JFileChooser fChooser = new JFileChooser();
+    	JFileChooser fChooser = FileChooserFactory.createFileChooser("xml", "Fichier livraison", 
+				getCurrentDirectory());
         
-        fChooser.setCurrentDirectory( lastUsedFolder == null ? new java.io.File(".") : new File(lastUsedFolder));
-        FileNameExtensionFilter filter = new FileNameExtensionFilter("Fichier plan", "xml");
-        fChooser.setFileFilter(filter);
         int returnVal = fChooser.showOpenDialog(this.fenetre);
         if( returnVal == JFileChooser.APPROVE_OPTION ) {
             String file = fChooser.getSelectedFile().getAbsolutePath();
@@ -144,33 +145,33 @@ public class ControleurFenetrePrincipale {
     
     public void shouldLoadLivraison() { 
 
-        if( this.plan!=null) {
-                JFileChooser fChooser = new JFileChooser();
-                fChooser.setCurrentDirectory( lastUsedFolder == null ? new java.io.File(".") : new File(lastUsedFolder));
-                FileNameExtensionFilter filter = new FileNameExtensionFilter("Fichier livraison", "xml");
-                fChooser.setFileFilter(filter);
-                int returnVal = fChooser.showOpenDialog(this.fenetre);
-                if( returnVal == JFileChooser.APPROVE_OPTION ) {
-                    this.fenetre.setMessage("Calcul de la tournée...", VueFenetrePrincipale.MessageType.MessageTypeLog);
-                        String file = fChooser.getSelectedFile().getAbsolutePath();
-                        lastUsedFolder = fChooser.getSelectedFile().getParent();
-                        ParseurXML p = new ParseurXML();
+    	if( this.plan!=null) {
 
-                        Tournee tournee = p.construireTourneeXML(file);
-                        if (tournee != null) {
-                            this.tournees.add(tournee);
-                        }
-                        p.setNoeudsFromTournee(tournee, plan);
-                        
-                        traitementDijkstra(tournee);
-                        
-                        this.selectTournee(tournee);
-                        this.fenetre.setMessage("Livraisons chargées avec succès", VueFenetrePrincipale.MessageType.MessageTypeSuccess);
-                }
-        }
-        else {
-                this.fenetre.setMessage("Vous devez d\'abord charger un plan", VueFenetrePrincipale.MessageType.MessageTypeLog);
-        }
+    		JFileChooser fChooser = FileChooserFactory.createFileChooser("xml", "Fichier livraison", 
+    				getCurrentDirectory());
+
+    		int returnVal = fChooser.showOpenDialog(this.fenetre);
+    		if( returnVal == JFileChooser.APPROVE_OPTION ) {
+    			this.fenetre.setMessage("Calcul de la tournée...", VueFenetrePrincipale.MessageType.MessageTypeLog);
+    			String file = fChooser.getSelectedFile().getAbsolutePath();
+    			lastUsedFolder = fChooser.getSelectedFile().getParent();
+    			ParseurXML p = new ParseurXML();
+
+    			Tournee tournee = p.construireTourneeXML(file);
+    			if (tournee != null) {
+    				this.tournees.add(tournee);
+    			}
+    			p.setTrajetsFromTournee(tournee, plan);
+
+    			traitementDijkstra(tournee);
+
+    			this.selectTournee(tournee);
+    			this.fenetre.setMessage("Livraisons chargées avec succès", VueFenetrePrincipale.MessageType.MessageTypeSuccess);
+    		}
+    	}
+    	else {
+    		this.fenetre.setMessage("Vous devez d\'abord charger un plan", VueFenetrePrincipale.MessageType.MessageTypeLog);
+    	}
     }
     
     private void selectTournee(Tournee tournee) { 
@@ -191,24 +192,42 @@ public class ControleurFenetrePrincipale {
     
         public void shouldAddLivraisonAndReload(Livraison livraison)
     {
-    	parsedTournee.addLivraison(livraison);
-    	Tournee tournee = new Tournee(parsedTournee);
+    	selectedTournee.addLivraison(livraison);
+    	Tournee tournee = new Tournee(selectedTournee);
     	
-    	tournee = parsedTournee;
+    	tournee = selectedTournee;
     	
     	traitementDijkstra(tournee);
     }
     
     public void shouldRemoveLivraisonAndReload(Livraison livraison)
     {    	
-    	parsedTournee.removeLivraison(livraison);
-    	Tournee tournee = new Tournee(parsedTournee);
+    	selectedTournee.removeLivraison(livraison);
+    	Tournee tournee = new Tournee(selectedTournee);
     	
     	traitementDijkstra(tournee);
     }
     
-    public void shouldExportTournee() {
-        
+    public void shouldExportTournee(Tournee toFile) {
+        ControleurTournee controleurTournee = new ControleurTournee();
+        JFileChooser fChooser = FileChooserFactory.createFileChooser( controleurTournee.getTourneeFileExt()
+        		, controleurTournee.getFiletypeName(), getCurrentDirectory() );
+       
+        int returnVal = fChooser.showOpenDialog(this.fenetre);
+		if( returnVal == JFileChooser.APPROVE_OPTION ) {
+			String file = fChooser.getSelectedFile().getAbsolutePath();
+			lastUsedFolder = fChooser.getSelectedFile().getParent();
+	        boolean worked = controleurTournee.tourneeToTxt(toFile, file);
+	        
+	        if ( worked ){
+	        	this.fenetre.setMessage(TOURNEE_WRITTEN, VueFenetrePrincipale.MessageType.MessageTypeSuccess);
+	        } else {
+	        	this.fenetre.setMessage(TOURNEE_NOT_WRITTEN, VueFenetrePrincipale.MessageType.MessageTypeError);
+	        }
+	        
+		}
+		
+		
     }
 
     
@@ -218,5 +237,10 @@ public class ControleurFenetrePrincipale {
     
     public void didDeselectNoeud(Noeud noeud) {
         this.controleurInspecteur.setVueFromNoeud(null);
+    }
+    
+    private File getCurrentDirectory(){
+		return lastUsedFolder == null ? new java.io.File(".") : new File(lastUsedFolder);
+		
     }
 }
