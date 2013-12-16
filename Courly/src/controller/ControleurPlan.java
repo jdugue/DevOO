@@ -17,11 +17,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import javax.swing.JScrollPane;
+import model.Depot;
+import model.Lieu;
 import model.PlageHoraire;
 import model.Tournee;
 import model.Trajet;
 
 import view.VueDepot;
+import view.VueLieu;
 import view.VueLivraison;
 import view.VueNoeud;
 import view.VuePlan;
@@ -106,6 +109,9 @@ public class ControleurPlan {
     }
 
     public void setSelectedVueNoeud(VueNoeud selectedVueNoeud) {
+        if (this.selectedVueNoeud != null) {
+            this.selectedVueNoeud.setSelected(false);
+        }
         this.selectedVueNoeud = selectedVueNoeud;
         this.selectedNoeud = selectedVueNoeud.getNoeud();
     }
@@ -315,7 +321,7 @@ public class ControleurPlan {
 
                     if (vueNoeud != null) {
                         vueNoeud.setLieu(livraison);
-                        VueLivraison vueLivraison = new VueLivraison();
+                        VueLivraison vueLivraison = new VueLivraison(livraison);
                         vueNoeud.setVueLivraison(vueLivraison);
                         this.vuePlan.setComponentZOrder(vueNoeud, this.vuePlan.getComponentCount()-1);
                     }
@@ -331,7 +337,7 @@ public class ControleurPlan {
 
                 if (vueNoeud != null) {
                     vueNoeud.setLieu(this.tournee.getDepot());
-                    vueNoeud.setVueLieu(new VueDepot());
+                    vueNoeud.setVueLieu(new VueDepot(this.tournee.getDepot()));
                     this.vuePlan.setComponentZOrder(vueNoeud, this.vuePlan.getComponentCount()-1);
                 }
             }
@@ -352,9 +358,6 @@ public class ControleurPlan {
     }
     
     public void didSelectVueNoeud(VueNoeud selectedVueNoeud) {
-        if (this.getSelectedVueNoeud() != null) {
-            this.getSelectedVueNoeud().setSelected(false);
-        }
         this.setSelectedVueNoeud(selectedVueNoeud);
         
         Noeud noeud = selectedVueNoeud.getNoeud();
@@ -364,6 +367,18 @@ public class ControleurPlan {
     public void didDeselectVueNoeud(VueNoeud deselectedNoeud) {
         Noeud noeud = deselectedNoeud.getNoeud();
         this.controleurParent.didDeselectNoeud(noeud);
+    }
+    
+    public void didSelectVueLieu(VueLieu vueLieu) {
+        Lieu lieu = vueLieu.getLieu();
+        VueNoeud vueNoeud = this.vueNoeuds.get(lieu.getNoeud());
+        this.setSelectedVueNoeud(vueNoeud);
+        this.controleurParent.didSelectLieu(lieu);
+    }
+    
+    public void didDeselectVueLieu(VueLieu vueLieu) {
+        Lieu lieu = vueLieu.getLieu();
+        this.controleurParent.didDeselectLieu(lieu);
     }
     
 }

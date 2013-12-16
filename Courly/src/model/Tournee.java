@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class Tournee {
 	
-	protected Lieu depot;
+	protected Depot depot;
 	protected ArrayList<Livraison> livraisons;
 	protected ArrayList<Trajet> trajets;
 	protected ArrayList<PlageHoraire> plagesHoraire;
@@ -16,6 +16,7 @@ public class Tournee {
             this.livraisons = new ArrayList<Livraison>(tournee.getLivraisons());
             this.trajets = new ArrayList<Trajet>(tournee.getTrajets());
             this.plagesHoraire = new ArrayList<PlageHoraire>(tournee.getPlagesHoraire());
+            this.depot = tournee.getDepot();
         }       
 	
 	public ArrayList<Livraison> getLivraisons() {
@@ -26,11 +27,11 @@ public class Tournee {
 		this.livraisons = livraisons;
 	}
 	
-	public Lieu getDepot() {
+	public Depot getDepot() {
 		return depot;
 	}
 
-	public void setDepot(Lieu depot){
+	public void setDepot(Depot depot){
 		this.depot = depot;
 	}
 

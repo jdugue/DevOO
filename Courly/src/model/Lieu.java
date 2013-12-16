@@ -12,6 +12,11 @@ public class Lieu {
 	public Lieu() {
 		
 	}
+        
+        public Lieu (Integer adresse, Noeud noeud) {
+            this.adresse = adresse;
+            this.noeud = noeud;            
+        }
 	
 	public Lieu(Integer adresse) {
 		this.adresse = adresse;
@@ -21,13 +26,13 @@ public class Lieu {
 		adresse = Integer.parseInt(noeudDOMRacine.getAttribute(TAG_ADRESSE));
 	}
 
-    public Noeud getNoeud() {
-        return noeud;
-    }
+        public Noeud getNoeud() {
+            return noeud;
+        }
 
-    public void setNoeud(Noeud noeud) {
-        this.noeud = noeud;
-    }
+        public void setNoeud(Noeud noeud) {
+            this.noeud = noeud;
+        }
 
 	public Integer getAdresse() {
 		return adresse;

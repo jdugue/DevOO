@@ -31,7 +31,7 @@ public class VueNoeud extends javax.swing.JPanel {
     
     protected VueLieu vueLieu;
     
-    private VuePlan vuePlan;
+    protected VuePlan vuePlan;
     private Noeud noeud;
     private Lieu lieu;
 
@@ -107,7 +107,7 @@ public class VueNoeud extends javax.swing.JPanel {
 
         addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                mouseClickedHangler(evt);
+                mouseClickedHandler(evt);
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
                 mouseExitedHandler(evt);
@@ -139,7 +139,7 @@ public class VueNoeud extends javax.swing.JPanel {
         this.setHighlighted(false);
     }                                   
 
-    private void mouseClickedHangler(java.awt.event.MouseEvent evt) {                                     
+    private void mouseClickedHandler(java.awt.event.MouseEvent evt) {                                     
         // TODO add your handling code here:
         this.setSelected(!this.selected);
     }                                    
@@ -169,20 +169,24 @@ public class VueNoeud extends javax.swing.JPanel {
         return lieu;
     }
 
-    public void setSelected(boolean selected) {
+    public void setSelected(boolean selected, boolean callBack) {
         this.selected = selected;
         
         this.repaint();
         
-        if (selected) {
+        if (selected && callBack) {
             this.vuePlan.getControleur().didSelectVueNoeud(this);
-        } else {
+        } else if (callBack) {
             this.vuePlan.getControleur().didDeselectVueNoeud(this);
         }
         
         if (this.vueLieu != null && this.vueLieu.selected != this.selected) {
             this.vueLieu.setSelected(selected);
         }
+    }
+    
+    public void setSelected(boolean selected) {
+        this.setSelected(selected, true);
     }
     
     public void setHighlighted(boolean highlighted) {

@@ -16,6 +16,7 @@ import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.undo.UndoManager;
 import javax.xml.parsers.ParserConfigurationException;
+import model.Lieu;
 
 import model.Livraison;
 import model.Noeud;
@@ -24,6 +25,7 @@ import model.Tournee;
 import model.Troncon;
 import org.xml.sax.SAXException;
 import view.VueFenetrePrincipale;
+import view.VueLieu;
 
 /**
  *
@@ -215,7 +217,7 @@ public class ControleurFenetrePrincipale {
     	selectedTournee.addLivraison(livraison);
     	Tournee tournee = new Tournee(selectedTournee);
 
-    	tournee = selectedTournee;
+    	selectedTournee = tournee;
 
     	traitementDijkstra(tournee);
     }
@@ -264,6 +266,14 @@ public class ControleurFenetrePrincipale {
     
     public void didDeselectNoeud(Noeud noeud) {
         this.controleurInspecteur.setVueFromNoeud(null);
+    }
+    
+    public void didSelectLieu(Lieu lieu) {
+        this.controleurInspecteur.setVueFromLieu(lieu);
+    }
+    
+    public void didDeselectLieu(Lieu lieu) {
+        this.controleurInspecteur.setVueFromLieu(null);
     }
     
     private File getCurrentDirectory(){

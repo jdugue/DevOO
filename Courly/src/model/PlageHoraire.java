@@ -46,6 +46,10 @@ public class PlageHoraire {
 	public void setLivraisons(ArrayList<Livraison> livraisons) {
 		this.livraisons = livraisons;
 	}
+        
+        public void addLivraison(Livraison livraison) {
+            this.livraisons.add(livraison);
+        }
 	
 	public ArrayList<Livraison> construireAPartirDeDOMXML(Element noeudDOMRacine) throws ParseException {		
 		heureDebut = FORMATTER.parse(noeudDOMRacine.getAttribute("heureDebut"));	

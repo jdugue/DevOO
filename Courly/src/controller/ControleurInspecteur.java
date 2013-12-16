@@ -8,6 +8,7 @@ package controller;
 
 import java.util.ArrayList;
 import javax.swing.JScrollPane;
+import model.Lieu;
 
 import model.Livraison;
 import model.Noeud;
@@ -23,6 +24,7 @@ public class ControleurInspecteur {
     private VueInspecteur vue;
     private ControleurFenetrePrincipale controleurParent;
     private Noeud noeud;
+    private Lieu lieu;
 
     public ControleurInspecteur(JScrollPane scrollPane, ControleurFenetrePrincipale controleurParent) {
         this.controleurParent = controleurParent;
@@ -36,10 +38,14 @@ public class ControleurInspecteur {
     }
     
     
-    public boolean setVueFromNoeud(Noeud noeud) {
+    public void setVueFromNoeud(Noeud noeud) {
         this.noeud = noeud;
         this.vue.setNoeud(noeud);
-        return true;
+    }
+    
+    public void setVueFromLieu(Lieu lieu) {
+        this.lieu = lieu;
+        this.vue.setLieu(lieu);
     }
     
     public boolean shouldEditLivraison() {
@@ -49,12 +55,13 @@ public class ControleurInspecteur {
     
     public boolean shouldCreateLivraison(String newClient, PlageHoraire plageHoraire) {
         this.vue.setMode(VueInspecteur.AffichageMode.LivraisonSelected);
-        Livraison livraison = Livraison.createLivraison( newClient, this.noeud.getId(), plageHoraire);
+        Livraison livraison = new Livraison(this.noeud, this.noeud.getId(), Integer.parseInt(newClient), plageHoraire);//Livraison.createLivraison( newClient, this.noeud.getId(), plageHoraire);
         if ( livraison == null ){
-        	return false;
+            return false;
+        } else {
+            controleurParent.shouldAddLivraisonAndReload(livraison);
+            return true;
         }
-        controleurParent.shouldAddLivraisonAndReload(livraison);
-        return true;
     }
     
     public boolean shouldCancelLivraisonEdit() {

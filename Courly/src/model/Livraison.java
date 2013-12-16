@@ -36,6 +36,15 @@ public class Livraison extends Lieu {
 		return null;
 
 	}
+
+    public Livraison( Noeud noeud, Integer adresse, Integer client, PlageHoraire plageHoraire) {
+        super(adresse, noeud);
+        this.client = client;
+        this.setPlageHoraire(plageHoraire);
+	this.setId(++MAX_ID);
+    }
+        
+        
 	
 	public Integer getId() {
 		return id;
@@ -60,6 +69,7 @@ public class Livraison extends Lieu {
 
 	public void setPlageHoraire(PlageHoraire plageHoraire) {
 		this.plageHoraire = plageHoraire;
+                this.plageHoraire.addLivraison(this);
 	}
 
 	public Date getHeurePassage() {

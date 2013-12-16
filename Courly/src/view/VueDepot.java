@@ -7,6 +7,7 @@
 package view;
 
 import java.awt.image.BufferedImage;
+import model.Depot;
 
 /**
  *
@@ -24,11 +25,17 @@ public class VueDepot extends VueLieu {
 
     /**
      * Creates new form VueDepot
+     * @param depot
      */
-    public VueDepot() {
+    public VueDepot(Depot depot) {
         initComponents();
         this.setOpaque(false);
         this.setSize(Size, Size);
+        this.lieu = depot;
+    }
+    
+    public Depot getDepot() {
+        return (Depot)this.lieu;
     }
     
     
