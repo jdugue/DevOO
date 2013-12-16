@@ -1,23 +1,16 @@
 package controller;
 
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.PriorityQueue;
-
-import org.xml.sax.SAXException;
-
 import solver.ResolutionPolicy;
 import solver.Solver;
 import solver.constraints.IntConstraintFactory;
 import solver.search.strategy.IntStrategyFactory;
 import solver.variables.IntVar;
 import solver.variables.VariableFactory;
-import model.Lieu;
-import model.Livraison;
 import model.Noeud;
 import model.PlageHoraire;
 import model.Plan;
@@ -30,6 +23,11 @@ public class Dijkstra {
 	
 	static final long SEC_IN_MILISEC = 1000;
 
+	/**
+	 * computePaths permet de trouver pour un noeud passé en parametre le temps de parcours jusqu'a tous les autres 
+	 * noeuds. De cette façon l'attribut previous de tous les noeuds sont fixes par rapport au chemins trouves.
+	 * @param noeudSource : le noeud pour lequel on veut calculer les temps de parcours.
+	 */
 	public void computePaths(Noeud noeudSource) {
 		noeudSource.setMinTemps(0);
 		PriorityQueue<Noeud> nodeQueue = new PriorityQueue<Noeud>();
@@ -53,6 +51,13 @@ public class Dijkstra {
 		}
 	}
 
+	/**
+	 * plusCourtCheminVers permet de calculer le plus court chemin d'un noeud pour lequel on a execute computePaths a
+	 * un noeud passe en parametre.
+	 * @param destination : le noeud de destination du plus court chemin.
+	 * @return une liste de noeuds representant le chemin a suivre. Le premier noeud est le noeud d'origine et le dernier
+	 * est destination.
+	 */
 	public List<Noeud> plusCourtCheminVers(Noeud destination) {
 		List<Noeud> chemin = new ArrayList<Noeud>();
 
@@ -62,9 +67,12 @@ public class Dijkstra {
 		Collections.reverse(chemin);
 
 		return chemin;
-
 	}
 
+	/**
+	 * resetPlan permet de remettre les attributs previous et minTemps de tous les noeuds d'un plan a leur valeur initiale.
+	 * @param plan : le plan pour lequel on veut reinitialiser les noeuds.
+	 */
 	public void resetPlan(Plan plan) {
 		for (Noeud n : plan.getNoeuds()) {
 			n.setPrevious(null);
@@ -72,6 +80,11 @@ public class Dijkstra {
 		}
 	}
 
+	/**
+	 * trouverArcMini permet de trouver la valeur la plus petite de temps de parcours entre deux livraisons.
+	 * @param trajets : liste des differents trajets entre les livraisons
+	 * @return la valeur du plus court temps de parcours entre deux livraisons
+	 */
 	public Integer trouverArcMini(List<ArrayList<Trajet>> trajets) {
 		Integer ret=(int)Double.POSITIVE_INFINITY;
 
@@ -85,6 +98,11 @@ public class Dijkstra {
 		return ret;
 	}
 
+	/**
+	 * trouverArcMaxi permet de trouver la valeur la plus grande de temps de parcours entre deux livraisons.
+	 * @param trajets : liste des differents trajets entre les livraisons
+	 * @return la valeur du plus long temps de parcours entre deux livraisons
+	 */
 	public Integer trouverArcMaxi(List<ArrayList<Trajet>> trajets) {
 		Integer ret=0;
 
@@ -98,6 +116,13 @@ public class Dijkstra {
 		return ret;
 	}
 
+	/**
+	 * generateMatriceCost permet de creer un tableau a double entree representant le temps de parcours des arcs
+	 * entre les livraisons. matriceCosts[i][j] represente le temps de parcours de l'arc (i,j).
+	 * @param trajets : liste des differents trajets entre les livraisons
+	 * @param nbLivraisons : le nombre de points de livraison et du depot.
+	 * @return le tableau des temps de parcours
+	 */
 	public int[][] generateMatriceCost(List<ArrayList<Trajet>> trajets,Integer nbLivraisons) {
 		int[][] ret = new int[nbLivraisons][nbLivraisons];
 
@@ -105,7 +130,6 @@ public class Dijkstra {
 			int[] current = new int[nbLivraisons];
 
 			for(int j=0;j<nbLivraisons;j++) {
-				//System.out.println(i + " " + j);
 				if(j==i) {
 					current[j]=(int)Double.POSITIVE_INFINITY;
 				}
@@ -118,6 +142,12 @@ public class Dijkstra {
 		return ret;
 	}
 
+	/**
+	 * generateMatriceSucc permet de creer un tableau a double entree qui contient pour chaque livraison ses livraisons
+	 * destinations. matriceSucc[i] contient toutes les livraisons auxquelles on peut se rendre a partir de la livraison i.
+	 * @param tournee : la Tournee pour laquelle on veut generer un parcours
+	 * @return le tableau des successeurs des livraisons
+	 */
 	public int[][] generateMatriceSucc(Tournee tournee) {
 		int nbLivraisons = tournee.getLivraisons().size();
 		int[][] ret = new int[nbLivraisons+1][nbLivraisons+1];
@@ -151,6 +181,12 @@ public class Dijkstra {
 		return ret;
 	}
 
+	/**
+	 * 
+	 * @param plan
+	 * @param tournee
+	 * @return
+	 */
 	public List<ArrayList<Trajet>> genererMatriceTrajets(Plan plan, Tournee tournee) {
 		List<ArrayList<Trajet>> trajets = new ArrayList<ArrayList<Trajet>>();
 
@@ -189,12 +225,17 @@ public class Dijkstra {
 		return trajets;
 	}
 	
+	/**
+	 * 
+	 * @param tournee
+	 * @param trajets
+	 * @param bound
+	 */
 	public void choco(Tournee tournee,List<ArrayList<Trajet>> trajets,int bound) {
 		//Param Choco
 		Integer nbLivraisons = tournee.getLivraisons().size()+1;
 		Integer arcMini = trouverArcMini(trajets);
 		Integer arcMaxi = trouverArcMaxi(trajets);
-		//TODO Cost et succ
 		int[][] matriceCosts = generateMatriceCost(trajets,nbLivraisons);
 		int[][] matriceSucc = generateMatriceSucc(tournee);
 		
@@ -248,50 +289,25 @@ public class Dijkstra {
 					tournee.getLivraisons().get(ord-1).setHeurePassage(heurePassage);
 				}
 			}
+			
 			trajetCourant.setPlage(plage);
 			trajetsTournee.add(trajetCourant);
-
+			
 			abs=ord;
 		}
-		//System.out.println(trajetsTournee);
+		
 		tournee.setTrajets(trajetsTournee);
 	}
 	
+	/**
+	 * 
+	 * @param plan
+	 * @param tournee
+	 */
 	public void initTournee(Plan plan, Tournee tournee){
 		List<ArrayList<Trajet>> trajets = genererMatriceTrajets(plan, tournee);
 
-		System.out.println(trajets);
-		System.out.println();
-		
 		choco(tournee,trajets,-1);
 	}
 	
-	public static void main (String[] args) throws NumberFormatException, FileNotFoundException, SAXException {
-		
-		Dijkstra d = new Dijkstra();
-		ParseurXML parseur = new ParseurXML();
-		Plan plan = parseur.construirePlanXML("../XML Examples/plan10x10.xml");
-		
-		Tournee tournee = parseur.construireTourneeXML("../XML Examples/livraison10x10-2.xml");
-		
-		Integer adresseDepot = tournee.getDepot().getAdresse();
-		tournee.getDepot().setNoeud(plan.getNoeuds().get(adresseDepot));
-		for (int i=0;i< tournee.getLivraisons().size();i++) {
-			Integer adresse = tournee.getLivraisons().get(i).getAdresse();
-			tournee.getLivraisons().get(i).setNoeud(plan.getNoeuds().get(adresse));
-		}
-		
-		List<ArrayList<Trajet>> trajets = d.genererMatriceTrajets(plan, tournee);
-		
-		d.choco(tournee, trajets, -1);
-		
-		for(int i=0; i<tournee.getTrajets().size(); i++) {
-			ArrayList<Troncon> troncons = tournee.getTrajets().get(i).getTroncons();
-			for (int j=0; j< troncons.size(); j++) {
-				System.out.print("De " + troncons.get(j).getOrigine());
-				System.out.println(" à " + troncons.get(j).getDestination());
-			}
-		}
-		
-	}
 }
