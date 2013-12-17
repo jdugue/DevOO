@@ -52,6 +52,7 @@ public class Livraison extends Lieu {
 
 	public void setId(Integer id) {
 		MAX_ID = MAX_ID < id ? id : MAX_ID;
+		
 		this.id = id;
 	}
 
@@ -84,6 +85,7 @@ public class Livraison extends Lieu {
 		super.construireAPartirDeDOMXML(noeudDOMRacine);
 		client = Integer.parseInt(noeudDOMRacine.getAttribute(TAG_CLIENT));
 		id =  Integer.parseInt(noeudDOMRacine.getAttribute(TAG_ID));
+		MAX_ID = MAX_ID < id ? id : MAX_ID;
 		plageHoraire = plage;		
 	}
 	
