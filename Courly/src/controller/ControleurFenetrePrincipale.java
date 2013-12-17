@@ -171,6 +171,8 @@ public class ControleurFenetrePrincipale {
         		this.showMessage("Fichier XML incorrect", VueFenetrePrincipale.MessageType.MessageTypeError);
 			} catch (IOException e) {
         		this.showMessage("Probleme de lecture du fichier", VueFenetrePrincipale.MessageType.MessageTypeError);
+			} catch (IndexOutOfBoundsException e) {
+        		this.showMessage("Fichier livraison non conforme au plan chargé", VueFenetrePrincipale.MessageType.MessageTypeError);
 			}
         }
         else {

@@ -181,7 +181,6 @@ public class ParseurXML {
 	}
 
 	public void setNoeudsFromTournee(Tournee tournee, Plan plan) {
-
 		Integer adresseDepot = tournee.getDepot().getAdresse();
 		tournee.getDepot().setNoeud(plan.getNoeuds().get(adresseDepot));
 		for (int i=0;i< tournee.getLivraisons().size();i++) {
