@@ -142,7 +142,7 @@ public class ControleurFenetrePrincipale {
         if( this.plan != null) {
         	try {
                 JFileChooser fChooser = FileChooserFactory.createFileChooser( "xml"
-                		, "Fichier plan" , getCurrentDirectory() );
+                		, "Fichier XML" , getCurrentDirectory() );
                
                 int returnVal = fChooser.showOpenDialog(this.fenetre);
                 if( returnVal == JFileChooser.APPROVE_OPTION ) {
@@ -250,7 +250,7 @@ public class ControleurFenetrePrincipale {
 			lastUsedFolder = fChooser.getSelectedFile().getParent();
 			
 			boolean worked = false;
-			boolean namePermitted =  controleurTournee.isFilenamePermitted(file);
+			boolean namePermitted =  controleurTournee.isFilenamePermitted(fChooser.getSelectedFile().getName());
 			if ( namePermitted ){
 		        worked = controleurTournee.tourneeToTxt(this.selectedTournee, file);
 			}else{

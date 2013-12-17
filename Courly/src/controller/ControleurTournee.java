@@ -25,7 +25,7 @@ public class ControleurTournee {
 	private final String TAB = "\t";
 	
 	private final String EXT = ".txt";
-	private final String FILETYPE_NAME = "Fichier tournée";
+	private final String FILETYPE_NAME = "Fichier texte";
 	
 	private final int INDENTATION_TITRE = 4;
 	private final int INDENTATION_PLAGE_HORAIRE = 1;
@@ -63,7 +63,7 @@ public class ControleurTournee {
 				bw.write( getRepetition(INDENTATION_PLAGE_HORAIRE, TAB) + PLAGE_HORAIRE + DP + ESP );
 				bw.write( FORMATTER.format(plage.getHeureDebut()) + " - " 
 						+ FORMATTER.format(plage.getHeureFin()) + RC);
-
+				plage.sortLivraisons();
 				for ( Livraison livraison : plage.getLivraisons() ){
 					bw.write( getRepetition(INDENTATION_LIVRAISON, TAB) + 
 							LIVRAISON + ESP + compteurLivraison + RC);
