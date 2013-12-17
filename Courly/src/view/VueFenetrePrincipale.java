@@ -8,18 +8,24 @@ package view;
 
 import controller.ControleurFenetrePrincipale;
 import java.awt.Dimension;
-import java.awt.event.MouseEvent;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.HashMap;
 import javax.swing.JEditorPane;
+import javax.swing.JRadioButtonMenuItem;
 import javax.swing.JScrollPane;
+import model.Tournee;
 
 /**
  *
  * @author tanguyhelesbeux
  */
-public class VueFenetrePrincipale extends javax.swing.JFrame {
+public class VueFenetrePrincipale extends javax.swing.JFrame implements ActionListener {
     
     private ControleurFenetrePrincipale controleurFenetrePrincipale;
+    private HashMap<JRadioButtonMenuItem, Tournee> mapTournees;
+    private JRadioButtonMenuItem selectedItem;
     
     private String commentText;
     
@@ -57,6 +63,28 @@ public class VueFenetrePrincipale extends javax.swing.JFrame {
         this.commentText = this.commentText + text;
         this.commentArea.setText("<html><head></head><body>"+this.commentText+"</body></html>");
     }
+    
+    public void addTournee(Tournee tournee, String displayName, boolean select) {
+        if (this.mapTournees == null) {
+            this.mapTournees = new HashMap<JRadioButtonMenuItem, Tournee>();
+        }
+        
+        JRadioButtonMenuItem item = new JRadioButtonMenuItem();
+        item.setText(displayName);
+        item.setSelected(false);
+        item.addActionListener(this);
+        
+        this.mapTournees.put(item, tournee);
+        this.menuTournees.add(item);
+        
+        if (select) {
+            this.setSelectedItem(item);
+        }
+    }
+    
+    public void removeTournee(Tournee tournee) {
+        
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -88,7 +116,7 @@ public class VueFenetrePrincipale extends javax.swing.JFrame {
         subMenuFrameSize = new javax.swing.JMenu();
         radioItemFrameLitle = new javax.swing.JRadioButtonMenuItem();
         radioItemFrameBig = new javax.swing.JRadioButtonMenuItem();
-        jMenu1 = new javax.swing.JMenu();
+        menuTournees = new javax.swing.JMenu();
 
         jMenuItem1.setText("jMenuItem1");
 
@@ -112,22 +140,14 @@ public class VueFenetrePrincipale extends javax.swing.JFrame {
         menuFichier.setText("Fichier");
 
         itemChargerPlan.setText("Charger plan...");
-        itemChargerPlan.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                itemChargerPlanMousePressed(evt);
-            }
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                itemChargerPlanClickedHandler(evt);
+        itemChargerPlan.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                itemChargerPlanActionPerformed(evt);
             }
         });
         menuFichier.add(itemChargerPlan);
 
         itemChargerLivraisons.setText("Charger livraisons...");
-        itemChargerLivraisons.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                itemChargerLivraisonsMousePressed(evt);
-            }
-        });
         itemChargerLivraisons.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 itemChargerLivraisonsActionPerformed(evt);
@@ -136,11 +156,6 @@ public class VueFenetrePrincipale extends javax.swing.JFrame {
         menuFichier.add(itemChargerLivraisons);
 
         itemExporter.setText("Exporter...");
-        itemExporter.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                itemExporterMousePressed(evt);
-            }
-        });
         itemExporter.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 itemExporterActionPerformed(evt);
@@ -154,11 +169,6 @@ public class VueFenetrePrincipale extends javax.swing.JFrame {
 
         itemRefaire.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_Y, java.awt.event.InputEvent.CTRL_MASK));
         itemRefaire.setText("Refaire");
-        itemRefaire.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                itemRefaireMousePressed(evt);
-            }
-        });
         itemRefaire.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 itemRefaireActionPerformed(evt);
@@ -168,11 +178,6 @@ public class VueFenetrePrincipale extends javax.swing.JFrame {
 
         itemAnnuler.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_Z, java.awt.event.InputEvent.CTRL_MASK));
         itemAnnuler.setText("Annuler");
-        itemAnnuler.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                itemAnnulerMousePressed(evt);
-            }
-        });
         itemAnnuler.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 itemAnnulerActionPerformed(evt);
@@ -186,11 +191,6 @@ public class VueFenetrePrincipale extends javax.swing.JFrame {
 
         itemZoomOut.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_MINUS, java.awt.event.InputEvent.CTRL_MASK));
         itemZoomOut.setText("Zoom Out");
-        itemZoomOut.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                itemZoomOutMousePressed(evt);
-            }
-        });
         itemZoomOut.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 itemZoomOutActionPerformed(evt);
@@ -200,11 +200,6 @@ public class VueFenetrePrincipale extends javax.swing.JFrame {
 
         itemZoomIn.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_EQUALS, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
         itemZoomIn.setText("Zoom In");
-        itemZoomIn.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                itemZoomInMousePressed(evt);
-            }
-        });
         itemZoomIn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 itemZoomInActionPerformed(evt);
@@ -216,18 +211,18 @@ public class VueFenetrePrincipale extends javax.swing.JFrame {
         subMenuFrameSize.setText("Interface");
 
         radioItemFrameLitle.setText("Petite");
-        radioItemFrameLitle.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                radioItemFrameLitleMousePressed(evt);
+        radioItemFrameLitle.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                radioItemFrameLitleActionPerformed(evt);
             }
         });
         subMenuFrameSize.add(radioItemFrameLitle);
 
         radioItemFrameBig.setSelected(true);
         radioItemFrameBig.setText("Grande");
-        radioItemFrameBig.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                radioItemFrameBigMousePressed(evt);
+        radioItemFrameBig.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                radioItemFrameBigActionPerformed(evt);
             }
         });
         subMenuFrameSize.add(radioItemFrameBig);
@@ -236,8 +231,8 @@ public class VueFenetrePrincipale extends javax.swing.JFrame {
 
         menuBar.add(menuVenu);
 
-        jMenu1.setText("jMenu1");
-        menuBar.add(jMenu1);
+        menuTournees.setText("Tournées");
+        menuBar.add(menuTournees);
 
         setJMenuBar(menuBar);
 
@@ -272,32 +267,8 @@ public class VueFenetrePrincipale extends javax.swing.JFrame {
 
     private void itemChargerLivraisonsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemChargerLivraisonsActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_itemChargerLivraisonsActionPerformed
-
-    private void itemChargerPlanClickedHandler(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_itemChargerPlanClickedHandler
-        // TODO add your handling code here:
-        this.controleurFenetrePrincipale.shouldLoadPlan();
-    }//GEN-LAST:event_itemChargerPlanClickedHandler
-
-    private void itemChargerPlanMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_itemChargerPlanMousePressed
-        // TODO add your handling code here:
-        this.controleurFenetrePrincipale.shouldLoadPlan();
-    }//GEN-LAST:event_itemChargerPlanMousePressed
-
-    private void itemChargerLivraisonsMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_itemChargerLivraisonsMousePressed
-        // TODO add your handling code here:
         this.controleurFenetrePrincipale.shouldLoadLivraison();
-    }//GEN-LAST:event_itemChargerLivraisonsMousePressed
-
-    private void itemZoomOutMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_itemZoomOutMousePressed
-        // TODO add your handling code here:
-        this.controleurFenetrePrincipale.shouldZoomOut();
-    }//GEN-LAST:event_itemZoomOutMousePressed
-
-    private void itemZoomInMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_itemZoomInMousePressed
-        // TODO add your handling code here:
-        this.controleurFenetrePrincipale.shouldZoomIn();
-    }//GEN-LAST:event_itemZoomInMousePressed
+    }//GEN-LAST:event_itemChargerLivraisonsActionPerformed
 
     private void itemZoomOutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemZoomOutActionPerformed
         // TODO add your handling code here:
@@ -309,35 +280,11 @@ public class VueFenetrePrincipale extends javax.swing.JFrame {
         this.controleurFenetrePrincipale.shouldZoomIn();
     }//GEN-LAST:event_itemZoomInActionPerformed
 
-    private void radioItemFrameLitleMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_radioItemFrameLitleMousePressed
-        // TODO add your handling code here:
-        this.setFrameSizeBig(false);
-    }//GEN-LAST:event_radioItemFrameLitleMousePressed
-
-    private void radioItemFrameBigMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_radioItemFrameBigMousePressed
-        // TODO add your handling code here:
-        this.setFrameSizeBig(true);
-    }//GEN-LAST:event_radioItemFrameBigMousePressed
-
     private void itemExporterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemExporterActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_itemExporterActionPerformed
-
-    private void itemExporterMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_itemExporterMousePressed
-        // TODO add your handling code here:
         this.controleurFenetrePrincipale.shouldExportTournee();
-    }//GEN-LAST:event_itemExporterMousePressed
-
-    private void itemRefaireMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_itemRefaireMousePressed
-        // TODO add your handling code here:
-        this.controleurFenetrePrincipale.redo();
-    }//GEN-LAST:event_itemRefaireMousePressed
+    }//GEN-LAST:event_itemExporterActionPerformed
     
-    private void itemAnnulerMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_itemAnnulerMousePressed
-        // TODO add your handling code here:
-        this.controleurFenetrePrincipale.undo();
-    }//GEN-LAST:event_itemAnnulerMousePressed
-
     private void itemAnnulerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemAnnulerActionPerformed
         // TODO add your handling code here:
         this.controleurFenetrePrincipale.undo();
@@ -347,6 +294,43 @@ public class VueFenetrePrincipale extends javax.swing.JFrame {
         // TODO add your handling code here:
         this.controleurFenetrePrincipale.redo();
     }//GEN-LAST:event_itemRefaireActionPerformed
+
+    private void itemChargerPlanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemChargerPlanActionPerformed
+        // TODO add your handling code here:
+        this.controleurFenetrePrincipale.shouldLoadPlan();
+    }//GEN-LAST:event_itemChargerPlanActionPerformed
+
+    private void radioItemFrameLitleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radioItemFrameLitleActionPerformed
+        // TODO add your handling code here:
+        this.setFrameSizeBig(false);
+    }//GEN-LAST:event_radioItemFrameLitleActionPerformed
+
+    private void radioItemFrameBigActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radioItemFrameBigActionPerformed
+        // TODO add your handling code here:
+        this.setFrameSizeBig(true);
+    }//GEN-LAST:event_radioItemFrameBigActionPerformed
+    
+    public void actionPerformed(ActionEvent e) {
+        //...Get information from the action event...
+        //...Display it in the text area...
+        this.tourneeItemActionPerformed(e);
+    }
+    
+    private void tourneeItemActionPerformed(ActionEvent e) {
+        JRadioButtonMenuItem item = (JRadioButtonMenuItem)e.getSource();
+        Tournee tournee = this.mapTournees.get(item);
+        this.setSelectedItem(item);
+        this.controleurFenetrePrincipale.selectTournee(tournee);
+    }
+
+    private void setSelectedItem(JRadioButtonMenuItem selectedItem) {
+        if (this.selectedItem != null) {
+            this.selectedItem.setSelected(false);
+        }
+        
+        this.selectedItem = selectedItem;
+        this.selectedItem.setSelected(true);
+    }
     
     private void setFrameSizeBig(boolean big) {
 
@@ -434,13 +418,13 @@ public class VueFenetrePrincipale extends javax.swing.JFrame {
     private javax.swing.JMenuItem itemRefaire;
     private javax.swing.JMenuItem itemZoomIn;
     private javax.swing.JMenuItem itemZoomOut;
-    private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JPopupMenu jPopupMenu1;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JMenuBar menuBar;
     private javax.swing.JMenu menuEdition;
     private javax.swing.JMenu menuFichier;
+    private javax.swing.JMenu menuTournees;
     private javax.swing.JMenu menuVenu;
     private javax.swing.JRadioButtonMenuItem radioItemFrameBig;
     private javax.swing.JRadioButtonMenuItem radioItemFrameLitle;

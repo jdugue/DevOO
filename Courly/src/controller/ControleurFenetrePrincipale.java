@@ -25,7 +25,6 @@ import model.Tournee;
 import model.Troncon;
 import org.xml.sax.SAXException;
 import view.VueFenetrePrincipale;
-import view.VueLieu;
 
 /**
  *
@@ -46,7 +45,6 @@ public class ControleurFenetrePrincipale {
     private static final double zoomMax = 2.0;
     
     private Tournee selectedTournee;
-    private ArrayList<Tournee> tournees = new ArrayList<Tournee>();
     private UndoManager undoManager = new UndoManager();
     
     private String lastUsedFolder = null;
@@ -156,14 +154,12 @@ public class ControleurFenetrePrincipale {
 
                         Tournee tournee = p.construireTourneeXML(file);
                         if (tournee != null) {
-                            this.tournees.add(tournee);
+                            p.setNoeudsFromTournee(tournee, plan);
+                            traitementDijkstra(tournee);
+                            System.out.println(tournee.getPlagesHoraire().size());
+                            this.fenetre.addTournee(tournee, file, true);
+                            this.fenetre.setMessage("Livraisons chargées avec succès", VueFenetrePrincipale.MessageType.MessageTypeSuccess);
                         }
-                        p.setNoeudsFromTournee(tournee, plan);
-                        
-                        traitementDijkstra(tournee);
-                        System.out.println(tournee.getPlagesHoraire().size());
-                        this.selectTournee(tournee);
-                        this.fenetre.setMessage("Livraisons chargées avec succès", VueFenetrePrincipale.MessageType.MessageTypeSuccess);
                 }
         	}
         	catch (FileNotFoundException e) {
@@ -183,7 +179,7 @@ public class ControleurFenetrePrincipale {
         }
     }
     
-    private void selectTournee(Tournee tournee) { 
+    public void selectTournee(Tournee tournee) { 
         this.controleurInspecteur.setPlagesHoraires(tournee.getPlagesHoraire());
         this.controleurPlan.setTournee(tournee);
         this.selectedTournee=tournee;
