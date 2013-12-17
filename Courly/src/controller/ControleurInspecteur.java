@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import javax.swing.JScrollPane;
 import model.Lieu;
 
+import model.Depot;
 import model.Livraison;
 import model.Noeud;
 import model.PlageHoraire;
@@ -47,7 +48,11 @@ public class ControleurInspecteur {
     public void setVueFromLieu(Lieu lieu) {
         this.lieu = lieu;
         this.vue.setLieu(lieu);
-        this.vue.setMode(VueInspecteur.AffichageMode.LivraisonSelected);
+        if (lieu.getClass() == Livraison.class) {
+            this.vue.setMode(VueInspecteur.AffichageMode.LivraisonSelected);
+        } else if (lieu.getClass() == Depot.class) {
+            this.vue.setMode(VueInspecteur.AffichageMode.DepotSelected);
+        }
     }
     
     public boolean shouldCreateLivraison(String newClient, PlageHoraire plageHoraire) {

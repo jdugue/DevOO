@@ -79,6 +79,7 @@ public class VueFenetrePrincipale extends javax.swing.JFrame implements ActionLi
         
         if (select) {
             this.setSelectedItem(item);
+            this.controleurFenetrePrincipale.selectTournee(tournee);
         }
     }
     
