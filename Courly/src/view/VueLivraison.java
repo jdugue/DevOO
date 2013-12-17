@@ -12,6 +12,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
+import model.Livraison;
 
 /**
  *
@@ -27,10 +28,17 @@ public class VueLivraison extends VueLieu {
 
     /**
      * Creates new form VueLivraison
+     * @param livraison
      */
-    public VueLivraison() {
+    public VueLivraison(Livraison livraison) {
         initComponents();
         this.setOpaque(false);
+        this.setSize(50, 50);
+        this.lieu = livraison;
+    }
+    
+    public Livraison getLivraison() {
+        return (Livraison)this.lieu;
     }
 
     /*

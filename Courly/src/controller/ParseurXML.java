@@ -1,5 +1,7 @@
 package controller;
 
+import com.sun.org.apache.xerces.internal.impl.xpath.regex.ParseException;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -10,6 +12,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
 import model.Depot;
+import model.Lieu;
 import model.Livraison;
 import model.Noeud;
 import model.PlageHoraire;
@@ -21,6 +24,8 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
+
+//import com.sun.xml.internal.messaging.saaj.packaging.mime.internet.ParseException;
 
 
 public class ParseurXML {
@@ -96,7 +101,10 @@ public class ParseurXML {
                    plan.setNoeuds(vectNoeuds);
                    plan.setTroncons(vectTroncons);
                    
-               }			
+               }	
+               else {
+            	   throw new SAXException();
+               }
 			}
 			catch (ParserConfigurationException e) {
 				System.out.println(e);
@@ -108,55 +116,76 @@ public class ParseurXML {
 		return plan;
 	}
 	
-	public Tournee construireTourneeXML(String file) {
-		
+	public Tournee construireTourneeXML(String file) throws java.text.ParseException, ParserConfigurationException, SAXException, IOException {
+
 		File xml = ouvrirFichier(file);
 		Tournee tournee = new Tournee();
 		//Si le fichier existe
 		if (xml.exists()) {
-			
-			//TODO A mettre dans un objet Tournee
+
 			ArrayList<Livraison> livraisons = new ArrayList<Livraison>();
 			ArrayList<PlageHoraire> plages = new ArrayList<PlageHoraire>();
 
 			Depot depot = new Depot();
-			try {
-                // creation d'un constructeur de documents a l'aide d'une fabrique
-               DocumentBuilder constructeur = DocumentBuilderFactory.newInstance().newDocumentBuilder();	
-               // lecture du contenu d'un fichier XML avec DOM
-               Document document = constructeur.parse(xml);
-               Element racine = document.getDocumentElement();
-               
-               if (racine.getNodeName().equals("JourneeType")) {
-            	   
-            	   //Traitement du/des depots
-            	   NodeList listeDepot = racine.getElementsByTagName("Entrepot");
-            	   //Ici je prend que le 1er element
-            	   //TODO Demander si il peut en avoir plusieurs (de depots)
-            	   Element depotElement = (Element) listeDepot.item(0);
-            	   depot.construireAPartirDeDOMXML(depotElement);
-            	   
-            	   //Traitement des plages horaires
-            	   NodeList listePlages = racine.getElementsByTagName("Plage");
-            	   for(int i=0;i<listePlages.getLength();i++) {
-            		   PlageHoraire plage = new PlageHoraire();
-            		   Element plageElement = (Element) listePlages.item(i);
-            		   ArrayList<Livraison> livraisonsPlage = plage.construireAPartirDeDOMXML(plageElement);
-            		   livraisons.addAll(livraisonsPlage);
-            		   plages.add(plage);
-            	   }
-            	   
-               }
-               
+			// creation d'un constructeur de documents a l'aide d'une fabrique
+			DocumentBuilder constructeur = DocumentBuilderFactory.newInstance().newDocumentBuilder();	
+			// lecture du contenu d'un fichier XML avec DOM
+			Document document = constructeur.parse(xml);
+			Element racine = document.getDocumentElement();
+
+			if (racine.getNodeName().equals("JourneeType")) {
+
+				//Traitement du/des depots
+				NodeList listeDepot = racine.getElementsByTagName("Entrepot");
+				//Ici je prend que le 1er element
+				Element depotElement = (Element) listeDepot.item(0);
+				depot.construireAPartirDeDOMXML(depotElement);
+				tournee.setDepot(depot);
+
+				//Traitement des plages horaires
+				NodeList listePlages = racine.getElementsByTagName("Plage");
+				for(int i=0;i<listePlages.getLength();i++) {
+					PlageHoraire plage = new PlageHoraire();
+					Element plageElement = (Element) listePlages.item(i);
+					ArrayList<Livraison> livraisonsPlage = plage.construireAPartirDeDOMXML(plageElement);
+					livraisons.addAll(livraisonsPlage);
+					if(plages.isEmpty() || !intersectionPlages(plage,plages)){
+						plages.add(plage);
+					}
+					else {
+						throw new SAXException();
+					}
+				}
+
 			}
-			catch (Exception e) {
-				System.out.println(e);
+			else {
+				throw new SAXException();
 			}
-			
 			tournee.setPlagesHoraire(plages);
 			tournee.setLivraisons(livraisons);
 		}
-				
+
 		return tournee;
+	}
+        
+	private boolean intersectionPlages(PlageHoraire plage,ArrayList<PlageHoraire> plages) {
+		for(PlageHoraire p : plages) {
+			if(plage.getHeureDebut().before(p.getHeureFin()) && plage.getHeureFin().after(p.getHeureFin())) {
+				return true;
+			}
+			else if(plage.getHeureDebut().before(p.getHeureDebut()) && plage.getHeureFin().after(p.getHeureDebut())){
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public void setNoeudsFromTournee(Tournee tournee, Plan plan) {
+		Integer adresseDepot = tournee.getDepot().getAdresse();
+		tournee.getDepot().setNoeud(plan.getNoeuds().get(adresseDepot));
+		for (int i=0;i< tournee.getLivraisons().size();i++) {
+			Integer adresse = tournee.getLivraisons().get(i).getAdresse();
+			tournee.getLivraisons().get(i).setNoeud(plan.getNoeuds().get(adresse));
+		}
 	}
 }

@@ -5,14 +5,23 @@
  */
 package controller;
 
+import java.text.ParseException;
 import java.util.ArrayList;
-import java.awt.Color;
+import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
+
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.undo.UndoManager;
+import javax.xml.parsers.ParserConfigurationException;
+import model.Lieu;
+
+import model.Livraison;
 import model.Noeud;
 import model.Plan;
 import model.Tournee;
+import model.Troncon;
 import org.xml.sax.SAXException;
 import view.VueFenetrePrincipale;
 
@@ -22,7 +31,6 @@ import view.VueFenetrePrincipale;
  */
 public class ControleurFenetrePrincipale {
     
-    private ArrayList<String> colorMsg = new ArrayList();
     
     private VueFenetrePrincipale fenetre;
     private ControleurPlan controleurPlan;
@@ -35,21 +43,57 @@ public class ControleurFenetrePrincipale {
     private static final double zoomMin = 0.1;
     private static final double zoomMax = 2.0;
 
+    
+    private Tournee selectedTournee;
+    private UndoManager undoManager = new UndoManager();
+    
+    private String lastUsedFolder = null;
+    
+    private static final String TOURNEE_WRITTEN = "Fichier de tournee généré.";
+    private static final String TOURNEE_NOT_WRITTEN = "Le fichier de tournée n'a pas pu être " +
+    		"généré suite à un problème.";
+    private static final String FILENAME_NOT_PERMITTED = "Le nom du fichier contient des caractères illegaux.";
+    private static final String FILETYPE_NAME = "Fichier texte";
+	private static final String FILETYPE = "xml";
+	private static final String PLAN_CHARGE_SUCCESS = "Plan chargé avec succès";
+	private static final String PLAN_NOT_CHARGED = "Impossible de charger le plan";
+	private static final String INCORRECT_XML_FILE = "Fichier XML incorrect";
+	private static final String FILE_NOT_FOUND = "Fichier inexistant";
+	private static final String CALCULATING_TOURNEE = "Calcul de la tournée...";
+	private static final String LIVRAISON_FILE_CHARGED = "Livraisons chargées avec succès";
+	private static final String COUDNT_READ_FILE = "Probleme de lecture du fichier";
+	private static final String ERR_PLAN_LIV = "Fichier livraison non conforme au plan chargé";
+	private static final String NO_PLAN = "Vous devez d\'abord charger un plan";
+    
     public ControleurFenetrePrincipale(VueFenetrePrincipale aFenetre) {
         
         this.fenetre = aFenetre;
         this.controleurPlan = new ControleurPlan(this.fenetre.getScrollPanePlan(), this);
         this.controleurInspecteur = new ControleurInspecteur(this.fenetre.getScrollPaneInspecteur(), this);
         
-        this.initColors();
-        
+        //this.testVues();
     }
     
-    private void initColors() {
-        colorMsg.add("#a00a11"); // ERROR
-        colorMsg.add("#d49e15"); // WARNING
-        colorMsg.add("#2ca024"); // SUCCESS
-        colorMsg.add("#333333"); // LOG
+    private void testVues() {
+        System.out.println("Do not call testVues(), ControleurFenetrePrincipale line 50");
+        
+        Noeud noeud1 = new Noeud();
+        noeud1.setX(410);
+        noeud1.setY(200);
+        
+        Noeud noeud2 = new Noeud();
+        noeud2.setX(400);
+        noeud2.setY(410);
+        
+        Troncon troncon1 = new Troncon();
+        troncon1.setOrigine(noeud1);
+        troncon1.setDestination(noeud2);
+        
+        ArrayList<Noeud> noeuds = new ArrayList<Noeud>();
+        noeuds.add(noeud1);
+        noeuds.add(noeud2);
+        this.controleurPlan.addAllNoeuds(noeuds);
+        this.controleurPlan.addTroncon(troncon1);
     }
 
     public void setZoomScale(double zoomScale) {
@@ -74,80 +118,189 @@ public class ControleurFenetrePrincipale {
     }
     
     public void shouldLoadPlan() {
-        JFileChooser fChooser = new JFileChooser();
-        FileNameExtensionFilter filter = new FileNameExtensionFilter("Fichier plan", "xml");
-        fChooser.setFileFilter(filter);
+    	JFileChooser fChooser = FileChooserFactory.createFileChooser(FILETYPE, FILETYPE_NAME, 
+				getCurrentDirectory());
+        
         int returnVal = fChooser.showOpenDialog(this.fenetre);
         if( returnVal == JFileChooser.APPROVE_OPTION ) {
             String file = fChooser.getSelectedFile().getAbsolutePath();
+            lastUsedFolder = fChooser.getSelectedFile().getParent();
             ParseurXML p = new ParseurXML();
 
             try {
-                    this.plan = p.construirePlanXML(file);
-                    if (plan !=null) {
-                            this.controleurPlan.loadVuePlanFromModel(plan);
+                    Plan tempPlan = p.construirePlanXML(file);
+                    if (tempPlan !=null) {
+                        this.plan = tempPlan;
+                        this.controleurPlan.loadVuePlanFromModel(plan);
+                        this.controleurInspecteur.setVueFromNoeud(null);
+                        this.fenetre.canExportTournee(false);
+                        this.fenetre.canLoadLivraison(true);
+                        this.fenetre.removeAllTournee();
+                        this.showMessage(PLAN_CHARGE_SUCCESS, VueFenetrePrincipale.MessageType.MessageTypeSuccess);
                     } else {
-                        System.out.print("Une erreur inconnue est survenue");
+                        this.showMessage(PLAN_NOT_CHARGED, VueFenetrePrincipale.MessageType.MessageTypeError);
                     }
             } catch (NumberFormatException e) {
-                    // TODO Auto-generated catch block
-                    //textFieldError.setForeground(Color.RED);
-                    //textFieldError.setText("Fichier XML incorrect");
-                System.out.print("Fichier XML incorrect");
+                    this.showMessage(INCORRECT_XML_FILE, VueFenetrePrincipale.MessageType.MessageTypeError);
             } catch (FileNotFoundException e) {
-                    // TODO Auto-generated catch block
-                    //textFieldError.setForeground(Color.RED);
-                    //textFieldError.setText("Fichier inexistant");
-                System.out.print("Fichier inexistant");
+            	this.showMessage(FILE_NOT_FOUND, VueFenetrePrincipale.MessageType.MessageTypeError);
             } catch (SAXException e) {
-                    // TODO Auto-generated catch block
-                    //textFieldError.setForeground(Color.RED);
-                    //textFieldError.setText("Fichier XML incorrect");
-                System.out.print("Fichier XML incorrect");
+            	this.showMessage(INCORRECT_XML_FILE, VueFenetrePrincipale.MessageType.MessageTypeError);
             }
 
         }
         
     }
     
-    public void shouldLoadLivraison() {
-
-        if( this.plan!=null) {
-                JFileChooser fChooser = new JFileChooser();
-                FileNameExtensionFilter filter = new FileNameExtensionFilter("Fichier livraison", "xml");
-                fChooser.setFileFilter(filter);
+    public void shouldLoadLivraison() { 
+        if( this.plan != null) {
+        	try {
+                JFileChooser fChooser = FileChooserFactory.createFileChooser( FILETYPE
+                		, FILETYPE_NAME , getCurrentDirectory() );
+               
                 int returnVal = fChooser.showOpenDialog(this.fenetre);
                 if( returnVal == JFileChooser.APPROVE_OPTION ) {
                         String file = fChooser.getSelectedFile().getAbsolutePath();
+                        lastUsedFolder = fChooser.getSelectedFile().getParent();
                         ParseurXML p = new ParseurXML();
 
+                        this.showMessage(CALCULATING_TOURNEE, VueFenetrePrincipale.MessageType.MessageTypeLog);
                         Tournee tournee = p.construireTourneeXML(file);
-                        for (int i=0;i< tournee.getLivraisons().size();i++) {
-                                Integer adresse = tournee.getLivraisons().get(i).getAdresse();
-                                tournee.getLivraisons().get(i).setNoeud(plan.getNoeuds().get(adresse));
+                        if (tournee != null) {
+                            p.setNoeudsFromTournee(tournee, plan);
+                            traitementDijkstra(tournee);
+                            this.fenetre.addTournee(tournee, file, true);
+                            this.fenetre.canExportTournee(true);
+                            this.showMessage(LIVRAISON_FILE_CHARGED, VueFenetrePrincipale.MessageType.MessageTypeSuccess);
                         }
-                        this.controleurPlan.paint();
                 }
+        	}
+        	catch (FileNotFoundException e) {
+        		this.showMessage(FILE_NOT_FOUND, VueFenetrePrincipale.MessageType.MessageTypeError);
+        	} catch (SAXException e) {
+        		this.showMessage(INCORRECT_XML_FILE, VueFenetrePrincipale.MessageType.MessageTypeError);
+        	} catch (ParseException e) {
+        		this.showMessage(INCORRECT_XML_FILE, VueFenetrePrincipale.MessageType.MessageTypeError);
+			} catch (ParserConfigurationException e) {
+        		this.showMessage(INCORRECT_XML_FILE, VueFenetrePrincipale.MessageType.MessageTypeError);
+			} catch (IOException e) {
+        		this.showMessage(COUDNT_READ_FILE, VueFenetrePrincipale.MessageType.MessageTypeError);
+			} catch (IndexOutOfBoundsException e) {
+        		this.showMessage(ERR_PLAN_LIV, VueFenetrePrincipale.MessageType.MessageTypeError);
+			}
         }
         else {
-                System.out.print("Aucun plan en mémoire !");
+                this.showMessage(NO_PLAN, VueFenetrePrincipale.MessageType.MessageTypeLog);
         }
     }
     
-
-    public void setMessage(String msg, int msgType) {
-        javax.swing.JEditorPane editorPane = fenetre.getCommentArea();
-        editorPane.setEditable(false);
-        editorPane.setContentType("text/html");
-        String text = "<font color='"+colorMsg.get(msgType)+"'>" + msg + "</font><br>";
-        editorPane.setText(text + fenetre.getCommentArea().getText());
+    public void selectTournee(Tournee tournee) { 
+        this.controleurInspecteur.setPlagesHoraires(tournee.getPlagesHoraire());
+        this.controleurPlan.setTournee(tournee);
+        this.selectedTournee=tournee;
+    }
+    
+    private void traitementDijkstra (Tournee tournee)
+    {
+    	Dijkstra dijkstra = new Dijkstra();
+    	if(tournee.getLivraisons().size()>0){
+    		dijkstra.initTournee(plan, tournee);
+    	}
+    	else {
+    		tournee.getTrajets().clear();
+    	}
+    	this.controleurPlan.setTournee(tournee);
     }
 
+    
+    public void undo(){
+    	if ( undoManager.canUndo() ){
+        	undoManager.undo();	
+    	}   	
+    	//TODO
+    	// Set undo button grise to undoManager.canUndo();
+    }
+    public void redo(){
+    	if ( undoManager.canRedo() ){
+    		undoManager.redo();	
+    	}
+    	//TODO
+    	// Set undo button grise to undoManager.canUndo();
+    }
+    public void shouldAddLivraisonAndReload(Livraison livraison)
+    {
+    	AjouterLivraisonEdit addEdit = new AjouterLivraisonEdit(livraison, this);
+    	addEdit.execute();
+    	undoManager.addEdit(addEdit);
+    }
+    
+    public void addLivraisonAndReload(Livraison livraison){
+    	selectedTournee.addLivraison(livraison);    	
+    	traitementDijkstra(selectedTournee);
+    }
+    
+    
+    public void shouldRemoveLivraisonAndReload(Livraison livraison)
+    {    	
+    	EnleverLivraisonEdit removeEdit = new EnleverLivraisonEdit(livraison, this);
+    	removeEdit.execute();
+    	undoManager.addEdit(removeEdit);
+    }
+    
+    public void removeLivraisonAndReload(Livraison livraison)
+    {    	
+    	selectedTournee.removeLivraison(livraison);
+    	traitementDijkstra(selectedTournee);
+    }
+    
+    public void shouldExportTournee() {
+        ControleurTournee controleurTournee = new ControleurTournee();
+        JFileChooser fChooser = FileChooserFactory.createFileChooser( controleurTournee.getTourneeFileExt()
+        		, controleurTournee.getFiletypeName(), getCurrentDirectory() );
+       
+        int returnVal = fChooser.showSaveDialog(this.fenetre);
+        if( returnVal == JFileChooser.APPROVE_OPTION ) {
+                String file = fChooser.getSelectedFile().getAbsolutePath();
+                lastUsedFolder = fChooser.getSelectedFile().getParent();
+
+                boolean worked = false;
+                boolean namePermitted =  controleurTournee.isFilenamePermitted(fChooser.getSelectedFile().getName());
+                if ( namePermitted ){
+                worked = controleurTournee.tourneeToTxt(this.selectedTournee, file);
+                }else{
+                        this.showMessage(FILENAME_NOT_PERMITTED, VueFenetrePrincipale.MessageType.MessageTypeError);
+                }
+
+        if ( worked ){
+                this.showMessage(TOURNEE_WRITTEN, VueFenetrePrincipale.MessageType.MessageTypeSuccess);
+        } else {
+                this.showMessage(TOURNEE_NOT_WRITTEN, VueFenetrePrincipale.MessageType.MessageTypeError);
+        }        
+        }
+    }
+
+    
     public void didSelectNoeud(Noeud noeud) {
         this.controleurInspecteur.setVueFromNoeud(noeud);
     }
     
     public void didDeselectNoeud(Noeud noeud) {
         this.controleurInspecteur.setVueFromNoeud(null);
+    }
+    
+    public void didSelectLieu(Lieu lieu) {
+        this.controleurInspecteur.setVueFromLieu(lieu);
+    }
+    
+    public void didDeselectLieu(Lieu lieu) {
+        this.controleurInspecteur.setVueFromLieu(null);
+    }
+    
+    private File getCurrentDirectory(){
+	return lastUsedFolder == null ? new java.io.File(".") : new File(lastUsedFolder);		
+    }
+    
+    public void showMessage(String message, VueFenetrePrincipale.MessageType type) {
+        this.fenetre.setMessage(message, type);
     }
 }

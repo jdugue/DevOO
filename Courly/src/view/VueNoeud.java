@@ -11,6 +11,7 @@ import model.Noeud;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Graphics;
+import model.Lieu;
 
 /**
  *
@@ -21,15 +22,18 @@ public class VueNoeud extends javax.swing.JPanel {
     public boolean highlighted;
     public boolean selected;
     
-    private final Color normalColor = new Color(220, 160, 60);
-    private final Color highlightedColor = new Color(240, 60, 40);
-    private final Color selectedColor = new Color(30, 80, 170);
-    private final Color selectedHighlightedColor = new Color(80, 150, 255);
+    private static final Color normalEmptyColor = Color.WHITE;
+    private static final Color normalLieuColor = new Color(220, 160, 60);
+    private static final Color highlightedColor = new Color(240, 60, 40);
+    private static final Color selectedColor = new Color(30, 80, 170);
+    private static final Color selectedHighlightedColor = new Color(80, 150, 255);
+    private static final Color BorderColor = new Color(198, 190, 180);
     
     protected VueLieu vueLieu;
     
-    private VuePlan vuePlan;
+    protected VuePlan vuePlan;
     private Noeud noeud;
+    private Lieu lieu;
 
     /**
      * Creates new form NoeudView
@@ -52,6 +56,10 @@ public class VueNoeud extends javax.swing.JPanel {
 
     public VueLieu getVueLieu() {
         return vueLieu;
+    }
+
+    public void setLieu(Lieu lieu) {
+        this.lieu = lieu;
     }
 
     public void setVueLieu(VueLieu vueLieu) {
@@ -99,7 +107,7 @@ public class VueNoeud extends javax.swing.JPanel {
 
         addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                mouseClickedHangler(evt);
+                mouseClickedHandler(evt);
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
                 mouseExitedHandler(evt);
@@ -131,9 +139,9 @@ public class VueNoeud extends javax.swing.JPanel {
         this.setHighlighted(false);
     }                                   
 
-    private void mouseClickedHangler(java.awt.event.MouseEvent evt) {                                     
+    private void mouseClickedHandler(java.awt.event.MouseEvent evt) {                                     
         // TODO add your handling code here:
-        this.setSelected(!this.selected);
+        this.setSelected(true);
     }                                    
 
  
@@ -157,20 +165,30 @@ public class VueNoeud extends javax.swing.JPanel {
         return noeud;
     }
 
+    public Lieu getLieu() {
+        return lieu;
+    }
+
+    public void setSelected(boolean selected, boolean callBack) {
+        if (this.selected != selected) {
+            this.selected = selected;
+
+            this.repaint();
+
+            if (selected && callBack) {
+                this.vuePlan.didSelectVueNoeud(this);
+            } else if (callBack) {
+                this.vuePlan.didDeselectVueNoeud(this);
+            }
+
+            if (this.vueLieu != null && this.vueLieu.selected != this.selected) {
+                this.vueLieu.setSelected(selected);
+            }
+        }
+    }
+    
     public void setSelected(boolean selected) {
-        this.selected = selected;
-        
-        this.repaint();
-        
-        if (selected) {
-            this.vuePlan.getControleur().didSelectVueNoeud(this);
-        } else {
-            this.vuePlan.getControleur().didDeselectVueNoeud(this);
-        }
-        
-        if (this.vueLieu != null && this.vueLieu.selected != this.selected) {
-            this.vueLieu.setSelected(selected);
-        }
+        this.setSelected(selected, true);
     }
     
     public void setHighlighted(boolean highlighted) {
@@ -186,13 +204,17 @@ public class VueNoeud extends javax.swing.JPanel {
     
     private Color colorForActualState() {
         if (this.selected && this.highlighted) {
-            return this.selectedHighlightedColor;
+            return VueNoeud.selectedHighlightedColor;
         } else if (this.selected) {
-            return this.selectedColor;
+            return VueNoeud.selectedColor;
         } else if (this.highlighted) {
-            return this.highlightedColor;
+            return VueNoeud.highlightedColor;
         } else {
-            return this.normalColor;
+            if (this.lieu == null) {
+                return VueNoeud.normalEmptyColor;
+            } else {
+                return VueNoeud.normalLieuColor;
+            }
         }
     }
     
@@ -201,8 +223,8 @@ public class VueNoeud extends javax.swing.JPanel {
     {
         super.paintComponent(g);
         g.setColor(this.colorForActualState());
-        if (this.getNoeud().getLieu() == null) {
-            g.fillOval(0,0,this.getWidth(),this.getHeight());
-        }
+        g.fillOval(0,0,this.getWidth(),this.getHeight());
+        g.setColor(BorderColor);
+        g.drawOval(0,0,this.getWidth(),this.getHeight());
     }
 }

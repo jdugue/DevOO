@@ -12,6 +12,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
+import model.Lieu;
 
 /**
  *
@@ -25,6 +26,7 @@ public class VueLieu extends javax.swing.JPanel {
     private static final String selectedHighlightedImagePath = "";
     
     protected VueNoeud vueNoeud;
+    protected Lieu lieu;
     
     
     public boolean highlighted;
@@ -55,10 +57,23 @@ public class VueLieu extends javax.swing.JPanel {
         this.selected = selected;
         
         if (this.vueNoeud != null && this.vueNoeud.selected != this.selected) {
-            this.vueNoeud.setSelected(selected);
+            this.vueNoeud.setSelected(selected, false);
         }
+        
+        if (selected) {
+            this.vueNoeud.vuePlan.didSelectVueLieu(this);
+        } else {
+            this.vueNoeud.vuePlan.didDeselectVueLieu(this);
+        }
+        
         this.updateUI();
     }
+
+    public Lieu getLieu() {
+        return lieu;
+    }
+    
+    
     
     
     protected BufferedImage pinImageForActualState() {

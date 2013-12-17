@@ -11,7 +11,7 @@ public class Troncon {
 	protected String nomRue;
 	protected Double longueur;
 	protected Double vitesse;
-
+	
 	public Troncon(Noeud origine,Noeud destination, String nomRue, Double longueur, Double vitesse) {
 		this.origine = origine;
 		this.destination = destination;
@@ -19,7 +19,7 @@ public class Troncon {
 		this.longueur = longueur;
 		this.vitesse = vitesse;
 	}
-	
+
 	public Troncon() {
 		
 	}
@@ -83,5 +83,31 @@ public class Troncon {
 	public Double getCost() {
 		return this.longueur/this.vitesse;
 	}
+        
+        public boolean isEqualToTroncon(Troncon otherTroncon) {
+            if (this.destination.equals(otherTroncon.destination) && this.origine.equals(otherTroncon.origine)) {
+                
+                return true;
+            } else if (this.destination.equals(otherTroncon.origine) && this.origine.equals(otherTroncon.destination)) {
+                return true; 
+            } else {
+                return false;
+            }
+        }
 
+        @Override
+        public int hashCode() {
+            int hash = 7;
+            int hash1 = 89 * hash + (this.origine != null ? this.origine.getId().hashCode() : 0);
+            int hash2 = 89 * hash + (this.destination != null ? this.destination.getId().hashCode() : 0);
+            return hash1 + hash2;
+            
+            // Troncon hascode do not depends wether Noeud are Origine or Destination
+        }
+
+        
+        @Override
+        public boolean equals(Object obj) {
+            return (this.hashCode() == ((Troncon)obj).hashCode());
+        }
 }

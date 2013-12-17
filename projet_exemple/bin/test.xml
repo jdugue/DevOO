@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<dessin hauteur="320" largeur="400">
+<couleurArrierePlan bleu="128" rouge="128" vert="128"/>
+<boule rayon="33" x="318" y="33">
+<couleur bleu="222" rouge="43" vert="29"/>
+</boule>
+<boule rayon="27" x="189" y="143">
+<couleur bleu="204" rouge="50" vert="54"/>
+</boule>
+<boule rayon="34" x="284" y="130">
+<couleur bleu="32" rouge="156" vert="117"/>
+</boule>
+<boule rayon="39" x="0" y="162">
+<couleur bleu="84" rouge="111" vert="124"/>
+</boule>
+<boule rayon="30" x="82" y="88">
+<couleur bleu="111" rouge="204" vert="72"/>
+</boule>
+<boule rayon="34" x="219" y="43">
+<couleur bleu="239" rouge="201" vert="119"/>
+</boule>
+<boule rayon="45" x="277" y="46">
+<couleur bleu="40" rouge="39" vert="53"/>
+</boule>
+</dessin>

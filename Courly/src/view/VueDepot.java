@@ -7,6 +7,7 @@
 package view;
 
 import java.awt.image.BufferedImage;
+import model.Depot;
 
 /**
  *
@@ -19,13 +20,22 @@ public class VueDepot extends VueLieu {
     private static final String highlightedImagePath = "Images/factory_highlighted_40px.png";
     private static final String selectedImagePath = "Images/factory_selected_40px.png";
     private static final String selectedHighlightedImagePath = "Images/factory_selectedhighlighted_40px.png";
+    
+    private static final int Size = 40;
 
     /**
      * Creates new form VueDepot
+     * @param depot
      */
-    public VueDepot() {
+    public VueDepot(Depot depot) {
         initComponents();
         this.setOpaque(false);
+        this.setSize(Size, Size);
+        this.lieu = depot;
+    }
+    
+    public Depot getDepot() {
+        return (Depot)this.lieu;
     }
     
     
