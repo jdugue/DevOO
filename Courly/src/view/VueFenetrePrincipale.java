@@ -72,6 +72,14 @@ public class VueFenetrePrincipale extends javax.swing.JFrame implements ActionLi
         this.itemExporter.setEnabled(canExportTournee);
     }
     
+    public void canUndo(boolean canUndo) {
+        this.itemAnnuler.setEnabled(canUndo);
+    }
+    
+    public void canRedo(boolean canRedo) {
+        this.itemRefaire.setEnabled(canRedo);
+    }
+    
     public void addTournee(Tournee tournee, String displayName, boolean select) {
         if (this.mapTournees == null) {
             this.mapTournees = new HashMap<JRadioButtonMenuItem, Tournee>();
