@@ -59,7 +59,7 @@ public class ControleurTournee {
 			for ( PlageHoraire plage : aEcrire.getPlagesHoraire() ){
 				bw.write( getRepetition(INDENTATION_PLAGE_HORAIRE, TAB) + PLAGE_HORAIRE + DP + ESP );
 				bw.write( FORMATTER.format(plage.getHeureDebut()) + " - " + FORMATTER.format(plage.getHeureFin()) + RC);
-				
+				plage.sortLivraisons();
 				for ( Livraison livraison : plage.getLivraisons() ){
 					bw.write( getRepetition(INDENTATION_LIVRAISON, TAB) + 
 							LIVRAISON + ESP + compteurLivraison + RC);

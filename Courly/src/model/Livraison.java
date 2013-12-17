@@ -4,7 +4,7 @@ import java.util.Date;
 
 import org.w3c.dom.Element;
 
-public class Livraison extends Lieu {
+public class Livraison extends Lieu implements Comparable<Livraison>{
 	
 	protected Integer id;
 	protected Integer client;
@@ -95,6 +95,11 @@ public class Livraison extends Lieu {
 
 	public Livraison() {
 		// TODO Auto-generated constructor stub
+	}
+
+	@Override
+	public int compareTo(Livraison o) {
+		return getHeurePassage().compareTo(o.getHeurePassage());
 	}
 
 }

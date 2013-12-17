@@ -3,6 +3,7 @@ package model;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 
 import org.w3c.dom.Element;
@@ -18,9 +19,13 @@ public class PlageHoraire {
 	public String toString() {
 		return "Entre " + timeToString(heureDebut) + " et " + timeToString(heureFin);
 	}
-	
+
 	private String timeToString (Date date){
 		return date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
+	}
+
+	public void sortLivraisons() {
+		Collections.sort(this.livraisons);
 	}
 
 	public Date getHeureDebut() {

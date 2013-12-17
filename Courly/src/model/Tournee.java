@@ -1,6 +1,7 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class Tournee {
 	
@@ -17,7 +18,7 @@ public class Tournee {
         this.trajets = new ArrayList<Trajet>(tournee.getTrajets());
         this.plagesHoraire = new ArrayList<PlageHoraire>(tournee.getPlagesHoraire());
         this.depot = tournee.getDepot();
-    }       
+    }
 	
 	public ArrayList<Livraison> getLivraisons() {
 		return livraisons;
