@@ -67,7 +67,7 @@ public class VueInspecteur extends javax.swing.JPanel {
     private void setLivraisonEnabled(boolean enable) {
         this.livraisonIDLabel.setText("");
         this.clientIDTextField.setEnabled(enable);
-        this.heurePassageTextField.setEnabled(enable);
+        this.heurePassageTextField.setEnabled(false);
         this.plagesHorairesComboBox.setEnabled(enable);
     }
     
