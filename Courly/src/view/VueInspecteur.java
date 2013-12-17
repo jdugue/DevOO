@@ -11,6 +11,8 @@ import controller.ControleurInspecteur;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import javax.swing.JLabel;
+
+import view.VueFenetrePrincipale.MessageType;
 import model.Lieu;
 import model.Depot;
 import model.Livraison;
@@ -170,12 +172,12 @@ public class VueInspecteur extends javax.swing.JPanel {
     private void actionButtonPressedHandler() {
         switch (this.mode) {
             case LivraisonSelected:
-                this.controleur.shouldRemoveLivraison();
-                break;
-                
+            	this.controleur.shouldRemoveLivraison();
+            	break;
+
             case NoeudSelected:
-                this.controleur.shouldCreateLivraison(this.clientIDTextField.getText(), (PlageHoraire)plagesHorairesComboBox.getSelectedItem());
-                break;
+            	this.controleur.shouldCreateLivraison(this.clientIDTextField.getText(), (PlageHoraire)plagesHorairesComboBox.getSelectedItem());
+            	break;
         }
     }
     

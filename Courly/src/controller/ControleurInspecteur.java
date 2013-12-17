@@ -14,6 +14,8 @@ import model.Depot;
 import model.Livraison;
 import model.Noeud;
 import model.PlageHoraire;
+import view.VueFenetrePrincipale.MessageType;
+import view.VueFenetrePrincipale;
 import view.VueInspecteur;
 
 /**
@@ -57,7 +59,14 @@ public class ControleurInspecteur {
     
     public boolean shouldCreateLivraison(String newClient, PlageHoraire plageHoraire) {
         this.vue.setMode(VueInspecteur.AffichageMode.LivraisonSelected);
-        Livraison livraison = new Livraison(this.noeud, this.noeud.getId(), Integer.parseInt(newClient), plageHoraire);//Livraison.createLivraison( newClient, this.noeud.getId(), plageHoraire);
+        Integer client;        
+        try {
+        	client = Integer.parseInt(newClient);
+        } catch (NumberFormatException e) {
+    		showMessage("Le numéro client doit être un entier", MessageType.MessageTypeError);
+    		return false;
+        }
+        Livraison livraison = new Livraison(this.noeud, this.noeud.getId(), client, plageHoraire);
         if ( livraison == null ){
             return false;
         } else {
@@ -78,5 +87,9 @@ public class ControleurInspecteur {
         this.controleurParent.shouldRemoveLivraisonAndReload((Livraison)this.lieu);
         this.vue.setMode(VueInspecteur.AffichageMode.NoeudSelected);
         return true;
+    }
+    
+    public void showMessage(String message, VueFenetrePrincipale.MessageType type) {
+        this.controleurParent.showMessage(message, type);
     }
 }
