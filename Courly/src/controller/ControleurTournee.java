@@ -32,6 +32,9 @@ public class ControleurTournee {
 	private final int INDENTATION_LIVRAISON = 2;
 	private final int INDENTATION_INFO = 3;
 	
+	private final CharSequence[] WINDOWS_BLOCKED_FILENAME_CHARACTERS
+							= { "\\" ,"/", ":" ,"*" ,"?" ,"\"" ,"<" ,">", "|" };
+	
 	static final SimpleDateFormat FORMATTER = new SimpleDateFormat("HH:mm:s");
 
 	public ControleurTournee() {
@@ -43,40 +46,42 @@ public class ControleurTournee {
 		BufferedWriter bw = null;
 		try {
 			int compteurLivraison = 1;			
- 
+
 			File file = new File(filename);
- 
+
 			// if file doesnt exists, then create it
 			if (!file.exists()) {
 				file.createNewFile();
 			}
- 
+
 			FileWriter fw = new FileWriter(file.getAbsoluteFile());
 			bw = new BufferedWriter(fw);
 			bw.write( getRepetition(INDENTATION_TITRE, TAB) + TITRE + RC );
 			bw.write( RC );
-			
+
 			for ( PlageHoraire plage : aEcrire.getPlagesHoraire() ){
 				bw.write( getRepetition(INDENTATION_PLAGE_HORAIRE, TAB) + PLAGE_HORAIRE + DP + ESP );
-				bw.write( FORMATTER.format(plage.getHeureDebut()) + " - " + FORMATTER.format(plage.getHeureFin()) + RC);
-				plage.sortLivraisons();
+				bw.write( FORMATTER.format(plage.getHeureDebut()) + " - " 
+						+ FORMATTER.format(plage.getHeureFin()) + RC);
+
 				for ( Livraison livraison : plage.getLivraisons() ){
 					bw.write( getRepetition(INDENTATION_LIVRAISON, TAB) + 
 							LIVRAISON + ESP + compteurLivraison + RC);
-					
+
 					bw.write ( getRepetition(INDENTATION_INFO, TAB) + 
 							CLIENT + DP + ESP + livraison.getClient() + RC );
-					
+
 					bw.write ( getRepetition(INDENTATION_INFO, TAB) + 
 							ADRESSE + DP + ESP + livraison.getAdresse() + RC );
-					
+
 					bw.write ( getRepetition(INDENTATION_INFO, TAB) + 
-							HEURE_PASSAGE + DP + ESP + this.FORMATTER.format(livraison.getHeurePassage()) + RC );
-					
+							HEURE_PASSAGE + DP + ESP + 
+							this.FORMATTER.format(livraison.getHeurePassage()) + RC );
+
 					compteurLivraison++;
 				}
 			}
-	
+
 			bw.close();
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -88,7 +93,7 @@ public class ControleurTournee {
 				e.printStackTrace();
 			}
 		}
-	
+
 		return true;
 	}
 	
@@ -113,5 +118,14 @@ public class ControleurTournee {
 	
 	public String getFiletypeName (){
 		return FILETYPE_NAME;
+	}
+	
+	public boolean isFilenamePermitted(String filename){
+		for ( CharSequence c : WINDOWS_BLOCKED_FILENAME_CHARACTERS){
+			if ( filename.contains(c) ){
+				return false;
+			}
+		}
+		return true;
 	}
 }

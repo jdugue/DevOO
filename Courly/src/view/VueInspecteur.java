@@ -43,7 +43,6 @@ public class VueInspecteur extends javax.swing.JPanel {
     
     private void clean() {
         this.adresseLabel.setText("");
-        this.livraisonIDLabel.setText("");
         this.clientIDTextField.setText("");
         //this.plageHoraireDebutTextField.setText("");
         //this.plageHoraireFinTextField.setText("");
@@ -67,19 +66,38 @@ public class VueInspecteur extends javax.swing.JPanel {
     }
     
     private void setLivraisonEnabled(boolean enable) {
-        this.livraisonIDLabel.setText("");
         this.clientIDTextField.setEnabled(enable);
         this.heurePassageTextField.setEnabled(false);
         this.plagesHorairesComboBox.setEnabled(enable);
+        this.actionButton.setEnabled(enable);
     }
     
+    public void setLieuFieldsVisible(boolean visible) {
+        this.clientIDLabel.setVisible(visible);
+        this.clientIDTextField.setVisible(visible);
+        this.heurePassageLabel.setVisible(visible);
+        this.heurePassageTextField.setVisible(visible);
+        this.plagesHorairesLabel.setVisible(visible);
+        this.plagesHorairesComboBox.setVisible(visible);
+        this.actionButton.setVisible(visible);
+        this.cancelButton.setVisible(false);
+    }
     
+    private void setAllVisible(boolean visible) {
+        this.titleLabel.setVisible(visible);
+        this.adresseLabel.setVisible(visible);
+        this.livraisonTitleLabel.setVisible(visible);
+        this.jSeparator1.setVisible(visible);
+        this.jSeparator2.setVisible(visible);
+        this.setLieuFieldsVisible(visible);
+    }
     
     private void cleanLivraison() {
-        this.livraisonIDLabel.setText("");
         this.clientIDTextField.setText("");
         this.heurePassageTextField.setText("");
-        this.plagesHorairesComboBox.getModel().setSelectedItem(0);
+        if (this.plagesHorairesComboBox.getModel().getSize() > 0) {
+            this.plagesHorairesComboBox.setSelectedIndex(0);
+        }
     }
     
     public void setPlagesHoraires(ArrayList<PlageHoraire> plagesHoraires) {
@@ -127,43 +145,26 @@ public class VueInspecteur extends javax.swing.JPanel {
         this.mode = mode;
         switch (mode) {
             case Empty:
-                this.clean();
-                this.cleanLivraison();
-                this.setLivraisonEnabled(false);
-                this.actionButton.setVisible(false);
-                this.cancelButton.setVisible(false);
-                this.plagesHorairesComboBox.setVisible(false);
-                this.heurePassageTextField.setVisible(false);
+                this.setAllVisible(false);
                 break;
                 
             case NoeudSelected:
                 this.cleanLivraison();
                 this.setLivraisonEnabled(true);
-                this.actionButton.setVisible(true);
+                this.setAllVisible(true);
                 this.actionButton.setText("Créer la livraison");
-                this.cancelButton.setVisible(false);
-                this.actionButton.setEnabled(true);
-                this.plagesHorairesComboBox.setVisible(true);
-                this.heurePassageTextField.setVisible(true);
                 break;
                 
             case LivraisonSelected:
                 this.setLivraisonEnabled(false);
-                this.actionButton.setVisible(true);
+                this.setAllVisible(true);
                 this.actionButton.setText("Supprimer livraison");
-                this.actionButton.setEnabled(true);
-                this.cancelButton.setVisible(false);
-                this.plagesHorairesComboBox.setVisible(true);
-                this.heurePassageTextField.setVisible(true);
                 break; 
                 
             case DepotSelected:
-                this.setLivraisonEnabled(false);
-                this.setLivraisonAreaTitle("Dépôt");
-                this.actionButton.setVisible(false);
-                this.cancelButton.setVisible(false);
-                this.plagesHorairesComboBox.setVisible(false);
-                this.heurePassageTextField.setVisible(false);
+                this.setAllVisible(true);
+                this.setLieuFieldsVisible(false);
+                this.setLivraisonAreaTitle("Depot");
                 break;               
         } 
                 
@@ -199,12 +200,11 @@ public class VueInspecteur extends javax.swing.JPanel {
         titleLabel = new javax.swing.JLabel();
         adresseLabel = new javax.swing.JLabel();
         livraisonTitleLabel = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
+        clientIDLabel = new javax.swing.JLabel();
         clientIDTextField = new javax.swing.JTextField();
-        livraisonIDLabel = new javax.swing.JLabel();
         heurePassageTextField = new javax.swing.JTextField();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
+        heurePassageLabel = new javax.swing.JLabel();
+        plagesHorairesLabel = new javax.swing.JLabel();
         plagesHorairesComboBox = new javax.swing.JComboBox();
         actionButton = new javax.swing.JButton();
         jSeparator2 = new javax.swing.JSeparator();
@@ -225,7 +225,7 @@ public class VueInspecteur extends javax.swing.JPanel {
         livraisonTitleLabel.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // NOI18N
         livraisonTitleLabel.setText("Livraison");
 
-        jLabel2.setText("ID Client");
+        clientIDLabel.setText("ID Client");
 
         clientIDTextField.setText("jTextField1");
         clientIDTextField.addActionListener(new java.awt.event.ActionListener() {
@@ -234,8 +234,6 @@ public class VueInspecteur extends javax.swing.JPanel {
             }
         });
 
-        livraisonIDLabel.setText("ID");
-
         heurePassageTextField.setText("jTextField1");
         heurePassageTextField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -243,9 +241,9 @@ public class VueInspecteur extends javax.swing.JPanel {
             }
         });
 
-        jLabel3.setText("Heure de passage");
+        heurePassageLabel.setText("Heure de passage");
 
-        jLabel4.setText("Plage horaire");
+        plagesHorairesLabel.setText("Plage horaire");
 
         actionButton.setText("jButton1");
         actionButton.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -271,16 +269,12 @@ public class VueInspecteur extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(6, 6, 6)
-                        .addComponent(jLabel4)
+                        .addComponent(plagesHorairesLabel)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(clientIDTextField, javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(heurePassageTextField, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(livraisonTitleLabel)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(livraisonIDLabel))
                             .addComponent(plagesHorairesComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addGap(0, 138, Short.MAX_VALUE)
@@ -288,10 +282,13 @@ public class VueInspecteur extends javax.swing.JPanel {
                                     .addComponent(actionButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(cancelButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(7, 7, 7)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel3)
-                                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(livraisonTitleLabel)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(7, 7, 7)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(heurePassageLabel)
+                                            .addComponent(clientIDLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE))))
                                 .addGap(0, 0, Short.MAX_VALUE)))
                         .addContainerGap())
                     .addGroup(layout.createSequentialGroup()
@@ -311,19 +308,17 @@ public class VueInspecteur extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(livraisonIDLabel)
-                    .addComponent(livraisonTitleLabel))
+                .addComponent(livraisonTitleLabel)
                 .addGap(23, 23, 23)
-                .addComponent(jLabel2)
+                .addComponent(clientIDLabel)
                 .addGap(0, 0, 0)
                 .addComponent(clientIDTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel3)
+                .addComponent(heurePassageLabel)
                 .addGap(0, 0, 0)
                 .addComponent(heurePassageTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel4)
+                .addComponent(plagesHorairesLabel)
                 .addGap(0, 0, 0)
                 .addComponent(plagesHorairesComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
@@ -332,7 +327,7 @@ public class VueInspecteur extends javax.swing.JPanel {
                 .addComponent(cancelButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(25, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -359,16 +354,15 @@ public class VueInspecteur extends javax.swing.JPanel {
     private javax.swing.JButton actionButton;
     private javax.swing.JLabel adresseLabel;
     private javax.swing.JButton cancelButton;
+    private javax.swing.JLabel clientIDLabel;
     private javax.swing.JTextField clientIDTextField;
+    private javax.swing.JLabel heurePassageLabel;
     private javax.swing.JTextField heurePassageTextField;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
-    private javax.swing.JLabel livraisonIDLabel;
     private javax.swing.JLabel livraisonTitleLabel;
     private javax.swing.JComboBox plagesHorairesComboBox;
+    private javax.swing.JLabel plagesHorairesLabel;
     private javax.swing.JLabel titleLabel;
     // End of variables declaration//GEN-END:variables
 }

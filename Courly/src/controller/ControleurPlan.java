@@ -17,7 +17,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import javax.swing.JScrollPane;
-import model.Depot;
 import model.Lieu;
 import model.PlageHoraire;
 import model.Tournee;
@@ -111,6 +110,9 @@ public class ControleurPlan {
     public void setSelectedVueNoeud(VueNoeud selectedVueNoeud) {
         if (this.selectedVueNoeud != null) {
             this.selectedVueNoeud.setSelected(false);
+            if (this.selectedVueNoeud.getVueLieu() != null) {
+                this.selectedVueNoeud.getVueLieu().setSelected(false);
+            }
         }
         this.selectedVueNoeud = selectedVueNoeud;
         this.selectedNoeud = selectedVueNoeud.getNoeud();

@@ -51,6 +51,7 @@ public class ControleurFenetrePrincipale {
     private final String TOURNEE_WRITTEN = "Fichier de tournee généré.";
     private final String TOURNEE_NOT_WRITTEN = "Le fichier de tournée n'a pas pu être " +
     		"généré suite à un problème.";
+    private final String FILENAME_NOT_PERMITTED = "Le nom du fichier contient des caractères illegaux.";
     
     
     public ControleurFenetrePrincipale(VueFenetrePrincipale aFenetre) {
@@ -247,8 +248,15 @@ public class ControleurFenetrePrincipale {
 		if( returnVal == JFileChooser.APPROVE_OPTION ) {
 			String file = fChooser.getSelectedFile().getAbsolutePath();
 			lastUsedFolder = fChooser.getSelectedFile().getParent();
-	        boolean worked = controleurTournee.tourneeToTxt(this.selectedTournee, file);
-	        
+			
+			boolean worked = false;
+			boolean namePermitted =  controleurTournee.isFilenamePermitted(file);
+			if ( namePermitted ){
+		        worked = controleurTournee.tourneeToTxt(this.selectedTournee, file);
+			}else{
+				this.showMessage(FILENAME_NOT_PERMITTED, VueFenetrePrincipale.MessageType.MessageTypeError);
+			}
+			
 	        if ( worked ){
 	        	this.showMessage(TOURNEE_WRITTEN, VueFenetrePrincipale.MessageType.MessageTypeSuccess);
 	        } else {
