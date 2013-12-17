@@ -63,7 +63,9 @@ public class ControleurInspecteur {
             } else if (lieu.getClass() == Depot.class) {
                 this.vue.setMode(VueInspecteur.AffichageMode.DepotSelected);
             }
-        }            
+        }  else {
+            this.vue.setMode(VueInspecteur.AffichageMode.NoeudOnly);
+        }           
     }
     
     public boolean shouldCreateLivraison(String newClient, PlageHoraire plageHoraire) {
@@ -76,8 +78,6 @@ public class ControleurInspecteur {
         }
         Livraison livraison = new Livraison(this.noeud, this.noeud.getId(), client, plageHoraire);
         controleurParent.shouldAddLivraisonAndReload(livraison);
-        this.setVueFromLieu(livraison);
-        this.vue.setMode(VueInspecteur.AffichageMode.LivraisonSelected);
         return true;
     }
     
@@ -88,8 +88,8 @@ public class ControleurInspecteur {
     }
     
     public boolean shouldRemoveLivraison() {
-        this.controleurParent.shouldRemoveLivraisonAndReload((Livraison)this.lieu);
         this.vue.setMode(VueInspecteur.AffichageMode.NoeudSelected);
+        this.controleurParent.shouldRemoveLivraisonAndReload((Livraison)this.lieu);
         return true;
     }
     

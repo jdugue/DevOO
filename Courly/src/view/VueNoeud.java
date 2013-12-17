@@ -80,6 +80,7 @@ public class VueNoeud extends javax.swing.JPanel {
         this.vueLieu.setLocation(x, y);
         
         this.vueLieu.setVueNoeud(this);
+        this.vueLieu.setVuePlan(vuePlan);
         this.vuePlan.add(this.vueLieu);
     }
     
@@ -92,6 +93,7 @@ public class VueNoeud extends javax.swing.JPanel {
         this.vueLieu.setLocation(x, y);
         
         this.vueLieu.setVueNoeud(this);
+        this.vueLieu.setVuePlan(vuePlan);
         this.vuePlan.add(this.vueLieu);
     }
     
@@ -141,7 +143,8 @@ public class VueNoeud extends javax.swing.JPanel {
 
     private void mouseClickedHandler(java.awt.event.MouseEvent evt) {                                     
         // TODO add your handling code here:
-        this.setSelected(true);
+        //this.setSelected(true, true);
+        this.vuePlan.didSelectVueNoeud(this);
     }                                    
 
  
@@ -174,21 +177,11 @@ public class VueNoeud extends javax.swing.JPanel {
             this.selected = selected;
 
             this.repaint();
-
-            if (selected && callBack) {
-                this.vuePlan.didSelectVueNoeud(this);
-            } else if (callBack) {
-                this.vuePlan.didDeselectVueNoeud(this);
-            }
-
-            if (this.vueLieu != null && this.vueLieu.selected != this.selected) {
-                this.vueLieu.setSelected(selected);
-            }
         }
     }
     
     public void setSelected(boolean selected) {
-        this.setSelected(selected, true);
+        this.setSelected(selected, false);
     }
     
     public void setHighlighted(boolean highlighted) {

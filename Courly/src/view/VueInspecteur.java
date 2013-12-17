@@ -158,6 +158,7 @@ public class VueInspecteur extends javax.swing.JPanel {
                 this.cleanLivraison();
                 this.setLivraisonEnabled(true);
                 this.setAllVisible(true);
+                this.setLivraisonAreaTitle("Nouvelle livraison");
                 this.actionButton.setText("Créer la livraison");
                 break;
                 

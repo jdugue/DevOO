@@ -25,6 +25,7 @@ public class VueLieu extends javax.swing.JPanel {
     private static final String selectedImagePath = "";
     private static final String selectedHighlightedImagePath = "";
     
+    protected VuePlan vuePlan;
     protected VueNoeud vueNoeud;
     protected Lieu lieu;
     
@@ -43,6 +44,10 @@ public class VueLieu extends javax.swing.JPanel {
         this.vueNoeud = vueNoeud;
     }
 
+    public void setVuePlan(VuePlan vuePlan) {
+        this.vuePlan = vuePlan;
+    }
+
     public void setHighlighted(boolean highlighted) {
         this.highlighted = highlighted;
         this.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -53,20 +58,15 @@ public class VueLieu extends javax.swing.JPanel {
         this.updateUI();
     }
 
-    public void setSelected(boolean selected) {
+    public void setSelected(boolean selected, boolean callBack) {
         this.selected = selected;
-        
-        if (this.vueNoeud != null && this.vueNoeud.selected != this.selected) {
-            this.vueNoeud.setSelected(selected, false);
-        }
-        
-        if (selected) {
-            this.vueNoeud.vuePlan.didSelectVueLieu(this);
-        } else {
-            this.vueNoeud.vuePlan.didDeselectVueLieu(this);
-        }
+                
         
         this.updateUI();
+    }
+    
+    public void setSelected(boolean selected) {
+        this.setSelected(selected, false);
     }
 
     public Lieu getLieu() {
@@ -135,7 +135,8 @@ public class VueLieu extends javax.swing.JPanel {
 
     private void mouseClickedHandler(java.awt.event.MouseEvent evt) {                                     
         // TODO add your handling code here:
-        this.setSelected(true);
+        //this.setSelected(true, true);
+        this.vuePlan.didSelectVueLieu(this);
     }                                    
 
     

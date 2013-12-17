@@ -142,7 +142,8 @@ public class ControleurFenetrePrincipale {
             		this.fenetre.canExportTournee(false);
             		this.fenetre.canLoadLivraison(true);
             		this.fenetre.removeAllTournee();
-                        this.controleurPlan.deselectAll();
+                        this.selectedTournee = null;
+                        this.deselectAllNoeuds();
             		controleurUndoManager.cleanAll();
             		this.showMessage(PLAN_CHARGE_SUCCESS, VueFenetrePrincipale.MessageType.MessageTypeSuccess);
             	} else {
@@ -205,7 +206,7 @@ public class ControleurFenetrePrincipale {
         this.controleurInspecteur.setPlagesHoraires(tournee.getPlagesHoraire());
         this.controleurPlan.setTournee(tournee);
         this.selectedTournee = tournee;
-        this.controleurPlan.deselectAll();
+        this.deselectAllNoeuds();
         this.fenetre.canExportTournee(this.selectedTournee != null);
 
     	setUndoRedoButtons();
@@ -259,7 +260,7 @@ public class ControleurFenetrePrincipale {
     public void addLivraisonAndReload(Livraison livraison){
     	selectedTournee.addLivraison(livraison);    	
     	traitementDijkstra(selectedTournee);
-        this.controleurPlan.deselectAll();
+        this.deselectAllNoeuds();
     }
     
     
@@ -277,7 +278,7 @@ public class ControleurFenetrePrincipale {
     {    	
     	selectedTournee.removeLivraison(livraison);
     	traitementDijkstra(selectedTournee);
-        this.controleurPlan.deselectAll();
+        this.deselectAllNoeuds();
     }
     
     public void shouldExportTournee() {
@@ -305,22 +306,18 @@ public class ControleurFenetrePrincipale {
         }        
         }
     }
-
+    
+    public void deselectAllNoeuds() {
+        this.controleurPlan.deselectAll();
+        this.controleurInspecteur.setVueFromNoeud(null);
+    }
     
     public void didSelectNoeud(Noeud noeud) {
         this.controleurInspecteur.setVueFromNoeud(noeud);
     }
     
-    public void didDeselectNoeud(Noeud noeud) {
-        this.controleurInspecteur.setVueFromNoeud(null);
-    }
-    
     public void didSelectLieu(Lieu lieu) {
         this.controleurInspecteur.setVueFromLieu(lieu);
-    }
-    
-    public void didDeselectLieu(Lieu lieu) {
-        this.controleurInspecteur.setVueFromLieu(null);
     }
     
     private File getCurrentDirectory(){

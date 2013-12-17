@@ -32,10 +32,7 @@ public class VuePlan extends javax.swing.JPanel {
     
     private final HashMap<Noeud, VueNoeud> vueNoeuds = new HashMap<Noeud, VueNoeud>();
     private final HashMap<Troncon, VueTroncon> vueTroncons = new HashMap<Troncon, VueTroncon>();
-    
-    private VueNoeud selectedVueNoeud;
-    private Noeud selectedNoeud;
-    
+        
     public static final int noeudSize = 14;
     public static final int padding = 30;
     
@@ -148,24 +145,6 @@ public class VuePlan extends javax.swing.JPanel {
             this.addNoeud(noeud);
         }
     }  
-
-    public VueNoeud getSelectedVueNoeud() {
-        return selectedVueNoeud;
-    }
-
-    public void setSelectedVueNoeud(VueNoeud selectedVueNoeud) {
-        if (this.selectedVueNoeud != null) {
-            this.selectedVueNoeud.setSelected(false);
-            if (this.selectedVueNoeud.getVueLieu() != null) {
-                this.selectedVueNoeud.getVueLieu().setSelected(false);
-            }
-        }
-        
-        if (selectedVueNoeud != null) {
-            this.selectedVueNoeud = selectedVueNoeud;
-            this.selectedNoeud = selectedVueNoeud.getNoeud();
-        }
-    }
     
     public void createVueTronconFromTroncon(Troncon troncon) {
 
@@ -317,35 +296,39 @@ public class VuePlan extends javax.swing.JPanel {
 
             this.addVueNoeud(vueNoeud);
         }
-        
-        if (this.selectedNoeud == noeud) {
-            vueNoeud.setSelected(true);
-        }
     }
     
-    public void didSelectVueNoeud(VueNoeud selectedVueNoeud) {
-        this.setSelectedVueNoeud(selectedVueNoeud);
+    public void setNoeudSelected(Noeud noeud, boolean selected) {
+        VueNoeud vueNoeud = this.vueNoeuds.get(noeud);
+        vueNoeud.setSelected(selected);
+        if (vueNoeud.getVueLieu() != null) {
+            vueNoeud.getVueLieu().setSelected(selected);
+        }
         
+    }
+    
+    public void didSelectVueNoeud(VueNoeud selectedVueNoeud) {        
         Noeud noeud = selectedVueNoeud.getNoeud();
         this.controleur.didSelectNoeud(noeud);
     }
     
-    public void didDeselectVueNoeud(VueNoeud deselectedNoeud) {
+    /*public void didDeselectVueNoeud(VueNoeud deselectedNoeud) {
         Noeud noeud = deselectedNoeud.getNoeud();
         this.controleur.didDeselectNoeud(noeud);
-    }
+    }*/
     
     public void didSelectVueLieu(VueLieu vueLieu) {
-        Lieu lieu = vueLieu.getLieu();
-        VueNoeud vueNoeud = this.vueNoeuds.get(lieu.getNoeud());
-        this.setSelectedVueNoeud(vueNoeud);
-        this.controleur.didSelectLieu(lieu);
+        VueNoeud vueNoeud = this.vueNoeuds.get(vueLieu.getLieu().getNoeud());
+        vueNoeud.setSelected(true);
+        this.controleur.didSelectLieu(vueLieu.getLieu());
     }
     
-    public void didDeselectVueLieu(VueLieu vueLieu) {
-        Lieu lieu = vueLieu.getLieu();
-        this.controleur.didDeselectLieu(lieu);
-    }
+    /*public void didDeselectVueLieu(VueLieu vueLieu) {
+        VueNoeud vueNoeud = this.vueNoeuds.get(vueLieu.getLieu().getNoeud());
+        vueNoeud.setSelected(false);
+        this.controleur.didDeselectLieu(vueLieu.getLieu());
+    }*/
+    
     
     /**
      * Creates new form VuePlan
