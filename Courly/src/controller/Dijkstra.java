@@ -24,8 +24,8 @@ public class Dijkstra {
 	static final long SEC_IN_MILISEC = 1000;
 
 	/**
-	 * computePaths permet de trouver pour un noeud passé en parametre le temps de parcours jusqu'a tous les autres 
-	 * noeuds. De cette façon l'attribut previous de tous les noeuds sont fixes par rapport au chemins trouves.
+	 * computePaths permet de trouver pour un noeud passï¿½ en parametre le temps de parcours jusqu'a tous les autres 
+	 * noeuds. De cette faï¿½on l'attribut previous de tous les noeuds sont fixes par rapport au chemins trouves.
 	 * @param noeudSource : le noeud pour lequel on veut calculer les temps de parcours.
 	 */
 	public void computePaths(Noeud noeudSource) {
@@ -308,6 +308,7 @@ public class Dijkstra {
 		List<ArrayList<Trajet>> trajets = genererMatriceTrajets(plan, tournee);
 
 		choco(tournee,trajets,-1);
+		Collections.sort(tournee.getLivraisons());
 	}
 
 }
