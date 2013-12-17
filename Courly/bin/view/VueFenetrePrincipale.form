@@ -61,6 +61,10 @@
                 </Property>
                 <Property name="text" type="java.lang.String" value="Refaire"/>
               </Properties>
+              <Events>
+                <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="itemRefaireMousePressed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="itemRefaireActionPerformed"/>
+              </Events>
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="itemAnnuler">
               <Properties>
@@ -69,6 +73,10 @@
                 </Property>
                 <Property name="text" type="java.lang.String" value="Annuler"/>
               </Properties>
+              <Events>
+                <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="itemAnnulerMousePressed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="itemAnnulerActionPerformed"/>
+              </Events>
             </MenuItem>
           </SubComponents>
         </Menu>
@@ -128,6 +136,11 @@
               </SubComponents>
             </Menu>
           </SubComponents>
+        </Menu>
+        <Menu class="javax.swing.JMenu" name="jMenu1">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="jMenu1"/>
+          </Properties>
         </Menu>
       </SubComponents>
     </Menu>
