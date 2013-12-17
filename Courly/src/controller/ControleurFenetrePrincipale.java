@@ -42,17 +42,26 @@ public class ControleurFenetrePrincipale {
     private static final double zoomDelta = 0.05;
     private static final double zoomMin = 0.1;
     private static final double zoomMax = 2.0;
+
     
     private Tournee selectedTournee;
     private UndoManager undoManager = new UndoManager();
     
     private String lastUsedFolder = null;
     
-    private final String TOURNEE_WRITTEN = "Fichier de tournee généré.";
-    private final String TOURNEE_NOT_WRITTEN = "Le fichier de tournée n'a pas pu être " +
+    private static final String TOURNEE_WRITTEN = "Fichier de tournee généré.";
+    private static final String TOURNEE_NOT_WRITTEN = "Le fichier de tournée n'a pas pu être " +
     		"généré suite à un problème.";
-    private final String FILENAME_NOT_PERMITTED = "Le nom du fichier contient des caractères illegaux.";
-    
+    private static final String FILENAME_NOT_PERMITTED = "Le nom du fichier contient des caractères illegaux.";
+    private static final String FILETYPE_NAME = "Fichier texte";
+	private static final String FILETYPE = "xml";
+	private static final String PLAN_CHARGE_SUCCESS = "Plan chargé avec succès";
+	private static final String PLAN_NOT_CHARGED = "Impossible de charger le plan";
+	private static final String INCORRECT_XML_FILE = "Fichier XML incorrect";
+	private static final String FILE_NOT_FOUND = "Fichier inexistant";
+	private static final String CALCULATING_TOURNEE = "Calcul de la tournée...";
+	private static final String LIVRAISON_FILE_CHARGED = "Livraisons chargées avec succès";
+	private static final String COUDNT_READ_FILE = "Probleme de lecture du fichier";
     
     public ControleurFenetrePrincipale(VueFenetrePrincipale aFenetre) {
         
@@ -107,7 +116,7 @@ public class ControleurFenetrePrincipale {
     }
     
     public void shouldLoadPlan() {
-    	JFileChooser fChooser = FileChooserFactory.createFileChooser("xml", "Fichier plan", 
+    	JFileChooser fChooser = FileChooserFactory.createFileChooser(FILETYPE, FILETYPE_NAME, 
 				getCurrentDirectory());
         
         int returnVal = fChooser.showOpenDialog(this.fenetre);
@@ -122,16 +131,16 @@ public class ControleurFenetrePrincipale {
                         this.plan = tempPlan;
                         this.controleurPlan.loadVuePlanFromModel(plan);
                         this.controleurInspecteur.setVueFromNoeud(null);
-                        this.showMessage("Plan chargé avec succès", VueFenetrePrincipale.MessageType.MessageTypeSuccess);
+                        this.showMessage(PLAN_CHARGE_SUCCESS, VueFenetrePrincipale.MessageType.MessageTypeSuccess);
                     } else {
-                        this.showMessage("Impossible de charger le plan", VueFenetrePrincipale.MessageType.MessageTypeError);
+                        this.showMessage(PLAN_NOT_CHARGED, VueFenetrePrincipale.MessageType.MessageTypeError);
                     }
             } catch (NumberFormatException e) {
-                    this.showMessage("Fichier XML incorrect", VueFenetrePrincipale.MessageType.MessageTypeError);
+                    this.showMessage(INCORRECT_XML_FILE, VueFenetrePrincipale.MessageType.MessageTypeError);
             } catch (FileNotFoundException e) {
-            	this.showMessage("Fichier inexistant", VueFenetrePrincipale.MessageType.MessageTypeError);
+            	this.showMessage(FILE_NOT_FOUND, VueFenetrePrincipale.MessageType.MessageTypeError);
             } catch (SAXException e) {
-            	this.showMessage("Fichier XML incorrect", VueFenetrePrincipale.MessageType.MessageTypeError);
+            	this.showMessage(INCORRECT_XML_FILE, VueFenetrePrincipale.MessageType.MessageTypeError);
             }
 
         }
@@ -141,8 +150,8 @@ public class ControleurFenetrePrincipale {
     public void shouldLoadLivraison() { 
         if( this.plan != null) {
         	try {
-                JFileChooser fChooser = FileChooserFactory.createFileChooser( "xml"
-                		, "Fichier XML" , getCurrentDirectory() );
+                JFileChooser fChooser = FileChooserFactory.createFileChooser( FILETYPE
+                		, FILETYPE_NAME , getCurrentDirectory() );
                
                 int returnVal = fChooser.showOpenDialog(this.fenetre);
                 if( returnVal == JFileChooser.APPROVE_OPTION ) {
@@ -150,27 +159,27 @@ public class ControleurFenetrePrincipale {
                         lastUsedFolder = fChooser.getSelectedFile().getParent();
                         ParseurXML p = new ParseurXML();
 
-                        this.showMessage("Calcul de la tournée...", VueFenetrePrincipale.MessageType.MessageTypeLog);
+                        this.showMessage(CALCULATING_TOURNEE, VueFenetrePrincipale.MessageType.MessageTypeLog);
                         Tournee tournee = p.construireTourneeXML(file);
                         if (tournee != null) {
                             p.setNoeudsFromTournee(tournee, plan);
                             traitementDijkstra(tournee);
                             //System.out.println(tournee.getPlagesHoraire().size());
                             this.fenetre.addTournee(tournee, file, true);
-                            this.showMessage("Livraisons chargées avec succès", VueFenetrePrincipale.MessageType.MessageTypeSuccess);
+                            this.showMessage(LIVRAISON_FILE_CHARGED, VueFenetrePrincipale.MessageType.MessageTypeSuccess);
                         }
                 }
         	}
         	catch (FileNotFoundException e) {
-        		this.showMessage("Fichier inexistant", VueFenetrePrincipale.MessageType.MessageTypeError);
+        		this.showMessage(FILE_NOT_FOUND, VueFenetrePrincipale.MessageType.MessageTypeError);
         	} catch (SAXException e) {
-        		this.showMessage("Fichier XML incorrect", VueFenetrePrincipale.MessageType.MessageTypeError);
+        		this.showMessage(INCORRECT_XML_FILE, VueFenetrePrincipale.MessageType.MessageTypeError);
         	} catch (ParseException e) {
-        		this.showMessage("Fichier XML incorrect", VueFenetrePrincipale.MessageType.MessageTypeError);
+        		this.showMessage(INCORRECT_XML_FILE, VueFenetrePrincipale.MessageType.MessageTypeError);
 			} catch (ParserConfigurationException e) {
-        		this.showMessage("Fichier XML incorrect", VueFenetrePrincipale.MessageType.MessageTypeError);
+        		this.showMessage(INCORRECT_XML_FILE, VueFenetrePrincipale.MessageType.MessageTypeError);
 			} catch (IOException e) {
-        		this.showMessage("Probleme de lecture du fichier", VueFenetrePrincipale.MessageType.MessageTypeError);
+        		this.showMessage(COUDNT_READ_FILE, VueFenetrePrincipale.MessageType.MessageTypeError);
 			}
         }
         else {
