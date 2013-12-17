@@ -61,9 +61,9 @@ public class VueLieu extends javax.swing.JPanel {
         }
         
         if (selected) {
-            this.vueNoeud.vuePlan.getControleur().didSelectVueLieu(this);
+            this.vueNoeud.vuePlan.didSelectVueLieu(this);
         } else {
-            this.vueNoeud.vuePlan.getControleur().didDeselectVueLieu(this);
+            this.vueNoeud.vuePlan.didDeselectVueLieu(this);
         }
         
         this.updateUI();

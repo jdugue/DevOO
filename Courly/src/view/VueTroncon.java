@@ -27,9 +27,9 @@ public class VueTroncon extends javax.swing.JPanel {
     private Troncon tronconRetour;
     private ArrayList<Trajet> trajets;
     
-    private final ControleurPlan controleur;
+    private final VuePlan vuePlan;
     
-    private static final int noeudSize = ControleurPlan.noeudSize;
+    private static final int noeudSize = VuePlan.noeudSize;
     private static final int minWidth = noeudSize; 
     private static final int minHeight = noeudSize; 
     private static final int tronconWidth = 8;
@@ -48,12 +48,12 @@ public class VueTroncon extends javax.swing.JPanel {
      * @param controleur
      */
 
-    public VueTroncon(Troncon troncon, ControleurPlan controleur) {
+    public VueTroncon(Troncon troncon, VuePlan vuePlan) {
         initComponents();
         this.setTronconAller(troncon);
         this.setVisible(true);
         this.setOpaque(false);
-        this.controleur = controleur;
+        this.vuePlan = vuePlan;
         this.setBackground(Color.BLACK);        
     }
 
@@ -157,7 +157,7 @@ public class VueTroncon extends javax.swing.JPanel {
             g2D.setStroke(trajetStroke);
 
             for (Trajet trajet : this.trajets) {
-                g.setColor(this.controleur.colorForPlageHoraire(trajet.getPlage()));
+                g.setColor(this.vuePlan.colorForPlageHoraire(trajet.getPlage()));
                 g.drawLine(x1Draw - dephasage, y1Draw, x2Draw - dephasage, y2Draw);
                 dephasage -= (trajetWidth + trajetPadding);
             }

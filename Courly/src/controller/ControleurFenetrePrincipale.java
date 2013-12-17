@@ -182,7 +182,6 @@ public class ControleurFenetrePrincipale {
         this.controleurInspecteur.setPlagesHoraires(tournee.getPlagesHoraire());
         this.controleurPlan.setTournee(tournee);
         this.selectedTournee=tournee;
-        this.controleurPlan.paint();
     }
     
     private void traitementDijkstra (Tournee tournee)
@@ -195,7 +194,6 @@ public class ControleurFenetrePrincipale {
     		tournee.getTrajets().clear();
     	}
     	this.controleurPlan.setTournee(tournee);
-    	this.controleurPlan.paint();
     }
 
     
