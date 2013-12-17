@@ -55,25 +55,6 @@ public class ControleurPlan {
     
     private VueNoeud selectedVueNoeud;
     private Noeud selectedNoeud;
-
-    /*public ControleurPlan(Point vueLocation, Dimension vueDimension, FenetrePrincipale fenetreParent) {
-        this.vuePlan = new VuePlan();
-        this.vuePlan.setSize(vueDimension);
-        this.vuePlan.setLocation(vueLocation);
-        this.setFenetreParent(fenetreParent);
-        this.fenetreParent.add(vuePlan);
-    }*/
-    
-    /*public ControleurPlan(VuePlan vuePlan, FenetrePrincipale fenetreParent) {
-        this.setVuePlan(vuePlan);
-        this.scrollPane = new JScrollPane();
-        this.scrollPane.setViewportView(this.vuePlan);
-        this.scrollPane.setLocation(0, 80);
-        this.scrollPane.setSize(this.vuePlan.getSize());
-        this.vuePlan.setSize(1000, 1000);
-        this.setFenetreParent(fenetreParent);
-        this.fenetreParent.add(this.scrollPane);
-    }*/
     
     public ControleurPlan(JScrollPane scrollPane, ControleurFenetrePrincipale controleurFenetreParent) {
         this.setVuePlan(new VuePlan());
@@ -98,7 +79,7 @@ public class ControleurPlan {
         return controleurParent;
     }
     
-    public void setVuePlan(VuePlan vuePlan) {
+    public final void setVuePlan(VuePlan vuePlan) {
         this.vuePlan = vuePlan;
         this.vuePlan.setControleur(this);
     }   
@@ -142,7 +123,6 @@ public class ControleurPlan {
         this.tournee = tournee;
     }
     
-    
     private void updateVuePlanFrame() {
         Dimension dimension = new Dimension(this.scaledSize(maxX) + padding*2, this.scaledSize(maxY) + padding*2);
         this.vuePlan.setPreferredSize(dimension);
@@ -157,7 +137,6 @@ public class ControleurPlan {
         this.updateVuePlanFrame();
         this.paint();
     }
-    
     
     public void createVueNoeudFromNoeud(Noeud noeud) {
     	

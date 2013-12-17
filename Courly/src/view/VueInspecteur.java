@@ -69,7 +69,7 @@ public class VueInspecteur extends javax.swing.JPanel {
         this.clientIDTextField.setEnabled(enable);
         this.heurePassageTextField.setEnabled(false);
         this.plagesHorairesComboBox.setEnabled(enable);
-        this.actionButton.setEnabled(enable);
+        this.actionButton.setEnabled(true);
     }
     
     public void setLieuFieldsVisible(boolean visible) {
