@@ -60,7 +60,6 @@ public class ControleurInspecteur {
     }
     
     public boolean shouldCreateLivraison(String newClient, PlageHoraire plageHoraire) {
-        this.vue.setMode(VueInspecteur.AffichageMode.LivraisonSelected);
         Integer client;        
         try {
         	client = Integer.parseInt(newClient);
@@ -69,14 +68,10 @@ public class ControleurInspecteur {
     		return false;
         }
         Livraison livraison = new Livraison(this.noeud, this.noeud.getId(), client, plageHoraire);
-        if ( livraison == null ){
-            return false;
-        } else {
-            controleurParent.shouldAddLivraisonAndReload(livraison);
-            this.setVueFromLieu(livraison);
-            this.vue.setMode(VueInspecteur.AffichageMode.LivraisonSelected);
-            return true;
-        }
+        controleurParent.shouldAddLivraisonAndReload(livraison);
+        this.setVueFromLieu(livraison);
+        this.vue.setMode(VueInspecteur.AffichageMode.LivraisonSelected);
+        return true;
     }
     
     public boolean shouldCancelLivraisonEdit() {
