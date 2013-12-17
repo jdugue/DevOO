@@ -62,8 +62,8 @@ public class ControleurPlan {
     }
     
     public void loadVuePlanFromModel(Plan aPlan) {
-    	
     	this.vuePlan.setPlan(aPlan);
+        this.vuePlan.setTournee(null);
     }
     
     public void didSelectNoeud(Noeud noeud) {

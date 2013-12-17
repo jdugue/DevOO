@@ -71,7 +71,7 @@ public class ControleurFenetrePrincipale {
         this.controleurPlan = new ControleurPlan(this.fenetre.getScrollPanePlan(), this);
         this.controleurInspecteur = new ControleurInspecteur(this.fenetre.getScrollPaneInspecteur(), this);
         
-        this.testVues();
+        //this.testVues();
     }
     
     private void testVues() {
@@ -256,26 +256,24 @@ public class ControleurFenetrePrincipale {
         		, controleurTournee.getFiletypeName(), getCurrentDirectory() );
        
         int returnVal = fChooser.showSaveDialog(this.fenetre);
-		if( returnVal == JFileChooser.APPROVE_OPTION ) {
-			String file = fChooser.getSelectedFile().getAbsolutePath();
-			lastUsedFolder = fChooser.getSelectedFile().getParent();
-			
-			boolean worked = false;
-			boolean namePermitted =  controleurTournee.isFilenamePermitted(fChooser.getSelectedFile().getName());
-			if ( namePermitted ){
-		        worked = controleurTournee.tourneeToTxt(this.selectedTournee, file);
-			}else{
-				this.showMessage(FILENAME_NOT_PERMITTED, VueFenetrePrincipale.MessageType.MessageTypeError);
-			}
-			
-	        if ( worked ){
-	        	this.showMessage(TOURNEE_WRITTEN, VueFenetrePrincipale.MessageType.MessageTypeSuccess);
-	        } else {
-	        	this.showMessage(TOURNEE_NOT_WRITTEN, VueFenetrePrincipale.MessageType.MessageTypeError);
-	        }        
-		}
-		
-		
+        if( returnVal == JFileChooser.APPROVE_OPTION ) {
+                String file = fChooser.getSelectedFile().getAbsolutePath();
+                lastUsedFolder = fChooser.getSelectedFile().getParent();
+
+                boolean worked = false;
+                boolean namePermitted =  controleurTournee.isFilenamePermitted(fChooser.getSelectedFile().getName());
+                if ( namePermitted ){
+                worked = controleurTournee.tourneeToTxt(this.selectedTournee, file);
+                }else{
+                        this.showMessage(FILENAME_NOT_PERMITTED, VueFenetrePrincipale.MessageType.MessageTypeError);
+                }
+
+        if ( worked ){
+                this.showMessage(TOURNEE_WRITTEN, VueFenetrePrincipale.MessageType.MessageTypeSuccess);
+        } else {
+                this.showMessage(TOURNEE_NOT_WRITTEN, VueFenetrePrincipale.MessageType.MessageTypeError);
+        }        
+        }
     }
 
     
@@ -296,8 +294,7 @@ public class ControleurFenetrePrincipale {
     }
     
     private File getCurrentDirectory(){
-		return lastUsedFolder == null ? new java.io.File(".") : new File(lastUsedFolder);
-		
+	return lastUsedFolder == null ? new java.io.File(".") : new File(lastUsedFolder);		
     }
     
     public void showMessage(String message, VueFenetrePrincipale.MessageType type) {
