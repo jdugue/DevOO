@@ -201,9 +201,12 @@ public class ControleurFenetrePrincipale {
 
     
     public void undo(){
+    	System.out.println("Can undo: " + undoManager.canUndo());
     	undoManager.undo();
     }
     public void redo(){
+
+    	System.out.println("Can undo: " + undoManager.canUndo());
     	undoManager.redo();
     }
     public void shouldAddLivraisonAndReload(Livraison livraison)
@@ -218,7 +221,7 @@ public class ControleurFenetrePrincipale {
     	Tournee tournee = new Tournee(selectedTournee);
 
     	selectedTournee = tournee;
-
+    	
     	traitementDijkstra(tournee);
     }
     
@@ -234,7 +237,7 @@ public class ControleurFenetrePrincipale {
     {    	
     	selectedTournee.removeLivraison(livraison);
     	Tournee tournee = new Tournee(selectedTournee);
-    	
+    	selectedTournee = tournee;
     	traitementDijkstra(tournee);
     }
     
