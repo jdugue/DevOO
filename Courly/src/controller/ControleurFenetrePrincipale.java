@@ -124,7 +124,7 @@ public class ControleurFenetrePrincipale {
                         this.plan = tempPlan;
                         this.controleurPlan.loadVuePlanFromModel(plan);
                         this.controleurInspecteur.setVueFromNoeud(null);
-                        this.fenetre.setMessage("Plan chargé avec succés", VueFenetrePrincipale.MessageType.MessageTypeSuccess);
+                        this.fenetre.setMessage("Plan chargé avec succès", VueFenetrePrincipale.MessageType.MessageTypeSuccess);
                     } else {
                         this.fenetre.setMessage("Impossible de charger le plan", VueFenetrePrincipale.MessageType.MessageTypeError);
                     }
