@@ -259,6 +259,7 @@ public class ControleurFenetrePrincipale {
     public void addLivraisonAndReload(Livraison livraison){
     	selectedTournee.addLivraison(livraison);    	
     	traitementDijkstra(selectedTournee);
+        this.controleurPlan.deselectAll();
     }
     
     
@@ -276,6 +277,7 @@ public class ControleurFenetrePrincipale {
     {    	
     	selectedTournee.removeLivraison(livraison);
     	traitementDijkstra(selectedTournee);
+        this.controleurPlan.deselectAll();
     }
     
     public void shouldExportTournee() {
