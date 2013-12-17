@@ -205,13 +205,18 @@ public class ControleurFenetrePrincipale {
 
     
     public void undo(){
-    	System.out.println("Can undo: " + undoManager.canUndo());
-    	undoManager.undo();
+    	if ( undoManager.canUndo() ){
+        	undoManager.undo();	
+    	}   	
+    	//TODO
+    	// Set undo button grise to undoManager.canUndo();
     }
     public void redo(){
-
-    	System.out.println("Can undo: " + undoManager.canUndo());
-    	undoManager.redo();
+    	if ( undoManager.canRedo() ){
+    		undoManager.redo();	
+    	}
+    	//TODO
+    	// Set undo button grise to undoManager.canUndo();
     }
     public void shouldAddLivraisonAndReload(Livraison livraison)
     {
