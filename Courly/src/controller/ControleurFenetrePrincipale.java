@@ -156,7 +156,7 @@ public class ControleurFenetrePrincipale {
                         if (tournee != null) {
                             p.setNoeudsFromTournee(tournee, plan);
                             traitementDijkstra(tournee);
-                            System.out.println(tournee.getPlagesHoraire().size());
+                            //System.out.println(tournee.getPlagesHoraire().size());
                             this.fenetre.addTournee(tournee, file, true);
                             this.fenetre.setMessage("Livraisons chargées avec succès", VueFenetrePrincipale.MessageType.MessageTypeSuccess);
                         }
@@ -223,11 +223,11 @@ public class ControleurFenetrePrincipale {
     
     public void addLivraisonAndReload(Livraison livraison){
     	selectedTournee.addLivraison(livraison);
-    	Tournee tournee = new Tournee(selectedTournee);
+    	//Tournee tournee = new Tournee(selectedTournee);
 
-    	selectedTournee = tournee;
+    	//selectedTournee = tournee;
     	
-    	traitementDijkstra(tournee);
+    	traitementDijkstra(selectedTournee);
     }
     
     
@@ -241,10 +241,10 @@ public class ControleurFenetrePrincipale {
     public void removeLivraisonAndReload(Livraison livraison)
     {    	
     	selectedTournee.removeLivraison(livraison);
-    	Tournee tournee = new Tournee(selectedTournee);
-    	this.selectedTournee = tournee;
+    	//Tournee tournee = new Tournee(selectedTournee);
+    	//this.selectedTournee = tournee;
 
-    	traitementDijkstra(tournee);
+    	traitementDijkstra(selectedTournee);
     }
     
     public void shouldExportTournee() {
