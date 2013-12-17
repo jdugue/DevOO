@@ -176,9 +176,9 @@ public class VueNoeud extends javax.swing.JPanel {
             this.repaint();
 
             if (selected && callBack) {
-                this.vuePlan.getControleur().didSelectVueNoeud(this);
+                this.vuePlan.didSelectVueNoeud(this);
             } else if (callBack) {
-                this.vuePlan.getControleur().didDeselectVueNoeud(this);
+                this.vuePlan.didDeselectVueNoeud(this);
             }
 
             if (this.vueLieu != null && this.vueLieu.selected != this.selected) {
