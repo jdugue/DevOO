@@ -71,6 +71,7 @@ public class Tournee {
 	
 	public void addLivraison(Livraison livraison){
 		livraisons.add(livraison);	
+		livraison.getPlageHoraire().addLivraison(livraison);
 	}
 
 }
