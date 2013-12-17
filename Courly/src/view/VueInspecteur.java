@@ -27,7 +27,7 @@ public class VueInspecteur extends javax.swing.JPanel {
     private AffichageMode mode = AffichageMode.Empty;
     
     public static enum AffichageMode {
-        Empty, NoeudSelected, LivraisonSelected
+        Empty, NoeudSelected, LivraisonSelected, DepotSelected
     }
     /**
      * Creates new form VueInspecteur
@@ -130,6 +130,8 @@ public class VueInspecteur extends javax.swing.JPanel {
                 this.setLivraisonEnabled(false);
                 this.actionButton.setVisible(false);
                 this.cancelButton.setVisible(false);
+                this.plagesHorairesComboBox.setVisible(false);
+                this.heurePassageTextField.setVisible(false);
                 break;
                 
             case NoeudSelected:
@@ -139,6 +141,8 @@ public class VueInspecteur extends javax.swing.JPanel {
                 this.actionButton.setText("Créer la livraison");
                 this.cancelButton.setVisible(false);
                 this.actionButton.setEnabled(true);
+                this.plagesHorairesComboBox.setVisible(true);
+                this.heurePassageTextField.setVisible(true);
                 break;
                 
             case LivraisonSelected:
@@ -147,6 +151,17 @@ public class VueInspecteur extends javax.swing.JPanel {
                 this.actionButton.setText("Supprimer livraison");
                 this.actionButton.setEnabled(true);
                 this.cancelButton.setVisible(false);
+                this.plagesHorairesComboBox.setVisible(true);
+                this.heurePassageTextField.setVisible(true);
+                break; 
+                
+            case DepotSelected:
+                this.setLivraisonEnabled(false);
+                this.setLivraisonAreaTitle("Dépôt");
+                this.actionButton.setVisible(false);
+                this.cancelButton.setVisible(false);
+                this.plagesHorairesComboBox.setVisible(false);
+                this.heurePassageTextField.setVisible(false);
                 break;               
         } 
                 

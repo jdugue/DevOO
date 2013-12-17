@@ -107,7 +107,7 @@ public class ControleurFenetrePrincipale {
     }
     
     public void shouldLoadPlan() {
-    	JFileChooser fChooser = FileChooserFactory.createFileChooser("xml", "Fichier livraison", 
+    	JFileChooser fChooser = FileChooserFactory.createFileChooser("xml", "Fichier plan", 
 				getCurrentDirectory());
         
         int returnVal = fChooser.showOpenDialog(this.fenetre);
@@ -139,12 +139,11 @@ public class ControleurFenetrePrincipale {
     }
     
     public void shouldLoadLivraison() { 
-        if( this.plan!=null) {
+        if( this.plan != null) {
         	try {
-                JFileChooser fChooser = new JFileChooser();
-                fChooser.setCurrentDirectory( lastUsedFolder == null ? new java.io.File(".") : new File(lastUsedFolder));
-                FileNameExtensionFilter filter = new FileNameExtensionFilter("Fichier livraison", "xml");
-                fChooser.setFileFilter(filter);
+                JFileChooser fChooser = FileChooserFactory.createFileChooser( "xml"
+                		, "Fichier plan" , getCurrentDirectory() );
+               
                 int returnVal = fChooser.showOpenDialog(this.fenetre);
                 if( returnVal == JFileChooser.APPROVE_OPTION ) {
                         String file = fChooser.getSelectedFile().getAbsolutePath();
@@ -245,7 +244,7 @@ public class ControleurFenetrePrincipale {
         JFileChooser fChooser = FileChooserFactory.createFileChooser( controleurTournee.getTourneeFileExt()
         		, controleurTournee.getFiletypeName(), getCurrentDirectory() );
        
-        int returnVal = fChooser.showOpenDialog(this.fenetre);
+        int returnVal = fChooser.showSaveDialog(this.fenetre);
 		if( returnVal == JFileChooser.APPROVE_OPTION ) {
 			String file = fChooser.getSelectedFile().getAbsolutePath();
 			lastUsedFolder = fChooser.getSelectedFile().getParent();
