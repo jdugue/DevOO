@@ -192,11 +192,15 @@ public class ControleurFenetrePrincipale {
     
     private void traitementDijkstra (Tournee tournee)
     {
-    	 Dijkstra dijkstra = new Dijkstra();
-         dijkstra.initTournee(plan, tournee);
-                                 
-         this.controleurPlan.setTournee(tournee);
-         this.controleurPlan.paint();
+    	Dijkstra dijkstra = new Dijkstra();
+    	if(tournee.getLivraisons().size()>0){
+    		dijkstra.initTournee(plan, tournee);
+    	}
+    	else {
+    		tournee.getTrajets().clear();
+    	}
+    	this.controleurPlan.setTournee(tournee);
+    	this.controleurPlan.paint();
     }
 
     
@@ -237,7 +241,8 @@ public class ControleurFenetrePrincipale {
     {    	
     	selectedTournee.removeLivraison(livraison);
     	Tournee tournee = new Tournee(selectedTournee);
-    	selectedTournee = tournee;
+    	this.selectedTournee = tournee;
+
     	traitementDijkstra(tournee);
     }
     
