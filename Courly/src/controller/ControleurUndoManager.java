@@ -13,12 +13,17 @@ public class ControleurUndoManager {
 	}
 	
 	HashMap<Tournee, UndoManager> undoManagerTournee = new HashMap<Tournee, UndoManager>();
-	
-	public void addTournee (Tournee toAdd){
-		undoManagerTournee.put(toAdd, new UndoManager());
+
+	public UndoManager getUndoManagerForTournee (Tournee tournee){
+		UndoManager uMan = undoManagerTournee.get(tournee);
+		if ( uMan == null ){
+			uMan = new UndoManager();
+			undoManagerTournee.put(tournee, uMan);
+		}
+		return uMan;
 	}
 	
-	public UndoManager getUndoManagerForTournee (Tournee tournee){
-		return undoManagerTournee.get(tournee);
+	public void cleanAll(){
+		undoManagerTournee.clear();
 	}
 }

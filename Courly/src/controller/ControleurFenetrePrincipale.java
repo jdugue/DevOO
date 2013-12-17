@@ -45,7 +45,7 @@ public class ControleurFenetrePrincipale {
 
     
     private Tournee selectedTournee;
-    private UndoManager undoManager = new UndoManager();
+    private ControleurUndoManager controleurUndoManager = new ControleurUndoManager();
     
     private String lastUsedFolder = null;
     
@@ -70,7 +70,8 @@ public class ControleurFenetrePrincipale {
         this.fenetre = aFenetre;
         this.controleurPlan = new ControleurPlan(this.fenetre.getScrollPanePlan(), this);
         this.controleurInspecteur = new ControleurInspecteur(this.fenetre.getScrollPaneInspecteur(), this);
-        
+
+    	setUndoRedoButtons();
         //this.testVues();
     }
     
@@ -198,6 +199,8 @@ public class ControleurFenetrePrincipale {
         this.controleurInspecteur.setPlagesHoraires(tournee.getPlagesHoraire());
         this.controleurPlan.setTournee(tournee);
         this.selectedTournee=tournee;
+
+    	setUndoRedoButtons();
     }
     
     private void traitementDijkstra (Tournee tournee)
@@ -214,24 +217,35 @@ public class ControleurFenetrePrincipale {
 
     
     public void undo(){
-    	if ( undoManager.canUndo() ){
-        	undoManager.undo();	
-    	}   	
-    	//TODO
-    	// Set undo button grise to undoManager.canUndo();
+    	UndoManager current = controleurUndoManager.getUndoManagerForTournee(selectedTournee);
+    	if ( current.canUndo() ){
+    		current.undo();	
+    	} 
+
+    	setUndoRedoButtons();
     }
     public void redo(){
-    	if ( undoManager.canRedo() ){
-    		undoManager.redo();	
-    	}
-    	//TODO
-    	// Set undo button grise to undoManager.canUndo();
+    	UndoManager current = controleurUndoManager.getUndoManagerForTournee(selectedTournee);
+    	if ( current.canRedo() ){
+    		current.redo();	
+    	} 
+    	setUndoRedoButtons();
     }
+    
+    public void setUndoRedoButtons(){
+    	fenetre.canRedo(controleurUndoManager.getUndoManagerForTournee(selectedTournee).canRedo());
+    	fenetre.canUndo(controleurUndoManager.getUndoManagerForTournee(selectedTournee).canUndo());
+    }
+    
     public void shouldAddLivraisonAndReload(Livraison livraison)
     {
     	AjouterLivraisonEdit addEdit = new AjouterLivraisonEdit(livraison, this);
     	addEdit.execute();
-    	undoManager.addEdit(addEdit);
+    	UndoManager current = controleurUndoManager.getUndoManagerForTournee(selectedTournee);
+    	current.addEdit(addEdit);
+    	
+
+    	setUndoRedoButtons();
     }
     
     public void addLivraisonAndReload(Livraison livraison){
@@ -244,7 +258,10 @@ public class ControleurFenetrePrincipale {
     {    	
     	EnleverLivraisonEdit removeEdit = new EnleverLivraisonEdit(livraison, this);
     	removeEdit.execute();
-    	undoManager.addEdit(removeEdit);
+    	UndoManager current = controleurUndoManager.getUndoManagerForTournee(selectedTournee);
+    	current.addEdit(removeEdit);
+
+    	setUndoRedoButtons();
     }
     
     public void removeLivraisonAndReload(Livraison livraison)
