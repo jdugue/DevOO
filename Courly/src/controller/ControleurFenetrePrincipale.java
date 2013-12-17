@@ -7,7 +7,6 @@ package controller;
 
 import java.text.ParseException;
 import java.util.ArrayList;
-import java.awt.Color;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -122,16 +121,16 @@ public class ControleurFenetrePrincipale {
                         this.plan = tempPlan;
                         this.controleurPlan.loadVuePlanFromModel(plan);
                         this.controleurInspecteur.setVueFromNoeud(null);
-                        this.fenetre.setMessage("Plan chargé avec succès", VueFenetrePrincipale.MessageType.MessageTypeSuccess);
+                        this.showMessage("Plan chargé avec succès", VueFenetrePrincipale.MessageType.MessageTypeSuccess);
                     } else {
-                        this.fenetre.setMessage("Impossible de charger le plan", VueFenetrePrincipale.MessageType.MessageTypeError);
+                        this.showMessage("Impossible de charger le plan", VueFenetrePrincipale.MessageType.MessageTypeError);
                     }
             } catch (NumberFormatException e) {
-                    this.fenetre.setMessage("Fichier XML incorrect", VueFenetrePrincipale.MessageType.MessageTypeError);
+                    this.showMessage("Fichier XML incorrect", VueFenetrePrincipale.MessageType.MessageTypeError);
             } catch (FileNotFoundException e) {
-            	this.fenetre.setMessage("Fichier inexistant", VueFenetrePrincipale.MessageType.MessageTypeError);
+            	this.showMessage("Fichier inexistant", VueFenetrePrincipale.MessageType.MessageTypeError);
             } catch (SAXException e) {
-            	this.fenetre.setMessage("Fichier XML incorrect", VueFenetrePrincipale.MessageType.MessageTypeError);
+            	this.showMessage("Fichier XML incorrect", VueFenetrePrincipale.MessageType.MessageTypeError);
             }
 
         }
@@ -150,31 +149,31 @@ public class ControleurFenetrePrincipale {
                         lastUsedFolder = fChooser.getSelectedFile().getParent();
                         ParseurXML p = new ParseurXML();
 
-                        this.fenetre.setMessage("Calcul de la tournée...", VueFenetrePrincipale.MessageType.MessageTypeLog);
+                        this.showMessage("Calcul de la tournée...", VueFenetrePrincipale.MessageType.MessageTypeLog);
                         Tournee tournee = p.construireTourneeXML(file);
                         if (tournee != null) {
                             p.setNoeudsFromTournee(tournee, plan);
                             traitementDijkstra(tournee);
                             //System.out.println(tournee.getPlagesHoraire().size());
                             this.fenetre.addTournee(tournee, file, true);
-                            this.fenetre.setMessage("Livraisons chargées avec succès", VueFenetrePrincipale.MessageType.MessageTypeSuccess);
+                            this.showMessage("Livraisons chargées avec succès", VueFenetrePrincipale.MessageType.MessageTypeSuccess);
                         }
                 }
         	}
         	catch (FileNotFoundException e) {
-        		this.fenetre.setMessage("Fichier inexistant", VueFenetrePrincipale.MessageType.MessageTypeError);
+        		this.showMessage("Fichier inexistant", VueFenetrePrincipale.MessageType.MessageTypeError);
         	} catch (SAXException e) {
-        		this.fenetre.setMessage("Fichier XML incorrect", VueFenetrePrincipale.MessageType.MessageTypeError);
+        		this.showMessage("Fichier XML incorrect", VueFenetrePrincipale.MessageType.MessageTypeError);
         	} catch (ParseException e) {
-        		this.fenetre.setMessage("Fichier XML incorrect", VueFenetrePrincipale.MessageType.MessageTypeError);
+        		this.showMessage("Fichier XML incorrect", VueFenetrePrincipale.MessageType.MessageTypeError);
 			} catch (ParserConfigurationException e) {
-        		this.fenetre.setMessage("Fichier XML incorrect", VueFenetrePrincipale.MessageType.MessageTypeError);
+        		this.showMessage("Fichier XML incorrect", VueFenetrePrincipale.MessageType.MessageTypeError);
 			} catch (IOException e) {
-        		this.fenetre.setMessage("Probleme de lecture du fichier", VueFenetrePrincipale.MessageType.MessageTypeError);
+        		this.showMessage("Probleme de lecture du fichier", VueFenetrePrincipale.MessageType.MessageTypeError);
 			}
         }
         else {
-                this.fenetre.setMessage("Vous devez d\'abord charger un plan", VueFenetrePrincipale.MessageType.MessageTypeLog);
+                this.showMessage("Vous devez d\'abord charger un plan", VueFenetrePrincipale.MessageType.MessageTypeLog);
         }
     }
     
@@ -251,9 +250,9 @@ public class ControleurFenetrePrincipale {
 	        boolean worked = controleurTournee.tourneeToTxt(this.selectedTournee, file);
 	        
 	        if ( worked ){
-	        	this.fenetre.setMessage(TOURNEE_WRITTEN, VueFenetrePrincipale.MessageType.MessageTypeSuccess);
+	        	this.showMessage(TOURNEE_WRITTEN, VueFenetrePrincipale.MessageType.MessageTypeSuccess);
 	        } else {
-	        	this.fenetre.setMessage(TOURNEE_NOT_WRITTEN, VueFenetrePrincipale.MessageType.MessageTypeError);
+	        	this.showMessage(TOURNEE_NOT_WRITTEN, VueFenetrePrincipale.MessageType.MessageTypeError);
 	        }        
 		}
 		
@@ -280,5 +279,9 @@ public class ControleurFenetrePrincipale {
     private File getCurrentDirectory(){
 		return lastUsedFolder == null ? new java.io.File(".") : new File(lastUsedFolder);
 		
+    }
+    
+    public void showMessage(String message, VueFenetrePrincipale.MessageType type) {
+        this.fenetre.setMessage(message, type);
     }
 }
