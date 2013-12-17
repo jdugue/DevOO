@@ -9,15 +9,15 @@ public class Tournee {
 	protected ArrayList<Trajet> trajets;
 	protected ArrayList<PlageHoraire> plagesHoraire;
 
-        public Tournee() {
-        }
+    public Tournee() {
+    }
 
-        public Tournee(Tournee tournee) {
-            this.livraisons = new ArrayList<Livraison>(tournee.getLivraisons());
-            this.trajets = new ArrayList<Trajet>(tournee.getTrajets());
-            this.plagesHoraire = new ArrayList<PlageHoraire>(tournee.getPlagesHoraire());
-            this.depot = tournee.getDepot();
-        }       
+    public Tournee(Tournee tournee) {
+        this.livraisons = new ArrayList<Livraison>(tournee.getLivraisons());
+        this.trajets = new ArrayList<Trajet>(tournee.getTrajets());
+        this.plagesHoraire = new ArrayList<PlageHoraire>(tournee.getPlagesHoraire());
+        this.depot = tournee.getDepot();
+    }       
 	
 	public ArrayList<Livraison> getLivraisons() {
 		return livraisons;
