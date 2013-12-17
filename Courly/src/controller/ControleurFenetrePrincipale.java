@@ -222,11 +222,7 @@ public class ControleurFenetrePrincipale {
     }
     
     public void addLivraisonAndReload(Livraison livraison){
-    	selectedTournee.addLivraison(livraison);
-    	//Tournee tournee = new Tournee(selectedTournee);
-
-    	//selectedTournee = tournee;
-    	
+    	selectedTournee.addLivraison(livraison);    	
     	traitementDijkstra(selectedTournee);
     }
     
@@ -241,9 +237,6 @@ public class ControleurFenetrePrincipale {
     public void removeLivraisonAndReload(Livraison livraison)
     {    	
     	selectedTournee.removeLivraison(livraison);
-    	//Tournee tournee = new Tournee(selectedTournee);
-    	//this.selectedTournee = tournee;
-
     	traitementDijkstra(selectedTournee);
     }
     
