@@ -25,8 +25,7 @@
                 <Property name="text" type="java.lang.String" value="Charger plan..."/>
               </Properties>
               <Events>
-                <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="itemChargerPlanMousePressed"/>
-                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="itemChargerPlanClickedHandler"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="itemChargerPlanActionPerformed"/>
               </Events>
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="itemChargerLivraisons">
@@ -34,7 +33,6 @@
                 <Property name="text" type="java.lang.String" value="Charger livraisons..."/>
               </Properties>
               <Events>
-                <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="itemChargerLivraisonsMousePressed"/>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="itemChargerLivraisonsActionPerformed"/>
               </Events>
             </MenuItem>
@@ -43,7 +41,6 @@
                 <Property name="text" type="java.lang.String" value="Exporter..."/>
               </Properties>
               <Events>
-                <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="itemExporterMousePressed"/>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="itemExporterActionPerformed"/>
               </Events>
             </MenuItem>
@@ -62,7 +59,6 @@
                 <Property name="text" type="java.lang.String" value="Refaire"/>
               </Properties>
               <Events>
-                <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="itemRefaireMousePressed"/>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="itemRefaireActionPerformed"/>
               </Events>
             </MenuItem>
@@ -74,7 +70,6 @@
                 <Property name="text" type="java.lang.String" value="Annuler"/>
               </Properties>
               <Events>
-                <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="itemAnnulerMousePressed"/>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="itemAnnulerActionPerformed"/>
               </Events>
             </MenuItem>
@@ -93,7 +88,6 @@
                 <Property name="text" type="java.lang.String" value="Zoom Out"/>
               </Properties>
               <Events>
-                <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="itemZoomOutMousePressed"/>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="itemZoomOutActionPerformed"/>
               </Events>
             </MenuItem>
@@ -105,7 +99,6 @@
                 <Property name="text" type="java.lang.String" value="Zoom In"/>
               </Properties>
               <Events>
-                <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="itemZoomInMousePressed"/>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="itemZoomInActionPerformed"/>
               </Events>
             </MenuItem>
@@ -121,7 +114,7 @@
                     <Property name="text" type="java.lang.String" value="Petite"/>
                   </Properties>
                   <Events>
-                    <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="radioItemFrameLitleMousePressed"/>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="radioItemFrameLitleActionPerformed"/>
                   </Events>
                 </MenuItem>
                 <MenuItem class="javax.swing.JRadioButtonMenuItem" name="radioItemFrameBig">
@@ -130,16 +123,16 @@
                     <Property name="text" type="java.lang.String" value="Grande"/>
                   </Properties>
                   <Events>
-                    <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="radioItemFrameBigMousePressed"/>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="radioItemFrameBigActionPerformed"/>
                   </Events>
                 </MenuItem>
               </SubComponents>
             </Menu>
           </SubComponents>
         </Menu>
-        <Menu class="javax.swing.JMenu" name="jMenu1">
+        <Menu class="javax.swing.JMenu" name="menuTournees">
           <Properties>
-            <Property name="text" type="java.lang.String" value="jMenu1"/>
+            <Property name="text" type="java.lang.String" value="Tourn&#xe9;es"/>
           </Properties>
         </Menu>
       </SubComponents>

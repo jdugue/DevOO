@@ -147,11 +147,11 @@ public class ControleurFenetrePrincipale {
                 fChooser.setFileFilter(filter);
                 int returnVal = fChooser.showOpenDialog(this.fenetre);
                 if( returnVal == JFileChooser.APPROVE_OPTION ) {
-                    this.fenetre.setMessage("Calcul de la tournée...", VueFenetrePrincipale.MessageType.MessageTypeLog);
                         String file = fChooser.getSelectedFile().getAbsolutePath();
                         lastUsedFolder = fChooser.getSelectedFile().getParent();
                         ParseurXML p = new ParseurXML();
 
+                        this.fenetre.setMessage("Calcul de la tournée...", VueFenetrePrincipale.MessageType.MessageTypeLog);
                         Tournee tournee = p.construireTourneeXML(file);
                         if (tournee != null) {
                             p.setNoeudsFromTournee(tournee, plan);
