@@ -64,6 +64,14 @@ public class VueFenetrePrincipale extends javax.swing.JFrame implements ActionLi
         this.commentArea.setText("<html><head></head><body>"+this.commentText+"</body></html>");
     }
     
+    public void canLoadLivraison(boolean canLoadLivraison) {
+        this.itemChargerLivraisons.setEnabled(canLoadLivraison);
+    }
+    
+    public void canExportTournee(boolean canExportTournee) {
+        this.itemExporter.setEnabled(canExportTournee);
+    }
+    
     public void addTournee(Tournee tournee, String displayName, boolean select) {
         if (this.mapTournees == null) {
             this.mapTournees = new HashMap<JRadioButtonMenuItem, Tournee>();
@@ -81,10 +89,20 @@ public class VueFenetrePrincipale extends javax.swing.JFrame implements ActionLi
             this.setSelectedItem(item);
             this.controleurFenetrePrincipale.selectTournee(tournee);
         }
+        
+        if (this.mapTournees.size() > 0) {
+            this.menuTournees.setEnabled(true);
+        }
     }
     
-    public void removeTournee(Tournee tournee) {
-        
+    public void removeAllTournee() {
+        if (this.mapTournees != null) {
+            for (JRadioButtonMenuItem item : this.mapTournees.keySet()) {
+                this.menuTournees.remove(item);
+            }
+            this.mapTournees.clear();
+        }
+        this.menuTournees.setEnabled(false);
     }
 
     /**
@@ -149,6 +167,7 @@ public class VueFenetrePrincipale extends javax.swing.JFrame implements ActionLi
         menuFichier.add(itemChargerPlan);
 
         itemChargerLivraisons.setText("Charger livraisons...");
+        itemChargerLivraisons.setEnabled(false);
         itemChargerLivraisons.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 itemChargerLivraisonsActionPerformed(evt);
@@ -157,6 +176,7 @@ public class VueFenetrePrincipale extends javax.swing.JFrame implements ActionLi
         menuFichier.add(itemChargerLivraisons);
 
         itemExporter.setText("Exporter...");
+        itemExporter.setEnabled(false);
         itemExporter.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 itemExporterActionPerformed(evt);
@@ -233,6 +253,7 @@ public class VueFenetrePrincipale extends javax.swing.JFrame implements ActionLi
         menuBar.add(menuVenu);
 
         menuTournees.setText("Tournées");
+        menuTournees.setEnabled(false);
         menuBar.add(menuTournees);
 
         setJMenuBar(menuBar);

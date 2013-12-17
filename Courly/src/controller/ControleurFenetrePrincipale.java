@@ -133,6 +133,9 @@ public class ControleurFenetrePrincipale {
                         this.plan = tempPlan;
                         this.controleurPlan.loadVuePlanFromModel(plan);
                         this.controleurInspecteur.setVueFromNoeud(null);
+                        this.fenetre.canExportTournee(false);
+                        this.fenetre.canLoadLivraison(true);
+                        this.fenetre.removeAllTournee();
                         this.showMessage(PLAN_CHARGE_SUCCESS, VueFenetrePrincipale.MessageType.MessageTypeSuccess);
                     } else {
                         this.showMessage(PLAN_NOT_CHARGED, VueFenetrePrincipale.MessageType.MessageTypeError);
@@ -166,8 +169,8 @@ public class ControleurFenetrePrincipale {
                         if (tournee != null) {
                             p.setNoeudsFromTournee(tournee, plan);
                             traitementDijkstra(tournee);
-                            //System.out.println(tournee.getPlagesHoraire().size());
                             this.fenetre.addTournee(tournee, file, true);
+                            this.fenetre.canExportTournee(true);
                             this.showMessage(LIVRAISON_FILE_CHARGED, VueFenetrePrincipale.MessageType.MessageTypeSuccess);
                         }
                 }
