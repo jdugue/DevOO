@@ -66,6 +66,10 @@ public class ControleurPlan {
         this.vuePlan.setTournee(null);
     }
     
+    public void deselectAll() {
+        this.vuePlan.setSelectedVueNoeud(null);
+    }
+    
     public void didSelectNoeud(Noeud noeud) {
         this.controleurParent.didSelectNoeud(noeud);
     }

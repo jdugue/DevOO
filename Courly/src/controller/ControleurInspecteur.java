@@ -44,8 +44,10 @@ public class ControleurInspecteur {
     public void setVueFromNoeud(Noeud noeud) {
         this.noeud = noeud;
         this.vue.setNoeud(noeud);        
-        if (noeud != null) {
+        if (noeud != null && this.controleurParent.canCreateLivraison()) {
             this.vue.setMode(VueInspecteur.AffichageMode.NoeudSelected);
+        } else if (noeud != null) {
+            this.vue.setMode(VueInspecteur.AffichageMode.NoeudOnly);
         } else {
             this.vue.setMode(VueInspecteur.AffichageMode.Empty);
         }

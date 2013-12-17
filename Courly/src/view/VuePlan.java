@@ -50,10 +50,6 @@ public class VuePlan extends javax.swing.JPanel {
         this.controleur = controleur;
     }
 
-    /*public ControleurPlan getControleur() {
-        return controleur;
-    }*/
-
     public void setPlan(Plan plan) {
         this.plan = plan;
         this.paint();
@@ -164,8 +160,11 @@ public class VuePlan extends javax.swing.JPanel {
                 this.selectedVueNoeud.getVueLieu().setSelected(false);
             }
         }
-        this.selectedVueNoeud = selectedVueNoeud;
-        this.selectedNoeud = selectedVueNoeud.getNoeud();
+        
+        if (selectedVueNoeud != null) {
+            this.selectedVueNoeud = selectedVueNoeud;
+            this.selectedNoeud = selectedVueNoeud.getNoeud();
+        }
     }
     
     public void createVueTronconFromTroncon(Troncon troncon) {

@@ -118,6 +118,11 @@ public class ControleurFenetrePrincipale {
         this.setZoomScale(zoomScale + zoomDelta);
     }
     
+    
+    public boolean canCreateLivraison() {
+        return (this.selectedTournee != null);
+    }
+    
     public void shouldLoadPlan() {
     	JFileChooser fChooser = FileChooserFactory.createFileChooser(FILETYPE, FILETYPE_NAME, 
 				getCurrentDirectory());
@@ -137,6 +142,7 @@ public class ControleurFenetrePrincipale {
             		this.fenetre.canExportTournee(false);
             		this.fenetre.canLoadLivraison(true);
             		this.fenetre.removeAllTournee();
+                        this.controleurPlan.deselectAll();
             		controleurUndoManager.cleanAll();
             		this.showMessage(PLAN_CHARGE_SUCCESS, VueFenetrePrincipale.MessageType.MessageTypeSuccess);
             	} else {
@@ -172,7 +178,6 @@ public class ControleurFenetrePrincipale {
                             p.setNoeudsFromTournee(tournee, plan);
                             traitementDijkstra(tournee);
                             this.fenetre.addTournee(tournee, file, true);
-                            this.fenetre.canExportTournee(true);
                             this.showMessage(LIVRAISON_FILE_CHARGED, VueFenetrePrincipale.MessageType.MessageTypeSuccess);
                         }
                 }
@@ -199,7 +204,9 @@ public class ControleurFenetrePrincipale {
     public void selectTournee(Tournee tournee) { 
         this.controleurInspecteur.setPlagesHoraires(tournee.getPlagesHoraire());
         this.controleurPlan.setTournee(tournee);
-        this.selectedTournee=tournee;
+        this.selectedTournee = tournee;
+        this.controleurPlan.deselectAll();
+        this.fenetre.canExportTournee(this.selectedTournee != null);
 
     	setUndoRedoButtons();
     }

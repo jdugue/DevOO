@@ -29,7 +29,7 @@ public class VueInspecteur extends javax.swing.JPanel {
     private AffichageMode mode = AffichageMode.Empty;
     
     public static enum AffichageMode {
-        Empty, NoeudSelected, LivraisonSelected, DepotSelected
+        Empty, NoeudOnly, NoeudSelected, LivraisonSelected, DepotSelected
     }
     /**
      * Creates new form VueInspecteur
@@ -146,6 +146,12 @@ public class VueInspecteur extends javax.swing.JPanel {
         switch (mode) {
             case Empty:
                 this.setAllVisible(false);
+                break;
+                
+            case NoeudOnly:
+                this.setAllVisible(true);
+                this.setLieuFieldsVisible(false);
+                this.setLivraisonAreaTitle("");
                 break;
                 
             case NoeudSelected:
