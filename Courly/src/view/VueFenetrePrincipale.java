@@ -91,7 +91,7 @@ public class VueFenetrePrincipale extends javax.swing.JFrame implements ActionLi
         item.addActionListener(this);
         
         this.mapTournees.put(item, tournee);
-        this.menuTournees.add(item);
+        this.subMenuTournees.add(item);
         
         if (select) {
             this.setSelectedItem(item);
@@ -99,18 +99,18 @@ public class VueFenetrePrincipale extends javax.swing.JFrame implements ActionLi
         }
         
         if (this.mapTournees.size() > 0) {
-            this.menuTournees.setEnabled(true);
+            this.subMenuTournees.setEnabled(true);
         }
     }
     
     public void removeAllTournee() {
         if (this.mapTournees != null) {
             for (JRadioButtonMenuItem item : this.mapTournees.keySet()) {
-                this.menuTournees.remove(item);
+                this.subMenuTournees.remove(item);
             }
             this.mapTournees.clear();
         }
-        this.menuTournees.setEnabled(false);
+        this.subMenuTournees.setEnabled(false);
     }
 
     /**
@@ -144,6 +144,10 @@ public class VueFenetrePrincipale extends javax.swing.JFrame implements ActionLi
         radioItemFrameLitle = new javax.swing.JRadioButtonMenuItem();
         radioItemFrameBig = new javax.swing.JRadioButtonMenuItem();
         menuTournees = new javax.swing.JMenu();
+        itemCalculer = new javax.swing.JMenuItem();
+        itemCalculAutomatique = new javax.swing.JCheckBoxMenuItem();
+        jSeparator2 = new javax.swing.JPopupMenu.Separator();
+        subMenuTournees = new javax.swing.JMenu();
 
         jMenuItem1.setText("jMenuItem1");
 
@@ -260,8 +264,20 @@ public class VueFenetrePrincipale extends javax.swing.JFrame implements ActionLi
 
         menuBar.add(menuVenu);
 
-        menuTournees.setText("Tournées");
-        menuTournees.setEnabled(false);
+        menuTournees.setText("Tournée");
+
+        itemCalculer.setText("Calculer");
+        menuTournees.add(itemCalculer);
+
+        itemCalculAutomatique.setSelected(true);
+        itemCalculAutomatique.setText("Calcul automatique");
+        menuTournees.add(itemCalculAutomatique);
+        menuTournees.add(jSeparator2);
+
+        subMenuTournees.setText("Choisir livraison");
+        subMenuTournees.setEnabled(false);
+        menuTournees.add(subMenuTournees);
+
         menuBar.add(menuTournees);
 
         setJMenuBar(menuBar);
@@ -442,6 +458,8 @@ public class VueFenetrePrincipale extends javax.swing.JFrame implements ActionLi
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JEditorPane commentArea;
     private javax.swing.JMenuItem itemAnnuler;
+    private javax.swing.JCheckBoxMenuItem itemCalculAutomatique;
+    private javax.swing.JMenuItem itemCalculer;
     private javax.swing.JMenuItem itemChargerLivraisons;
     private javax.swing.JMenuItem itemChargerPlan;
     private javax.swing.JMenuItem itemExporter;
@@ -451,6 +469,7 @@ public class VueFenetrePrincipale extends javax.swing.JFrame implements ActionLi
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JPopupMenu jPopupMenu1;
     private javax.swing.JPopupMenu.Separator jSeparator1;
+    private javax.swing.JPopupMenu.Separator jSeparator2;
     private javax.swing.JMenuBar menuBar;
     private javax.swing.JMenu menuEdition;
     private javax.swing.JMenu menuFichier;
@@ -462,5 +481,6 @@ public class VueFenetrePrincipale extends javax.swing.JFrame implements ActionLi
     private javax.swing.JScrollPane scrollPaneInspecteur;
     private javax.swing.JScrollPane scrollPanePlan;
     private javax.swing.JMenu subMenuFrameSize;
+    private javax.swing.JMenu subMenuTournees;
     // End of variables declaration//GEN-END:variables
 }

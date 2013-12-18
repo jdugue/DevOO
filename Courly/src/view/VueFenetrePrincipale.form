@@ -134,9 +134,29 @@
         </Menu>
         <Menu class="javax.swing.JMenu" name="menuTournees">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Tourn&#xe9;es"/>
-            <Property name="enabled" type="boolean" value="false"/>
+            <Property name="text" type="java.lang.String" value="Tourn&#xe9;e"/>
           </Properties>
+          <SubComponents>
+            <MenuItem class="javax.swing.JMenuItem" name="itemCalculer">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Calculer"/>
+              </Properties>
+            </MenuItem>
+            <MenuItem class="javax.swing.JCheckBoxMenuItem" name="itemCalculAutomatique">
+              <Properties>
+                <Property name="selected" type="boolean" value="true"/>
+                <Property name="text" type="java.lang.String" value="Calcul automatique"/>
+              </Properties>
+            </MenuItem>
+            <MenuItem class="javax.swing.JPopupMenu$Separator" name="jSeparator2">
+            </MenuItem>
+            <Menu class="javax.swing.JMenu" name="subMenuTournees">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Choisir livraison"/>
+                <Property name="enabled" type="boolean" value="false"/>
+              </Properties>
+            </Menu>
+          </SubComponents>
         </Menu>
       </SubComponents>
     </Menu>
