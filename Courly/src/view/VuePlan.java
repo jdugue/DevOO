@@ -34,10 +34,10 @@ public class VuePlan extends javax.swing.JPanel {
     private final HashMap<Troncon, VueTroncon> vueTroncons = new HashMap<Troncon, VueTroncon>();
         
     public static final int noeudSize = 14;
-    public static final int padding = 30;
+    public static final int padding = 10;
     
     private int minX, minY, maxX, maxY;
-    private double zoomScale = 1.0;
+    private double zoomScale = 1.3;
     
     private static final Color BackgroundColor = new Color(233, 229, 220);
     

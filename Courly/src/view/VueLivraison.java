@@ -23,11 +23,18 @@ public class VueLivraison extends VueLieu {
     private final int order;
     private final boolean shouldDisplayOrder;
     
-    private static final String normalImagePath = "Images/map_pin_50px.png";
-    private static final String highlightedImagePath = "Images/map_pin_highlighted_50px.png";
-    private static final String selectedImagePath = "Images/map_pin_selected_50px.png";
-    private static final String selectedHighlightedImagePath = "Images/map_pin_selectedhighlighted_50px.png";
-    private static final String errorImagePath = "Images/map_pin_error_50px.png";
+    private static final String normalImagePath = "Images/pin_orange_40x55.png";
+    private static final String highlightedImagePath = "Images/pin_orange_40x55_soft.png";
+    private static final String selectedImagePath = "Images/pin_bleue_40x55.png";
+    private static final String selectedHighlightedImagePath = "Images/pin_bleue_40x55_soft.png";
+    private static final String errorImagePath = "Images/pin_rouge_40x55.png";
+    private static final String errorHighlightedImagePath = "Images/pin_rouge_40x55_soft.png";
+    
+    private static final int width = 40;
+    private static final int height = 55;
+    
+    private static final int xOrderLocation = 17;
+    private static final int yOrderLocation = 27;
 
     /**
      * Creates new form VueLivraison
@@ -38,7 +45,7 @@ public class VueLivraison extends VueLieu {
     public VueLivraison(Livraison livraison, int order, boolean shouldDisplayOrder) {
         initComponents();
         this.setOpaque(false);
-        this.setSize(50, 50);
+        this.setSize(width, height);
         this.lieu = livraison;
         this.order = order;
         this.shouldDisplayOrder = shouldDisplayOrder;
@@ -65,9 +72,11 @@ public class VueLivraison extends VueLieu {
     
     @Override
     protected BufferedImage pinImageForActualState() {
+        boolean error = !((Livraison)this.lieu).estValide();
         
-        
-        if (!((Livraison)this.lieu).estValide()) {
+        if (error && this.highlighted) {
+            return this.pinImage(errorHighlightedImagePath);
+        } else if (error) {
             return this.pinImage(errorImagePath);
         } else if (this.selected && this.highlighted) {
             return this.pinImage(selectedHighlightedImagePath);
@@ -108,7 +117,8 @@ public class VueLivraison extends VueLieu {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         if (this.shouldDisplayOrder) {
-            g.drawString(""+this.order, 10, 10); 
+            int xLocation = (int) (xOrderLocation - 4*Math.round(Math.log10(this.order) - 0.5));
+            g.drawString(""+this.order, xLocation, yOrderLocation); 
         }
     }
 }

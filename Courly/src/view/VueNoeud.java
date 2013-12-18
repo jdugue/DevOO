@@ -23,10 +23,10 @@ public class VueNoeud extends javax.swing.JPanel {
     public boolean selected;
     
     private static final Color normalEmptyColor = Color.WHITE;
-    private static final Color normalLieuColor = new Color(220, 160, 60);
-    private static final Color highlightedColor = new Color(240, 60, 40);
-    private static final Color selectedColor = new Color(30, 80, 170);
-    private static final Color selectedHighlightedColor = new Color(80, 150, 255);
+    private static final Color normalLieuColor = new Color(247, 204, 99);
+    private static final Color highlightedColor = new Color(252, 215, 126);
+    private static final Color selectedColor = new Color(83, 180, 251);
+    private static final Color selectedHighlightedColor = new Color(117, 193, 250);
     private static final Color BorderColor = new Color(198, 190, 180);
     
     protected VueLieu vueLieu;
