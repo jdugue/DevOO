@@ -12,6 +12,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.HashMap;
+import javax.swing.ButtonGroup;
 import javax.swing.JEditorPane;
 import javax.swing.JRadioButtonMenuItem;
 import javax.swing.JScrollPane;
@@ -28,6 +29,7 @@ public class VueFenetrePrincipale extends javax.swing.JFrame implements ActionLi
     private JRadioButtonMenuItem selectedItem;
     
     private String commentText;
+    private ButtonGroup frameSizeButtonGroup = new ButtonGroup();
     
     public static enum MessageType {
      MessageTypeError, MessageTypeWarning, MessageTypeSuccess, MessageTypeLog
@@ -247,6 +249,7 @@ public class VueFenetrePrincipale extends javax.swing.JFrame implements ActionLi
 
         subMenuFrameSize.setText("Interface");
 
+        this.frameSizeButtonGroup.add(radioItemFrameLitle);
         radioItemFrameLitle.setText("Petite");
         radioItemFrameLitle.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -255,6 +258,7 @@ public class VueFenetrePrincipale extends javax.swing.JFrame implements ActionLi
         });
         subMenuFrameSize.add(radioItemFrameLitle);
 
+        this.frameSizeButtonGroup.add(radioItemFrameBig);
         radioItemFrameBig.setSelected(true);
         radioItemFrameBig.setText("Grande");
         radioItemFrameBig.addActionListener(new java.awt.event.ActionListener() {
@@ -301,7 +305,7 @@ public class VueFenetrePrincipale extends javax.swing.JFrame implements ActionLi
                     .addComponent(scrollPaneComment)
                     .addComponent(scrollPanePlan, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(scrollPaneInspecteur, javax.swing.GroupLayout.DEFAULT_SIZE, 384, Short.MAX_VALUE)
+                .addComponent(scrollPaneInspecteur, javax.swing.GroupLayout.DEFAULT_SIZE, 382, Short.MAX_VALUE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -313,7 +317,7 @@ public class VueFenetrePrincipale extends javax.swing.JFrame implements ActionLi
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(scrollPanePlan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(scrollPaneComment, javax.swing.GroupLayout.DEFAULT_SIZE, 77, Short.MAX_VALUE)))
+                        .addComponent(scrollPaneComment, javax.swing.GroupLayout.DEFAULT_SIZE, 82, Short.MAX_VALUE)))
                 .addContainerGap())
         );
 
@@ -412,9 +416,6 @@ public class VueFenetrePrincipale extends javax.swing.JFrame implements ActionLi
         this.scrollPanePlan.setPreferredSize(planSize);
         this.scrollPanePlan.setSize(planSize);
         this.commentArea.setSize(commentAreaSize);
-        
-        this.radioItemFrameBig.setSelected(big);
-        this.radioItemFrameLitle.setSelected(!big);
     }
     
     /**
