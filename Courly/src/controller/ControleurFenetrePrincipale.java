@@ -177,8 +177,9 @@ public class ControleurFenetrePrincipale {
                         Tournee tournee = p.construireTourneeXML(file);
                         if (tournee != null) {
                             p.setNoeudsFromTournee(tournee, plan);
-                            traitementDijkstra(tournee);
+                            //traitementDijkstra(tournee);
                             this.fenetre.addTournee(tournee, file, true);
+                            this.controleurPlan.setTournee(tournee);
                             this.showMessage(LIVRAISON_FILE_CHARGED, VueFenetrePrincipale.MessageType.MessageTypeSuccess);
                         }
                 }
@@ -259,7 +260,8 @@ public class ControleurFenetrePrincipale {
     
     public void addLivraisonAndReload(Livraison livraison){
     	selectedTournee.addLivraison(livraison);    	
-    	traitementDijkstra(selectedTournee);
+    	//traitementDijkstra(selectedTournee);
+    	this.controleurPlan.setTournee(selectedTournee);
         this.deselectAllNoeuds();
     }
     
@@ -277,7 +279,8 @@ public class ControleurFenetrePrincipale {
     public void removeLivraisonAndReload(Livraison livraison)
     {    	
     	selectedTournee.removeLivraison(livraison);
-    	traitementDijkstra(selectedTournee);
+    	//traitementDijkstra(selectedTournee);
+    	this.controleurPlan.setTournee(selectedTournee);
         this.deselectAllNoeuds();
     }
     
