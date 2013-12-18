@@ -24,6 +24,7 @@ public class VueLieu extends javax.swing.JPanel {
     private static final String highlightedImagePath = "";
     private static final String selectedImagePath = "";
     private static final String selectedHighlightedImagePath = "";
+    private static final String errorImagePath = "";
     
     protected VuePlan vuePlan;
     protected VueNoeud vueNoeud;

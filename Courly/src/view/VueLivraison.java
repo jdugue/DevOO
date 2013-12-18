@@ -20,21 +20,24 @@ import model.Livraison;
  */
 public class VueLivraison extends VueLieu {
     
+    private final int order;
     
     private static final String normalImagePath = "Images/map_pin_50px.png";
     private static final String highlightedImagePath = "Images/map_pin_highlighted_50px.png";
     private static final String selectedImagePath = "Images/map_pin_selected_50px.png";
     private static final String selectedHighlightedImagePath = "Images/map_pin_selectedhighlighted_50px.png";
+    private static final String errorImagePath = "Images/map_pin_error_50px.png";
 
     /**
      * Creates new form VueLivraison
      * @param livraison
      */
-    public VueLivraison(Livraison livraison) {
+    public VueLivraison(Livraison livraison, int order) {
         initComponents();
         this.setOpaque(false);
         this.setSize(50, 50);
         this.lieu = livraison;
+        this.order = order;
     }
     
     public Livraison getLivraison() {
@@ -59,7 +62,10 @@ public class VueLivraison extends VueLieu {
     @Override
     protected BufferedImage pinImageForActualState() {
         
-        if (this.selected && this.highlighted) {
+        
+        if (!((Livraison)this.lieu).estValide()) {
+            return this.pinImage(errorImagePath);
+        } else if (this.selected && this.highlighted) {
             return this.pinImage(selectedHighlightedImagePath);
         } else if (this.selected) {
             return this.pinImage(selectedImagePath);
@@ -93,5 +99,10 @@ public class VueLivraison extends VueLieu {
 
 
     // Variables declaration - do not modify                     
-    // End of variables declaration                   
+    // End of variables declaration 
+    @Override
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+         g.drawString(""+this.order, 10, 10); 
+    }
 }

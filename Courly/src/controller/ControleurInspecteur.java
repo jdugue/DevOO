@@ -58,7 +58,7 @@ public class ControleurInspecteur {
         this.lieu = lieu;
         this.vue.setLieu(lieu);
         if (lieu != null) {
-            this.setVueFromNoeud(lieu.getNoeud());
+            this.vue.setNoeud(lieu.getNoeud());
             if (lieu.getClass() == Livraison.class) {
                 this.vue.setMode(VueInspecteur.AffichageMode.LivraisonSelected);
             } else if (lieu.getClass() == Depot.class) {
