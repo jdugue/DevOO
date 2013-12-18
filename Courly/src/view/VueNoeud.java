@@ -23,17 +23,16 @@ public class VueNoeud extends javax.swing.JPanel {
     public boolean selected;
     
     private static final Color normalEmptyColor = Color.WHITE;
-    private static final Color normalLieuColor = new Color(220, 160, 60);
-    private static final Color highlightedColor = new Color(240, 60, 40);
-    private static final Color selectedColor = new Color(30, 80, 170);
-    private static final Color selectedHighlightedColor = new Color(80, 150, 255);
+    private static final Color normalLieuColor = new Color(247, 204, 99);
+    private static final Color highlightedColor = new Color(252, 215, 126);
+    private static final Color selectedColor = new Color(83, 180, 251);
+    private static final Color selectedHighlightedColor = new Color(117, 193, 250);
     private static final Color BorderColor = new Color(198, 190, 180);
     
     protected VueLieu vueLieu;
     
     protected VuePlan vuePlan;
     private Noeud noeud;
-    private Lieu lieu;
 
     /**
      * Creates new form NoeudView
@@ -58,10 +57,6 @@ public class VueNoeud extends javax.swing.JPanel {
         return vueLieu;
     }
 
-    public void setLieu(Lieu lieu) {
-        this.lieu = lieu;
-    }
-
     public void setVueLieu(VueLieu vueLieu) {
         
         if (vueLieu.getClass() == VueLivraison.class) {
@@ -78,9 +73,7 @@ public class VueNoeud extends javax.swing.JPanel {
         int y = this.getY() - (this.vueLieu.getHeight() - this.getHeight());
         
         this.vueLieu.setLocation(x, y);
-        
-        this.vueLieu.setVueNoeud(this);
-        this.vuePlan.add(this.vueLieu);
+        this.addVueLieuToPlan();
     }
     
     public void setVueDepot(VueDepot vueDepot) {
@@ -90,9 +83,15 @@ public class VueNoeud extends javax.swing.JPanel {
         int y = this.getY() - (this.vueLieu.getHeight() - this.getHeight())/2;
         
         this.vueLieu.setLocation(x, y);
+        this.addVueLieuToPlan();
+    }
+    
+    private void addVueLieuToPlan() {
         
         this.vueLieu.setVueNoeud(this);
+        this.vueLieu.setVuePlan(vuePlan);
         this.vuePlan.add(this.vueLieu);
+        this.vuePlan.setComponentZOrder(vueLieu, vuePlan.getComponentCount()-1);        
     }
     
 
@@ -141,7 +140,8 @@ public class VueNoeud extends javax.swing.JPanel {
 
     private void mouseClickedHandler(java.awt.event.MouseEvent evt) {                                     
         // TODO add your handling code here:
-        this.setSelected(true);
+        //this.setSelected(true, true);
+        this.vuePlan.didSelectVueNoeud(this);
     }                                    
 
  
@@ -165,30 +165,16 @@ public class VueNoeud extends javax.swing.JPanel {
         return noeud;
     }
 
-    public Lieu getLieu() {
-        return lieu;
-    }
-
     public void setSelected(boolean selected, boolean callBack) {
         if (this.selected != selected) {
             this.selected = selected;
 
             this.repaint();
-
-            if (selected && callBack) {
-                this.vuePlan.didSelectVueNoeud(this);
-            } else if (callBack) {
-                this.vuePlan.didDeselectVueNoeud(this);
-            }
-
-            if (this.vueLieu != null && this.vueLieu.selected != this.selected) {
-                this.vueLieu.setSelected(selected);
-            }
         }
     }
     
     public void setSelected(boolean selected) {
-        this.setSelected(selected, true);
+        this.setSelected(selected, false);
     }
     
     public void setHighlighted(boolean highlighted) {
@@ -210,7 +196,7 @@ public class VueNoeud extends javax.swing.JPanel {
         } else if (this.highlighted) {
             return VueNoeud.highlightedColor;
         } else {
-            if (this.lieu == null) {
+            if (this.vueLieu == null) {
                 return VueNoeud.normalEmptyColor;
             } else {
                 return VueNoeud.normalLieuColor;

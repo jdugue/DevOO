@@ -113,6 +113,9 @@
               <SubComponents>
                 <MenuItem class="javax.swing.JRadioButtonMenuItem" name="radioItemFrameLitle">
                   <Properties>
+                    <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                      <Connection code="this.frameSizeButtonGroup" type="code"/>
+                    </Property>
                     <Property name="text" type="java.lang.String" value="Petite"/>
                   </Properties>
                   <Events>
@@ -121,6 +124,9 @@
                 </MenuItem>
                 <MenuItem class="javax.swing.JRadioButtonMenuItem" name="radioItemFrameBig">
                   <Properties>
+                    <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                      <Connection code="this.frameSizeButtonGroup" type="code"/>
+                    </Property>
                     <Property name="selected" type="boolean" value="true"/>
                     <Property name="text" type="java.lang.String" value="Grande"/>
                   </Properties>
@@ -134,9 +140,32 @@
         </Menu>
         <Menu class="javax.swing.JMenu" name="menuTournees">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Tourn&#xe9;es"/>
-            <Property name="enabled" type="boolean" value="false"/>
+            <Property name="text" type="java.lang.String" value="Tourn&#xe9;e"/>
           </Properties>
+          <SubComponents>
+            <MenuItem class="javax.swing.JMenuItem" name="itemCalculer">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Calculer"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="itemCalculerActionPerformed"/>
+              </Events>
+            </MenuItem>
+            <MenuItem class="javax.swing.JCheckBoxMenuItem" name="itemCalculAutomatique">
+              <Properties>
+                <Property name="selected" type="boolean" value="true"/>
+                <Property name="text" type="java.lang.String" value="Calcul automatique"/>
+              </Properties>
+            </MenuItem>
+            <MenuItem class="javax.swing.JPopupMenu$Separator" name="jSeparator2">
+            </MenuItem>
+            <Menu class="javax.swing.JMenu" name="subMenuTournees">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Choisir livraison"/>
+                <Property name="enabled" type="boolean" value="false"/>
+              </Properties>
+            </Menu>
+          </SubComponents>
         </Menu>
       </SubComponents>
     </Menu>
@@ -177,7 +206,7 @@
                   <Component id="scrollPanePlan" max="32767" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="scrollPaneInspecteur" pref="384" max="32767" attributes="0"/>
+              <Component id="scrollPaneInspecteur" pref="382" max="32767" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
       </Group>
@@ -191,7 +220,7 @@
                   <Group type="102" alignment="1" attributes="0">
                       <Component id="scrollPanePlan" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="scrollPaneComment" pref="77" max="32767" attributes="0"/>
+                      <Component id="scrollPaneComment" pref="82" max="32767" attributes="0"/>
                   </Group>
               </Group>
               <EmptySpace max="-2" attributes="0"/>

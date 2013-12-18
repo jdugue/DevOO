@@ -45,7 +45,7 @@ public class ControleurFenetrePrincipale {
 
     
     private Tournee selectedTournee;
-    private UndoManager undoManager = new UndoManager();
+    private ControleurUndoManager controleurUndoManager = new ControleurUndoManager();
     
     private String lastUsedFolder = null;
     
@@ -70,7 +70,8 @@ public class ControleurFenetrePrincipale {
         this.fenetre = aFenetre;
         this.controleurPlan = new ControleurPlan(this.fenetre.getScrollPanePlan(), this);
         this.controleurInspecteur = new ControleurInspecteur(this.fenetre.getScrollPaneInspecteur(), this);
-        
+
+    	setUndoRedoButtons();
         //this.testVues();
     }
     
@@ -117,6 +118,11 @@ public class ControleurFenetrePrincipale {
         this.setZoomScale(zoomScale + zoomDelta);
     }
     
+    
+    public boolean canCreateLivraison() {
+        return (this.selectedTournee != null);
+    }
+    
     public void shouldLoadPlan() {
     	JFileChooser fChooser = FileChooserFactory.createFileChooser(FILETYPE, FILETYPE_NAME, 
 				getCurrentDirectory());
@@ -128,20 +134,23 @@ public class ControleurFenetrePrincipale {
             ParseurXML p = new ParseurXML();
 
             try {
-                    Plan tempPlan = p.construirePlanXML(file);
-                    if (tempPlan !=null) {
-                        this.plan = tempPlan;
-                        this.controleurPlan.loadVuePlanFromModel(plan);
-                        this.controleurInspecteur.setVueFromNoeud(null);
-                        this.fenetre.canExportTournee(false);
-                        this.fenetre.canLoadLivraison(true);
-                        this.fenetre.removeAllTournee();
-                        this.showMessage(PLAN_CHARGE_SUCCESS, VueFenetrePrincipale.MessageType.MessageTypeSuccess);
-                    } else {
-                        this.showMessage(PLAN_NOT_CHARGED, VueFenetrePrincipale.MessageType.MessageTypeError);
-                    }
+            	Plan tempPlan = p.construirePlanXML(file);
+            	if (tempPlan !=null) {
+            		this.plan = tempPlan;
+            		this.controleurPlan.loadVuePlanFromModel(plan);
+            		this.controleurInspecteur.setVueFromNoeud(null);
+            		this.fenetre.canExportTournee(false);
+            		this.fenetre.canLoadLivraison(true);
+            		this.fenetre.removeAllTournee();
+                        this.selectedTournee = null;
+                        this.deselectAllNoeuds();
+            		controleurUndoManager.cleanAll();
+            		this.showMessage(PLAN_CHARGE_SUCCESS, VueFenetrePrincipale.MessageType.MessageTypeSuccess);
+            	} else {
+            		this.showMessage(PLAN_NOT_CHARGED, VueFenetrePrincipale.MessageType.MessageTypeError);
+            	}
             } catch (NumberFormatException e) {
-                    this.showMessage(INCORRECT_XML_FILE, VueFenetrePrincipale.MessageType.MessageTypeError);
+            	this.showMessage(INCORRECT_XML_FILE, VueFenetrePrincipale.MessageType.MessageTypeError);
             } catch (FileNotFoundException e) {
             	this.showMessage(FILE_NOT_FOUND, VueFenetrePrincipale.MessageType.MessageTypeError);
             } catch (SAXException e) {
@@ -167,10 +176,13 @@ public class ControleurFenetrePrincipale {
                         this.showMessage(CALCULATING_TOURNEE, VueFenetrePrincipale.MessageType.MessageTypeLog);
                         Tournee tournee = p.construireTourneeXML(file);
                         if (tournee != null) {
-                            p.setNoeudsFromTournee(tournee, plan);
-                            traitementDijkstra(tournee);
-                            this.fenetre.addTournee(tournee, fChooser.getSelectedFile().getName(), true);
-                            this.fenetre.canExportTournee(true);
+                            p.setNoeudsFromTournee(tournee, plan);                            
+                            if ( fenetre.shouldAutoCalculateTournee()) {
+                            	traitementDijkstra(tournee);
+                        	}else{
+                                this.controleurPlan.setTournee(tournee);
+                        	}
+                            this.fenetre.addTournee(tournee, file, true);
                             this.showMessage(LIVRAISON_FILE_CHARGED, VueFenetrePrincipale.MessageType.MessageTypeSuccess);
                         }
                 }
@@ -197,7 +209,11 @@ public class ControleurFenetrePrincipale {
     public void selectTournee(Tournee tournee) { 
         this.controleurInspecteur.setPlagesHoraires(tournee.getPlagesHoraire());
         this.controleurPlan.setTournee(tournee);
-        this.selectedTournee=tournee;
+        this.selectedTournee = tournee;
+        this.deselectAllNoeuds();
+        this.fenetre.canExportTournee(this.selectedTournee != null);
+
+    	setUndoRedoButtons();
     }
     
     private void traitementDijkstra (Tournee tournee)
@@ -210,33 +226,50 @@ public class ControleurFenetrePrincipale {
     		tournee.getTrajets().clear();
     	}
     	this.controleurPlan.setTournee(tournee);
+        this.deselectAllNoeuds();
     }
 
     
     public void undo(){
-    	if ( undoManager.canUndo() ){
-        	undoManager.undo();	
-    	}   	
-    	//TODO
-    	// Set undo button grise to undoManager.canUndo();
+    	UndoManager current = controleurUndoManager.getUndoManagerForTournee(selectedTournee);
+    	if ( current.canUndo() ){
+    		current.undo();	
+    	} 
+
+    	setUndoRedoButtons();
     }
     public void redo(){
-    	if ( undoManager.canRedo() ){
-    		undoManager.redo();	
-    	}
-    	//TODO
-    	// Set undo button grise to undoManager.canUndo();
+    	UndoManager current = controleurUndoManager.getUndoManagerForTournee(selectedTournee);
+    	if ( current.canRedo() ){
+    		current.redo();	
+    	} 
+    	setUndoRedoButtons();
     }
+    
+    public void setUndoRedoButtons(){
+    	fenetre.canRedo(controleurUndoManager.getUndoManagerForTournee(selectedTournee).canRedo());
+    	fenetre.canUndo(controleurUndoManager.getUndoManagerForTournee(selectedTournee).canUndo());
+    }
+    
     public void shouldAddLivraisonAndReload(Livraison livraison)
     {
     	AjouterLivraisonEdit addEdit = new AjouterLivraisonEdit(livraison, this);
     	addEdit.execute();
-    	undoManager.addEdit(addEdit);
+    	UndoManager current = controleurUndoManager.getUndoManagerForTournee(selectedTournee);
+    	current.addEdit(addEdit);
+    	
+
+    	setUndoRedoButtons();
     }
     
     public void addLivraisonAndReload(Livraison livraison){
-    	selectedTournee.addLivraison(livraison);    	
-    	traitementDijkstra(selectedTournee);
+    	selectedTournee.addLivraison(livraison);    
+    	if ( fenetre.shouldAutoCalculateTournee()) {
+        	traitementDijkstra(selectedTournee);
+    	}else{
+            this.controleurPlan.setTournee(selectedTournee);
+    	}
+        this.deselectAllNoeuds();
     }
     
     
@@ -244,13 +277,26 @@ public class ControleurFenetrePrincipale {
     {    	
     	EnleverLivraisonEdit removeEdit = new EnleverLivraisonEdit(livraison, this);
     	removeEdit.execute();
-    	undoManager.addEdit(removeEdit);
+    	UndoManager current = controleurUndoManager.getUndoManagerForTournee(selectedTournee);
+    	current.addEdit(removeEdit);
+
+    	setUndoRedoButtons();
+    }
+    
+    public void shouldRecalculateTournee() {
+        this.traitementDijkstra(selectedTournee);
     }
     
     public void removeLivraisonAndReload(Livraison livraison)
     {    	
     	selectedTournee.removeLivraison(livraison);
-    	traitementDijkstra(selectedTournee);
+    	if ( fenetre.shouldAutoCalculateTournee()) {
+        	traitementDijkstra(selectedTournee);
+    	}else{
+            this.controleurPlan.setTournee(selectedTournee);
+    	}
+    	this.controleurPlan.setTournee(selectedTournee);
+        this.deselectAllNoeuds();
     }
     
     public void shouldExportTournee() {
@@ -278,22 +324,18 @@ public class ControleurFenetrePrincipale {
         }        
         }
     }
-
+    
+    public void deselectAllNoeuds() {
+        this.controleurPlan.deselectAll();
+        this.controleurInspecteur.setVueFromNoeud(null);
+    }
     
     public void didSelectNoeud(Noeud noeud) {
         this.controleurInspecteur.setVueFromNoeud(noeud);
     }
     
-    public void didDeselectNoeud(Noeud noeud) {
-        this.controleurInspecteur.setVueFromNoeud(null);
-    }
-    
     public void didSelectLieu(Lieu lieu) {
         this.controleurInspecteur.setVueFromLieu(lieu);
-    }
-    
-    public void didDeselectLieu(Lieu lieu) {
-        this.controleurInspecteur.setVueFromLieu(null);
     }
     
     private File getCurrentDirectory(){

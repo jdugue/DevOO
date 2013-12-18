@@ -12,6 +12,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.HashMap;
+import javax.swing.ButtonGroup;
 import javax.swing.JEditorPane;
 import javax.swing.JRadioButtonMenuItem;
 import javax.swing.JScrollPane;
@@ -28,6 +29,7 @@ public class VueFenetrePrincipale extends javax.swing.JFrame implements ActionLi
     private JRadioButtonMenuItem selectedItem;
     
     private String commentText;
+    private ButtonGroup frameSizeButtonGroup = new ButtonGroup();
     
     public static enum MessageType {
      MessageTypeError, MessageTypeWarning, MessageTypeSuccess, MessageTypeLog
@@ -72,6 +74,14 @@ public class VueFenetrePrincipale extends javax.swing.JFrame implements ActionLi
         this.itemExporter.setEnabled(canExportTournee);
     }
     
+    public void canUndo(boolean canUndo) {
+        this.itemAnnuler.setEnabled(canUndo);
+    }
+    
+    public void canRedo(boolean canRedo) {
+        this.itemRefaire.setEnabled(canRedo);
+    }
+    
     public void addTournee(Tournee tournee, String displayName, boolean select) {
         if (this.mapTournees == null) {
             this.mapTournees = new HashMap<JRadioButtonMenuItem, Tournee>();
@@ -83,7 +93,7 @@ public class VueFenetrePrincipale extends javax.swing.JFrame implements ActionLi
         item.addActionListener(this);
         
         this.mapTournees.put(item, tournee);
-        this.menuTournees.add(item);
+        this.subMenuTournees.add(item);
         
         if (select) {
             this.setSelectedItem(item);
@@ -91,18 +101,22 @@ public class VueFenetrePrincipale extends javax.swing.JFrame implements ActionLi
         }
         
         if (this.mapTournees.size() > 0) {
-            this.menuTournees.setEnabled(true);
+            this.subMenuTournees.setEnabled(true);
         }
     }
     
     public void removeAllTournee() {
         if (this.mapTournees != null) {
             for (JRadioButtonMenuItem item : this.mapTournees.keySet()) {
-                this.menuTournees.remove(item);
+                this.subMenuTournees.remove(item);
             }
             this.mapTournees.clear();
         }
-        this.menuTournees.setEnabled(false);
+        this.subMenuTournees.setEnabled(false);
+    }
+    
+    public boolean shouldAutoCalculateTournee() {
+        return this.itemCalculAutomatique.isSelected();
     }
 
     /**
@@ -136,6 +150,10 @@ public class VueFenetrePrincipale extends javax.swing.JFrame implements ActionLi
         radioItemFrameLitle = new javax.swing.JRadioButtonMenuItem();
         radioItemFrameBig = new javax.swing.JRadioButtonMenuItem();
         menuTournees = new javax.swing.JMenu();
+        itemCalculer = new javax.swing.JMenuItem();
+        itemCalculAutomatique = new javax.swing.JCheckBoxMenuItem();
+        jSeparator2 = new javax.swing.JPopupMenu.Separator();
+        subMenuTournees = new javax.swing.JMenu();
 
         jMenuItem1.setText("jMenuItem1");
 
@@ -231,6 +249,7 @@ public class VueFenetrePrincipale extends javax.swing.JFrame implements ActionLi
 
         subMenuFrameSize.setText("Interface");
 
+        this.frameSizeButtonGroup.add(radioItemFrameLitle);
         radioItemFrameLitle.setText("Petite");
         radioItemFrameLitle.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -239,6 +258,7 @@ public class VueFenetrePrincipale extends javax.swing.JFrame implements ActionLi
         });
         subMenuFrameSize.add(radioItemFrameLitle);
 
+        this.frameSizeButtonGroup.add(radioItemFrameBig);
         radioItemFrameBig.setSelected(true);
         radioItemFrameBig.setText("Grande");
         radioItemFrameBig.addActionListener(new java.awt.event.ActionListener() {
@@ -252,8 +272,25 @@ public class VueFenetrePrincipale extends javax.swing.JFrame implements ActionLi
 
         menuBar.add(menuVenu);
 
-        menuTournees.setText("Tournées");
-        menuTournees.setEnabled(false);
+        menuTournees.setText("Tournée");
+
+        itemCalculer.setText("Calculer");
+        itemCalculer.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                itemCalculerActionPerformed(evt);
+            }
+        });
+        menuTournees.add(itemCalculer);
+
+        itemCalculAutomatique.setSelected(true);
+        itemCalculAutomatique.setText("Calcul automatique");
+        menuTournees.add(itemCalculAutomatique);
+        menuTournees.add(jSeparator2);
+
+        subMenuTournees.setText("Choisir livraison");
+        subMenuTournees.setEnabled(false);
+        menuTournees.add(subMenuTournees);
+
         menuBar.add(menuTournees);
 
         setJMenuBar(menuBar);
@@ -268,7 +305,7 @@ public class VueFenetrePrincipale extends javax.swing.JFrame implements ActionLi
                     .addComponent(scrollPaneComment)
                     .addComponent(scrollPanePlan, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(scrollPaneInspecteur, javax.swing.GroupLayout.DEFAULT_SIZE, 384, Short.MAX_VALUE)
+                .addComponent(scrollPaneInspecteur, javax.swing.GroupLayout.DEFAULT_SIZE, 382, Short.MAX_VALUE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -280,7 +317,7 @@ public class VueFenetrePrincipale extends javax.swing.JFrame implements ActionLi
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(scrollPanePlan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(scrollPaneComment, javax.swing.GroupLayout.DEFAULT_SIZE, 77, Short.MAX_VALUE)))
+                        .addComponent(scrollPaneComment, javax.swing.GroupLayout.DEFAULT_SIZE, 82, Short.MAX_VALUE)))
                 .addContainerGap())
         );
 
@@ -331,6 +368,11 @@ public class VueFenetrePrincipale extends javax.swing.JFrame implements ActionLi
         // TODO add your handling code here:
         this.setFrameSizeBig(true);
     }//GEN-LAST:event_radioItemFrameBigActionPerformed
+
+    private void itemCalculerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemCalculerActionPerformed
+        // TODO add your handling code here:
+        this.controleurFenetrePrincipale.shouldRecalculateTournee();
+    }//GEN-LAST:event_itemCalculerActionPerformed
     
     public void actionPerformed(ActionEvent e) {
         //...Get information from the action event...
@@ -374,9 +416,6 @@ public class VueFenetrePrincipale extends javax.swing.JFrame implements ActionLi
         this.scrollPanePlan.setPreferredSize(planSize);
         this.scrollPanePlan.setSize(planSize);
         this.commentArea.setSize(commentAreaSize);
-        
-        this.radioItemFrameBig.setSelected(big);
-        this.radioItemFrameLitle.setSelected(!big);
     }
     
     /**
@@ -434,6 +473,8 @@ public class VueFenetrePrincipale extends javax.swing.JFrame implements ActionLi
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JEditorPane commentArea;
     private javax.swing.JMenuItem itemAnnuler;
+    private javax.swing.JCheckBoxMenuItem itemCalculAutomatique;
+    private javax.swing.JMenuItem itemCalculer;
     private javax.swing.JMenuItem itemChargerLivraisons;
     private javax.swing.JMenuItem itemChargerPlan;
     private javax.swing.JMenuItem itemExporter;
@@ -443,6 +484,7 @@ public class VueFenetrePrincipale extends javax.swing.JFrame implements ActionLi
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JPopupMenu jPopupMenu1;
     private javax.swing.JPopupMenu.Separator jSeparator1;
+    private javax.swing.JPopupMenu.Separator jSeparator2;
     private javax.swing.JMenuBar menuBar;
     private javax.swing.JMenu menuEdition;
     private javax.swing.JMenu menuFichier;
@@ -454,5 +496,6 @@ public class VueFenetrePrincipale extends javax.swing.JFrame implements ActionLi
     private javax.swing.JScrollPane scrollPaneInspecteur;
     private javax.swing.JScrollPane scrollPanePlan;
     private javax.swing.JMenu subMenuFrameSize;
+    private javax.swing.JMenu subMenuTournees;
     // End of variables declaration//GEN-END:variables
 }

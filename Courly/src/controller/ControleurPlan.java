@@ -37,6 +37,7 @@ public class ControleurPlan {
     
     //private JScrollPane scrollPane;
     private VuePlan vuePlan;
+    private Noeud selectedNoeud;
     
     private final ControleurFenetrePrincipale controleurParent;
     
@@ -59,27 +60,37 @@ public class ControleurPlan {
 
     public void setTournee(Tournee tournee) {
         this.vuePlan.setTournee(tournee);
+        this.deselectAll();
     }
     
     public void loadVuePlanFromModel(Plan aPlan) {
+        //aPlan.trierNoeudsParY();
     	this.vuePlan.setPlan(aPlan);
         this.vuePlan.setTournee(null);
     }
+
+    public void setSelectedNoeud(Noeud noeud) {
+        if (this.selectedNoeud != null) {
+            this.vuePlan.setNoeudSelected(this.selectedNoeud, false);
+        }
+        if (noeud != null) {
+            this.vuePlan.setNoeudSelected(noeud, true);
+        }
+        this.selectedNoeud = noeud;
+    }
+    
+    public void deselectAll() {
+        this.setSelectedNoeud(null);
+    }
     
     public void didSelectNoeud(Noeud noeud) {
+        this.setSelectedNoeud(noeud);
         this.controleurParent.didSelectNoeud(noeud);
     }
     
-    public void didDeselectNoeud(Noeud noeud) {
-        this.controleurParent.didDeselectNoeud(noeud);
-    }
-    
     public void didSelectLieu(Lieu lieu) {
+        this.setSelectedNoeud(lieu.getNoeud());
         this.controleurParent.didSelectLieu(lieu);
-    }
-    
-    public void didDeselectLieu(Lieu lieu) {
-        this.controleurParent.didDeselectLieu(lieu);
     }
 
     void addAllNoeuds(ArrayList<Noeud> noeuds) {

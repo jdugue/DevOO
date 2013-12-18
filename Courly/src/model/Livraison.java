@@ -99,7 +99,11 @@ public class Livraison extends Lieu implements Comparable<Livraison>{
 	}
 	
 	public boolean estValide() {
-		return heureArrivee.before(plageHoraire.getHeureFin());
+		if (this.heureArrivee != null) {
+			return heureArrivee.before(plageHoraire.getHeureFin());
+		} else {
+			return true;
+		}
 	}
 
 	public Livraison() {

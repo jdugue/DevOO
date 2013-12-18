@@ -270,37 +270,40 @@ public class Dijkstra {
 		ArrayList<Trajet> trajetsTournee = new ArrayList<Trajet>();
 		int abs = 0;
 		for (int i =0; i<nbLivraisons;i++) {		
-			int ord = xNext[abs].getValue();			
+			int ord = xNext[abs].getValue();	
 			Livraison livCourante = new Livraison();
-			Trajet trajetCourant = trajets.get(abs).get(ord);
-			
+			Trajet trajetCourant = trajets.get(abs).get(ord);			
 			PlageHoraire plage;
-			if(ord==0) {
+			Date heureArrivee;
+			Date heureDepart;
+			
+			if(ord==0) {//On va vers le dépot
 				livCourante = tournee.getLivraisons().get(abs-1);
+				heureDepart = new Date(livCourante.getHeureArrivee().getTime()+10*MIN_IN_MILISEC);
+				livCourante.setHeureDepart(heureDepart);
 				plage = livCourante.getPlageHoraire();
 			} 
 			else {
-				Livraison livNext = tournee.getLivraisons().get(ord-1);
-				Date heureArrivee;
-				Date heureDepart;
-				if(abs == 0) {
+				Livraison livNext = tournee.getLivraisons().get(ord-1);	
+				plage = livNext.getPlageHoraire();
+				if(abs == 0) {//On venait du depot
 					Date sortieDepot = tournee.getFirstPlageHoraire().getHeureDebut();
 					heureArrivee = new Date(sortieDepot.getTime()+SEC_IN_MILISEC*trajetCourant.getTempsTrajet());
+					livNext.setHeureArrivee(heureArrivee);
+					heureDepart = new Date(livNext.getHeureArrivee().getTime() + MIN_IN_MILISEC*10);
+					livNext.setHeureDepart(heureDepart);
 				} else {
 					livCourante = tournee.getLivraisons().get(abs-1);
+					if(livCourante.getHeureArrivee().after(livCourante.getPlageHoraire().getHeureDebut()))
+					{
+						heureDepart = new Date(livCourante.getHeureArrivee().getTime() + MIN_IN_MILISEC*10);
+					} else {
+						heureDepart = new Date(livCourante.getPlageHoraire().getHeureDebut().getTime() + MIN_IN_MILISEC*10);
+					}
+					livCourante.setHeureDepart(heureDepart);
 					heureArrivee = new Date(livCourante.getHeureDepart().getTime() + SEC_IN_MILISEC*trajetCourant.getTempsTrajet());
-				}
-				heureDepart = new Date(heureArrivee.getTime()+10*MIN_IN_MILISEC);
-				plage = livNext.getPlageHoraire();
-				if(heureArrivee.before(plage.getHeureDebut())) {
-					heureDepart = new Date(plage.getHeureDebut().getTime()-SEC_IN_MILISEC*trajetCourant.getTempsTrajet());
-					livCourante.setHeureDepart(heureDepart);
-					livNext.setHeureArrivee(plage.getHeureDebut());
-				} else {
-					heureDepart = new Date(heureArrivee.getTime()+10*MIN_IN_MILISEC);
-					livCourante.setHeureDepart(heureDepart);
 					livNext.setHeureArrivee(heureArrivee);
-				}
+				}				
 			}
 			
 			trajetCourant.setPlage(plage);

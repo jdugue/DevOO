@@ -212,7 +212,6 @@ public class VueTroncon extends javax.swing.JPanel {
 
     private void mouseClickedHandler(java.awt.event.MouseEvent evt) {                                     
         // TODO add your handling code here:
-        System.out.println(this);
     }                       
 
 

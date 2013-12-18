@@ -32,15 +32,12 @@ public class VuePlan extends javax.swing.JPanel {
     
     private final HashMap<Noeud, VueNoeud> vueNoeuds = new HashMap<Noeud, VueNoeud>();
     private final HashMap<Troncon, VueTroncon> vueTroncons = new HashMap<Troncon, VueTroncon>();
-    
-    private VueNoeud selectedVueNoeud;
-    private Noeud selectedNoeud;
-    
+        
     public static final int noeudSize = 14;
-    public static final int padding = 30;
+    public static final int padding = 50;
     
     private int minX, minY, maxX, maxY;
-    private double zoomScale = 1.0;
+    private double zoomScale = 1.3;
     
     private static final Color BackgroundColor = new Color(233, 229, 220);
     
@@ -49,10 +46,6 @@ public class VuePlan extends javax.swing.JPanel {
     public void setControleur(ControleurPlan controleur) {
         this.controleur = controleur;
     }
-
-    /*public ControleurPlan getControleur() {
-        return controleur;
-    }*/
 
     public void setPlan(Plan plan) {
         this.plan = plan;
@@ -91,8 +84,8 @@ public class VuePlan extends javax.swing.JPanel {
     }
     
     private void displayVueNoeud(VueNoeud vueNoeud) {
-            vueNoeud.setPlan(this);
-            vueNoeud.setVisible(true);
+        vueNoeud.setPlan(this);
+        vueNoeud.setVisible(true);
     }
 
     private void setMinX(int minX) {
@@ -116,7 +109,7 @@ public class VuePlan extends javax.swing.JPanel {
     }
     
     private void updateVuePlanFrame() {
-        Dimension dimension = new Dimension(this.scaledSize(maxX) + padding*2, this.scaledSize(maxY) + padding*2);
+        Dimension dimension = new Dimension(this.scaledCoordonateHorizontal(maxX) + padding, this.scaledCoordonateVertical(maxY) + padding);
         this.setPreferredSize(dimension);
     }
 
@@ -152,21 +145,6 @@ public class VuePlan extends javax.swing.JPanel {
             this.addNoeud(noeud);
         }
     }  
-
-    public VueNoeud getSelectedVueNoeud() {
-        return selectedVueNoeud;
-    }
-
-    public void setSelectedVueNoeud(VueNoeud selectedVueNoeud) {
-        if (this.selectedVueNoeud != null) {
-            this.selectedVueNoeud.setSelected(false);
-            if (this.selectedVueNoeud.getVueLieu() != null) {
-                this.selectedVueNoeud.getVueLieu().setSelected(false);
-            }
-        }
-        this.selectedVueNoeud = selectedVueNoeud;
-        this.selectedNoeud = selectedVueNoeud.getNoeud();
-    }
     
     public void createVueTronconFromTroncon(Troncon troncon) {
 
@@ -214,8 +192,35 @@ public class VuePlan extends javax.swing.JPanel {
         this.vueTroncons.clear();
     }
     
+    private void findFrameBounds() {
+        boolean first = true;
+        for (Noeud noeud : this.plan.getNoeuds()) {
+            if (first) {
+                this.setMaxX(noeud.getX());
+                this.setMaxY(noeud.getY());
+                this.setMinX(noeud.getX());
+                this.setMinY(noeud.getY());
+                first = false;
+            } else {
+                if (noeud.getX() > this.maxX) {
+                    this.setMaxX(noeud.getX());
+                }
+                if (noeud.getY() > this.maxY) {
+                    this.setMaxY(noeud.getY());
+                }
+                if (noeud.getX() < this.minX) {
+                    this.setMinX(noeud.getX());
+                }
+                if (noeud.getY() < this.minY) {
+                    this.setMinY(noeud.getY());
+                }
+            }
+        }
+    }
+    
     public void paint() {
         this.cleanVuePlan();
+        this.findFrameBounds();
         
         for (Noeud noeud : this.plan.getNoeuds()) {
             this.createVueNoeudFromNoeud(noeud);
@@ -257,8 +262,9 @@ public class VuePlan extends javax.swing.JPanel {
                     VueNoeud vueNoeud = this.vueNoeuds.get(livraison.getNoeud());
 
                     if (vueNoeud != null) {
-                        vueNoeud.setLieu(livraison);
-                        VueLivraison vueLivraison = new VueLivraison(livraison);
+                        int livraisonOrder = this.tournee.getLivraisons().indexOf(livraison) + 1;
+                        boolean shouldDisplayOrder = (livraison.getHeureArrivee() != null);
+                        VueLivraison vueLivraison = new VueLivraison(livraison, livraisonOrder, shouldDisplayOrder);
                         vueNoeud.setVueLivraison(vueLivraison);
                         this.setComponentZOrder(vueNoeud, this.getComponentCount()-1);
                     }
@@ -273,7 +279,6 @@ public class VuePlan extends javax.swing.JPanel {
                 VueNoeud vueNoeud = this.vueNoeuds.get(this.tournee.getDepot().getNoeud());
 
                 if (vueNoeud != null) {
-                    vueNoeud.setLieu(this.tournee.getDepot());
                     vueNoeud.setVueLieu(new VueDepot(this.tournee.getDepot()));
                     this.setComponentZOrder(vueNoeud, this.getComponentCount()-1);
                 }
@@ -282,28 +287,6 @@ public class VuePlan extends javax.swing.JPanel {
     }
 
     public void createVueNoeudFromNoeud(Noeud noeud) {
-    	
-    	// Update content frame
-        if (this.plan.getNoeuds().isEmpty()) {
-            this.setMaxX(noeud.getX());
-            this.setMaxY(noeud.getY());
-            this.setMinX(noeud.getX());
-            this.setMinY(noeud.getY());
-        } else {
-            if (noeud.getX() > this.maxX) {
-                this.setMaxX(noeud.getX());
-            }
-            if (noeud.getY() > this.maxY) {
-                this.setMaxY(noeud.getY());
-            }
-            if (noeud.getX() < this.minX) {
-                this.setMinX(noeud.getX());
-            }
-            if (noeud.getY() < this.minY) {
-                this.setMinY(noeud.getY());
-            }
-        }
-        
         VueNoeud vueNoeud = this.vueNoeuds.get(noeud);
         if (vueNoeud == null) {
             // Vue noeud
@@ -318,35 +301,28 @@ public class VuePlan extends javax.swing.JPanel {
 
             this.addVueNoeud(vueNoeud);
         }
-        
-        if (this.selectedNoeud == noeud) {
-            vueNoeud.setSelected(true);
-        }
     }
     
-    public void didSelectVueNoeud(VueNoeud selectedVueNoeud) {
-        this.setSelectedVueNoeud(selectedVueNoeud);
+    public void setNoeudSelected(Noeud noeud, boolean selected) {
+        VueNoeud vueNoeud = this.vueNoeuds.get(noeud);
+        vueNoeud.setSelected(selected);
+        if (vueNoeud.getVueLieu() != null) {
+            vueNoeud.getVueLieu().setSelected(selected);
+        }
         
+    }
+    
+    public void didSelectVueNoeud(VueNoeud selectedVueNoeud) {        
         Noeud noeud = selectedVueNoeud.getNoeud();
         this.controleur.didSelectNoeud(noeud);
     }
     
-    public void didDeselectVueNoeud(VueNoeud deselectedNoeud) {
-        Noeud noeud = deselectedNoeud.getNoeud();
-        this.controleur.didDeselectNoeud(noeud);
-    }
-    
     public void didSelectVueLieu(VueLieu vueLieu) {
-        Lieu lieu = vueLieu.getLieu();
-        VueNoeud vueNoeud = this.vueNoeuds.get(lieu.getNoeud());
-        this.setSelectedVueNoeud(vueNoeud);
-        this.controleur.didSelectLieu(lieu);
+        VueNoeud vueNoeud = this.vueNoeuds.get(vueLieu.getLieu().getNoeud());
+        vueNoeud.setSelected(true);
+        this.controleur.didSelectLieu(vueLieu.getLieu());
     }
     
-    public void didDeselectVueLieu(VueLieu vueLieu) {
-        Lieu lieu = vueLieu.getLieu();
-        this.controleur.didDeselectLieu(lieu);
-    }
     
     /**
      * Creates new form VuePlan
