@@ -227,6 +227,7 @@ public class ControleurFenetrePrincipale {
     		tournee.getTrajets().clear();
     	}
     	this.controleurPlan.setTournee(tournee);
+        this.deselectAllNoeuds();
     }
 
     
