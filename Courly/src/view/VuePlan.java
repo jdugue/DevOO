@@ -34,7 +34,7 @@ public class VuePlan extends javax.swing.JPanel {
     private final HashMap<Troncon, VueTroncon> vueTroncons = new HashMap<Troncon, VueTroncon>();
         
     public static final int noeudSize = 14;
-    public static final int padding = 10;
+    public static final int padding = 50;
     
     private int minX, minY, maxX, maxY;
     private double zoomScale = 1.3;
@@ -84,8 +84,8 @@ public class VuePlan extends javax.swing.JPanel {
     }
     
     private void displayVueNoeud(VueNoeud vueNoeud) {
-            vueNoeud.setPlan(this);
-            vueNoeud.setVisible(true);
+        vueNoeud.setPlan(this);
+        vueNoeud.setVisible(true);
     }
 
     private void setMinX(int minX) {
@@ -109,7 +109,7 @@ public class VuePlan extends javax.swing.JPanel {
     }
     
     private void updateVuePlanFrame() {
-        Dimension dimension = new Dimension(this.scaledSize(maxX) + padding*2, this.scaledSize(maxY) + padding*2);
+        Dimension dimension = new Dimension(this.scaledCoordonateHorizontal(maxX) + padding, this.scaledCoordonateVertical(maxY) + padding);
         this.setPreferredSize(dimension);
     }
 
@@ -192,8 +192,35 @@ public class VuePlan extends javax.swing.JPanel {
         this.vueTroncons.clear();
     }
     
+    private void findFrameBounds() {
+        boolean first = true;
+        for (Noeud noeud : this.plan.getNoeuds()) {
+            if (first) {
+                this.setMaxX(noeud.getX());
+                this.setMaxY(noeud.getY());
+                this.setMinX(noeud.getX());
+                this.setMinY(noeud.getY());
+                first = false;
+            } else {
+                if (noeud.getX() > this.maxX) {
+                    this.setMaxX(noeud.getX());
+                }
+                if (noeud.getY() > this.maxY) {
+                    this.setMaxY(noeud.getY());
+                }
+                if (noeud.getX() < this.minX) {
+                    this.setMinX(noeud.getX());
+                }
+                if (noeud.getY() < this.minY) {
+                    this.setMinY(noeud.getY());
+                }
+            }
+        }
+    }
+    
     public void paint() {
         this.cleanVuePlan();
+        this.findFrameBounds();
         
         for (Noeud noeud : this.plan.getNoeuds()) {
             this.createVueNoeudFromNoeud(noeud);
@@ -260,28 +287,6 @@ public class VuePlan extends javax.swing.JPanel {
     }
 
     public void createVueNoeudFromNoeud(Noeud noeud) {
-    	
-    	// Update content frame
-        if (this.plan.getNoeuds().isEmpty()) {
-            this.setMaxX(noeud.getX());
-            this.setMaxY(noeud.getY());
-            this.setMinX(noeud.getX());
-            this.setMinY(noeud.getY());
-        } else {
-            if (noeud.getX() > this.maxX) {
-                this.setMaxX(noeud.getX());
-            }
-            if (noeud.getY() > this.maxY) {
-                this.setMaxY(noeud.getY());
-            }
-            if (noeud.getX() < this.minX) {
-                this.setMinX(noeud.getX());
-            }
-            if (noeud.getY() < this.minY) {
-                this.setMinY(noeud.getY());
-            }
-        }
-        
         VueNoeud vueNoeud = this.vueNoeuds.get(noeud);
         if (vueNoeud == null) {
             // Vue noeud
