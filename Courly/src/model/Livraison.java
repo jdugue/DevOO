@@ -90,7 +90,11 @@ public class Livraison extends Lieu implements Comparable<Livraison>{
 	}
 	
 	public boolean estValide() {
+            if (this.heurePassage != null) {
 		return heurePassage.before(plageHoraire.getHeureFin());
+            } else {
+                return true;
+            }
 	}
 
 	public Livraison() {

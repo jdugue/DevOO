@@ -32,10 +32,7 @@ public class VuePlan extends javax.swing.JPanel {
     
     private final HashMap<Noeud, VueNoeud> vueNoeuds = new HashMap<Noeud, VueNoeud>();
     private final HashMap<Troncon, VueTroncon> vueTroncons = new HashMap<Troncon, VueTroncon>();
-    
-    private VueNoeud selectedVueNoeud;
-    private Noeud selectedNoeud;
-    
+        
     public static final int noeudSize = 14;
     public static final int padding = 30;
     
@@ -49,10 +46,6 @@ public class VuePlan extends javax.swing.JPanel {
     public void setControleur(ControleurPlan controleur) {
         this.controleur = controleur;
     }
-
-    /*public ControleurPlan getControleur() {
-        return controleur;
-    }*/
 
     public void setPlan(Plan plan) {
         this.plan = plan;
@@ -152,21 +145,6 @@ public class VuePlan extends javax.swing.JPanel {
             this.addNoeud(noeud);
         }
     }  
-
-    public VueNoeud getSelectedVueNoeud() {
-        return selectedVueNoeud;
-    }
-
-    public void setSelectedVueNoeud(VueNoeud selectedVueNoeud) {
-        if (this.selectedVueNoeud != null) {
-            this.selectedVueNoeud.setSelected(false);
-            if (this.selectedVueNoeud.getVueLieu() != null) {
-                this.selectedVueNoeud.getVueLieu().setSelected(false);
-            }
-        }
-        this.selectedVueNoeud = selectedVueNoeud;
-        this.selectedNoeud = selectedVueNoeud.getNoeud();
-    }
     
     public void createVueTronconFromTroncon(Troncon troncon) {
 
@@ -257,8 +235,9 @@ public class VuePlan extends javax.swing.JPanel {
                     VueNoeud vueNoeud = this.vueNoeuds.get(livraison.getNoeud());
 
                     if (vueNoeud != null) {
-                        vueNoeud.setLieu(livraison);
-                        VueLivraison vueLivraison = new VueLivraison(livraison);
+                        int livraisonOrder = this.tournee.getLivraisons().indexOf(livraison) + 1;
+                        boolean shouldDisplayOrder = (livraison.getHeurePassage() != null);
+                        VueLivraison vueLivraison = new VueLivraison(livraison, livraisonOrder, shouldDisplayOrder);
                         vueNoeud.setVueLivraison(vueLivraison);
                         this.setComponentZOrder(vueNoeud, this.getComponentCount()-1);
                     }
@@ -273,7 +252,6 @@ public class VuePlan extends javax.swing.JPanel {
                 VueNoeud vueNoeud = this.vueNoeuds.get(this.tournee.getDepot().getNoeud());
 
                 if (vueNoeud != null) {
-                    vueNoeud.setLieu(this.tournee.getDepot());
                     vueNoeud.setVueLieu(new VueDepot(this.tournee.getDepot()));
                     this.setComponentZOrder(vueNoeud, this.getComponentCount()-1);
                 }
@@ -318,35 +296,28 @@ public class VuePlan extends javax.swing.JPanel {
 
             this.addVueNoeud(vueNoeud);
         }
-        
-        if (this.selectedNoeud == noeud) {
-            vueNoeud.setSelected(true);
-        }
     }
     
-    public void didSelectVueNoeud(VueNoeud selectedVueNoeud) {
-        this.setSelectedVueNoeud(selectedVueNoeud);
+    public void setNoeudSelected(Noeud noeud, boolean selected) {
+        VueNoeud vueNoeud = this.vueNoeuds.get(noeud);
+        vueNoeud.setSelected(selected);
+        if (vueNoeud.getVueLieu() != null) {
+            vueNoeud.getVueLieu().setSelected(selected);
+        }
         
+    }
+    
+    public void didSelectVueNoeud(VueNoeud selectedVueNoeud) {        
         Noeud noeud = selectedVueNoeud.getNoeud();
         this.controleur.didSelectNoeud(noeud);
     }
     
-    public void didDeselectVueNoeud(VueNoeud deselectedNoeud) {
-        Noeud noeud = deselectedNoeud.getNoeud();
-        this.controleur.didDeselectNoeud(noeud);
-    }
-    
     public void didSelectVueLieu(VueLieu vueLieu) {
-        Lieu lieu = vueLieu.getLieu();
-        VueNoeud vueNoeud = this.vueNoeuds.get(lieu.getNoeud());
-        this.setSelectedVueNoeud(vueNoeud);
-        this.controleur.didSelectLieu(lieu);
+        VueNoeud vueNoeud = this.vueNoeuds.get(vueLieu.getLieu().getNoeud());
+        vueNoeud.setSelected(true);
+        this.controleur.didSelectLieu(vueLieu.getLieu());
     }
     
-    public void didDeselectVueLieu(VueLieu vueLieu) {
-        Lieu lieu = vueLieu.getLieu();
-        this.controleur.didDeselectLieu(lieu);
-    }
     
     /**
      * Creates new form VuePlan

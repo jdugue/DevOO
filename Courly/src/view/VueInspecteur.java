@@ -29,7 +29,7 @@ public class VueInspecteur extends javax.swing.JPanel {
     private AffichageMode mode = AffichageMode.Empty;
     
     public static enum AffichageMode {
-        Empty, NoeudSelected, LivraisonSelected, DepotSelected
+        Empty, NoeudOnly, NoeudSelected, LivraisonSelected, DepotSelected
     }
     /**
      * Creates new form VueInspecteur
@@ -61,7 +61,11 @@ public class VueInspecteur extends javax.swing.JPanel {
     private void setLivraison(Livraison livraison) {
         //this.livraisonIDLabel.setText(Integer.toString(livraison.getId()));
         this.clientIDTextField.setText(Integer.toString(livraison.getClient()));
-        this.heurePassageTextField.setText(new SimpleDateFormat("HH:mm:s").format(livraison.getHeurePassage().getTime()));
+        if (livraison.getHeurePassage() != null) {
+            this.heurePassageTextField.setText(new SimpleDateFormat("HH:mm:s").format(livraison.getHeurePassage().getTime()));
+        } else {
+            this.heurePassageTextField.setText("");
+        }
         this.plagesHorairesComboBox.getModel().setSelectedItem(livraison.getPlageHoraire());
     }
     
@@ -148,10 +152,17 @@ public class VueInspecteur extends javax.swing.JPanel {
                 this.setAllVisible(false);
                 break;
                 
+            case NoeudOnly:
+                this.setAllVisible(true);
+                this.setLieuFieldsVisible(false);
+                this.setLivraisonAreaTitle("");
+                break;
+                
             case NoeudSelected:
                 this.cleanLivraison();
                 this.setLivraisonEnabled(true);
                 this.setAllVisible(true);
+                this.setLivraisonAreaTitle("Nouvelle livraison");
                 this.actionButton.setText("Créer la livraison");
                 break;
                 

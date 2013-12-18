@@ -43,24 +43,30 @@ public class ControleurInspecteur {
     
     public void setVueFromNoeud(Noeud noeud) {
         this.noeud = noeud;
-        this.vue.setNoeud(noeud);
-        if (noeud != null) {
+        this.vue.setNoeud(noeud);        
+        if (noeud != null && this.controleurParent.canCreateLivraison()) {
             this.vue.setMode(VueInspecteur.AffichageMode.NoeudSelected);
+        } else if (noeud != null) {
+            this.vue.setMode(VueInspecteur.AffichageMode.NoeudOnly);
         } else {
             this.vue.setMode(VueInspecteur.AffichageMode.Empty);
         }
+
     }
     
     public void setVueFromLieu(Lieu lieu) {
         this.lieu = lieu;
         this.vue.setLieu(lieu);
         if (lieu != null) {
+            this.vue.setNoeud(lieu.getNoeud());
             if (lieu.getClass() == Livraison.class) {
                 this.vue.setMode(VueInspecteur.AffichageMode.LivraisonSelected);
             } else if (lieu.getClass() == Depot.class) {
                 this.vue.setMode(VueInspecteur.AffichageMode.DepotSelected);
             }
-        }            
+        }  else {
+            this.vue.setMode(VueInspecteur.AffichageMode.NoeudOnly);
+        }           
     }
     
     public boolean shouldCreateLivraison(String newClient, PlageHoraire plageHoraire) {
@@ -73,8 +79,6 @@ public class ControleurInspecteur {
         }
         Livraison livraison = new Livraison(this.noeud, this.noeud.getId(), client, plageHoraire);
         controleurParent.shouldAddLivraisonAndReload(livraison);
-        this.setVueFromLieu(livraison);
-        this.vue.setMode(VueInspecteur.AffichageMode.LivraisonSelected);
         return true;
     }
     
@@ -85,8 +89,8 @@ public class ControleurInspecteur {
     }
     
     public boolean shouldRemoveLivraison() {
-        this.controleurParent.shouldRemoveLivraisonAndReload((Livraison)this.lieu);
         this.vue.setMode(VueInspecteur.AffichageMode.NoeudSelected);
+        this.controleurParent.shouldRemoveLivraisonAndReload((Livraison)this.lieu);
         return true;
     }
     
