@@ -9,8 +9,17 @@ public class Livraison extends Lieu implements Comparable<Livraison>{
 	protected Integer id;
 	protected Integer client;
 	protected PlageHoraire plageHoraire;
-	protected Date heurePassage;
+	protected Date heureArrivee;
+	protected Date heureDepart;
 	
+	public Date getHeureDepart() {
+		return heureDepart;
+	}
+
+	public void setHeureDepart(Date heureDepart) {
+		this.heureDepart = heureDepart;
+	}
+
 	private final String TAG_ID = "id";
 	private final String TAG_CLIENT = "client";
 	
@@ -73,12 +82,12 @@ public class Livraison extends Lieu implements Comparable<Livraison>{
                 this.plageHoraire.addLivraison(this);
 	}
 
-	public Date getHeurePassage() {
-		return heurePassage;
+	public Date getHeureArrivee() {
+		return heureArrivee;
 	}
 
-	public void setHeurePassage(Date heurePassage) {
-		this.heurePassage = heurePassage;
+	public void setHeureArrivee(Date heureArrivee) {
+		this.heureArrivee = heureArrivee;
 	}
 
 	public void construireAPartirDeDOMXML(Element noeudDOMRacine, PlageHoraire plage) {
@@ -90,7 +99,7 @@ public class Livraison extends Lieu implements Comparable<Livraison>{
 	}
 	
 	public boolean estValide() {
-		return heurePassage.before(plageHoraire.getHeureFin());
+		return heureArrivee.before(plageHoraire.getHeureFin());
 	}
 
 	public Livraison() {
@@ -99,7 +108,7 @@ public class Livraison extends Lieu implements Comparable<Livraison>{
 
 	@Override
 	public int compareTo(Livraison o) {
-		return getHeurePassage().compareTo(o.getHeurePassage());
+		return getHeureArrivee().compareTo(o.getHeureArrivee());
 	}
 
 }

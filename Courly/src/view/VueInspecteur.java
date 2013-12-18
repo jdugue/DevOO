@@ -61,7 +61,7 @@ public class VueInspecteur extends javax.swing.JPanel {
     private void setLivraison(Livraison livraison) {
         //this.livraisonIDLabel.setText(Integer.toString(livraison.getId()));
         this.clientIDTextField.setText(Integer.toString(livraison.getClient()));
-        this.heurePassageTextField.setText(new SimpleDateFormat("HH:mm:s").format(livraison.getHeurePassage().getTime()));
+        this.heurePassageTextField.setText(new SimpleDateFormat("HH:mm:s").format(livraison.getHeureArrivee().getTime()));
         this.plagesHorairesComboBox.getModel().setSelectedItem(livraison.getPlageHoraire());
     }
     

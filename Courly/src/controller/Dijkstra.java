@@ -11,6 +11,7 @@ import solver.constraints.IntConstraintFactory;
 import solver.search.strategy.IntStrategyFactory;
 import solver.variables.IntVar;
 import solver.variables.VariableFactory;
+import model.Livraison;
 import model.Noeud;
 import model.PlageHoraire;
 import model.Plan;
@@ -22,6 +23,7 @@ import model.Troncon;
 public class Dijkstra {
 	
 	static final long SEC_IN_MILISEC = 1000;
+	static final long MIN_IN_MILISEC = 60000;
 
 	/**
 	 * computePaths permet de trouver pour un noeud pass� en parametre le temps de parcours jusqu'a tous les autres 
@@ -269,24 +271,35 @@ public class Dijkstra {
 		int abs = 0;
 		for (int i =0; i<nbLivraisons;i++) {		
 			int ord = xNext[abs].getValue();			
-			
+			Livraison livCourante = new Livraison();
 			Trajet trajetCourant = trajets.get(abs).get(ord);
+			
 			PlageHoraire plage;
 			if(ord==0) {
-				plage = tournee.getLivraisons().get(abs-1).getPlageHoraire();
-			} else {
-				Date heurePassage;
+				livCourante = tournee.getLivraisons().get(abs-1);
+				plage = livCourante.getPlageHoraire();
+			} 
+			else {
+				Livraison livNext = tournee.getLivraisons().get(ord-1);
+				Date heureArrivee;
+				Date heureDepart;
 				if(abs == 0) {
 					Date sortieDepot = tournee.getFirstPlageHoraire().getHeureDebut();
-					heurePassage = new Date(sortieDepot.getTime()+SEC_IN_MILISEC*trajetCourant.getTempsTrajet());
+					heureArrivee = new Date(sortieDepot.getTime()+SEC_IN_MILISEC*trajetCourant.getTempsTrajet());
 				} else {
-					heurePassage = new Date(tournee.getLivraisons().get(abs-1).getHeurePassage().getTime() + SEC_IN_MILISEC*trajetCourant.getTempsTrajet());
+					livCourante = tournee.getLivraisons().get(abs-1);
+					heureArrivee = new Date(livCourante.getHeureDepart().getTime() + SEC_IN_MILISEC*trajetCourant.getTempsTrajet());
 				}
-				plage = tournee.getLivraisons().get(ord-1).getPlageHoraire();
-				if(heurePassage.before(plage.getHeureDebut())) {
-					tournee.getLivraisons().get(ord-1).setHeurePassage(plage.getHeureDebut());
+				heureDepart = new Date(heureArrivee.getTime()+10*MIN_IN_MILISEC);
+				plage = livNext.getPlageHoraire();
+				if(heureArrivee.before(plage.getHeureDebut())) {
+					heureDepart = new Date(plage.getHeureDebut().getTime()-SEC_IN_MILISEC*trajetCourant.getTempsTrajet());
+					livCourante.setHeureDepart(heureDepart);
+					livNext.setHeureArrivee(plage.getHeureDebut());
 				} else {
-					tournee.getLivraisons().get(ord-1).setHeurePassage(heurePassage);
+					heureDepart = new Date(heureArrivee.getTime()+10*MIN_IN_MILISEC);
+					livCourante.setHeureDepart(heureDepart);
+					livNext.setHeureArrivee(heureArrivee);
 				}
 			}
 			

@@ -18,7 +18,8 @@ public class ControleurTournee {
 	private final String LIVRAISON = "Livraison";
 	private final String CLIENT = "Client";
 	private final String ADRESSE = "Adresse";
-	private final String HEURE_PASSAGE = "Heure de passage";
+	private final String HEURE_ARRIVEE = "Heure arivee";
+	private final String HEURE_DEPART = "Heure depart";
 	private final String ESP = " ";
 	private final String DP = ":";
 	private final String RC = "\n";
@@ -75,8 +76,12 @@ public class ControleurTournee {
 							ADRESSE + DP + ESP + livraison.getAdresse() + RC );
 
 					bw.write ( getRepetition(INDENTATION_INFO, TAB) + 
-							HEURE_PASSAGE + DP + ESP + 
-							this.FORMATTER.format(livraison.getHeurePassage()) + RC );
+							HEURE_ARRIVEE + DP + ESP + 
+							this.FORMATTER.format(livraison.getHeureArrivee()) + RC );
+					
+					bw.write ( getRepetition(INDENTATION_INFO, TAB) + 
+							HEURE_DEPART + DP + ESP + 
+							this.FORMATTER.format(livraison.getHeureDepart()) + RC );
 
 					compteurLivraison++;
 				}

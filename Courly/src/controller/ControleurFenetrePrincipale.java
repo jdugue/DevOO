@@ -169,7 +169,7 @@ public class ControleurFenetrePrincipale {
                         if (tournee != null) {
                             p.setNoeudsFromTournee(tournee, plan);
                             traitementDijkstra(tournee);
-                            this.fenetre.addTournee(tournee, file, true);
+                            this.fenetre.addTournee(tournee, fChooser.getSelectedFile().getName(), true);
                             this.fenetre.canExportTournee(true);
                             this.showMessage(LIVRAISON_FILE_CHARGED, VueFenetrePrincipale.MessageType.MessageTypeSuccess);
                         }
@@ -185,7 +185,7 @@ public class ControleurFenetrePrincipale {
         		this.showMessage(INCORRECT_XML_FILE, VueFenetrePrincipale.MessageType.MessageTypeError);
 			} catch (IOException e) {
         		this.showMessage(COUDNT_READ_FILE, VueFenetrePrincipale.MessageType.MessageTypeError);
-			} catch (IndexOutOfBoundsException e) {
+			}catch (IndexOutOfBoundsException e) {
         		this.showMessage(ERR_PLAN_LIV, VueFenetrePrincipale.MessageType.MessageTypeError);
 			}
         }
