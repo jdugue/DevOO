@@ -21,6 +21,7 @@ import model.Livraison;
 public class VueLivraison extends VueLieu {
     
     private final int order;
+    private final boolean shouldDisplayOrder;
     
     private static final String normalImagePath = "Images/map_pin_50px.png";
     private static final String highlightedImagePath = "Images/map_pin_highlighted_50px.png";
@@ -31,13 +32,16 @@ public class VueLivraison extends VueLieu {
     /**
      * Creates new form VueLivraison
      * @param livraison
+     * @param order
+     * @param shouldDisplayOrder
      */
-    public VueLivraison(Livraison livraison, int order) {
+    public VueLivraison(Livraison livraison, int order, boolean shouldDisplayOrder) {
         initComponents();
         this.setOpaque(false);
         this.setSize(50, 50);
         this.lieu = livraison;
         this.order = order;
+        this.shouldDisplayOrder = shouldDisplayOrder;
     }
     
     public Livraison getLivraison() {
@@ -103,6 +107,8 @@ public class VueLivraison extends VueLieu {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-         g.drawString(""+this.order, 10, 10); 
+        if (this.shouldDisplayOrder) {
+            g.drawString(""+this.order, 10, 10); 
+        }
     }
 }

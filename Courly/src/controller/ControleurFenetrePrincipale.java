@@ -276,6 +276,10 @@ public class ControleurFenetrePrincipale {
     	setUndoRedoButtons();
     }
     
+    public void shouldRecalculateTournee() {
+        this.traitementDijkstra(selectedTournee);
+    }
+    
     public void removeLivraisonAndReload(Livraison livraison)
     {    	
     	selectedTournee.removeLivraison(livraison);

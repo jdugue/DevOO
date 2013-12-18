@@ -112,6 +112,10 @@ public class VueFenetrePrincipale extends javax.swing.JFrame implements ActionLi
         }
         this.subMenuTournees.setEnabled(false);
     }
+    
+    public boolean shouldAutoCalculateTournee() {
+        return this.itemCalculAutomatique.isSelected();
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -267,6 +271,11 @@ public class VueFenetrePrincipale extends javax.swing.JFrame implements ActionLi
         menuTournees.setText("Tournée");
 
         itemCalculer.setText("Calculer");
+        itemCalculer.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                itemCalculerActionPerformed(evt);
+            }
+        });
         menuTournees.add(itemCalculer);
 
         itemCalculAutomatique.setSelected(true);
@@ -355,6 +364,11 @@ public class VueFenetrePrincipale extends javax.swing.JFrame implements ActionLi
         // TODO add your handling code here:
         this.setFrameSizeBig(true);
     }//GEN-LAST:event_radioItemFrameBigActionPerformed
+
+    private void itemCalculerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemCalculerActionPerformed
+        // TODO add your handling code here:
+        this.controleurFenetrePrincipale.shouldRecalculateTournee();
+    }//GEN-LAST:event_itemCalculerActionPerformed
     
     public void actionPerformed(ActionEvent e) {
         //...Get information from the action event...

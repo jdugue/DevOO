@@ -236,7 +236,8 @@ public class VuePlan extends javax.swing.JPanel {
 
                     if (vueNoeud != null) {
                         int livraisonOrder = this.tournee.getLivraisons().indexOf(livraison) + 1;
-                        VueLivraison vueLivraison = new VueLivraison(livraison, livraisonOrder);
+                        boolean shouldDisplayOrder = (livraison.getHeurePassage() != null);
+                        VueLivraison vueLivraison = new VueLivraison(livraison, livraisonOrder, shouldDisplayOrder);
                         vueNoeud.setVueLivraison(vueLivraison);
                         this.setComponentZOrder(vueNoeud, this.getComponentCount()-1);
                     }
