@@ -64,6 +64,7 @@ public class ControleurPlan {
     }
     
     public void loadVuePlanFromModel(Plan aPlan) {
+        //aPlan.trierNoeudsParY();
     	this.vuePlan.setPlan(aPlan);
         this.vuePlan.setTournee(null);
     }

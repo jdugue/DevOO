@@ -235,7 +235,6 @@ public class VuePlan extends javax.swing.JPanel {
                     VueNoeud vueNoeud = this.vueNoeuds.get(livraison.getNoeud());
 
                     if (vueNoeud != null) {
-                        vueNoeud.setLieu(livraison);
                         VueLivraison vueLivraison = new VueLivraison(livraison);
                         vueNoeud.setVueLivraison(vueLivraison);
                         this.setComponentZOrder(vueNoeud, this.getComponentCount()-1);
@@ -251,7 +250,6 @@ public class VuePlan extends javax.swing.JPanel {
                 VueNoeud vueNoeud = this.vueNoeuds.get(this.tournee.getDepot().getNoeud());
 
                 if (vueNoeud != null) {
-                    vueNoeud.setLieu(this.tournee.getDepot());
                     vueNoeud.setVueLieu(new VueDepot(this.tournee.getDepot()));
                     this.setComponentZOrder(vueNoeud, this.getComponentCount()-1);
                 }
@@ -312,22 +310,11 @@ public class VuePlan extends javax.swing.JPanel {
         this.controleur.didSelectNoeud(noeud);
     }
     
-    /*public void didDeselectVueNoeud(VueNoeud deselectedNoeud) {
-        Noeud noeud = deselectedNoeud.getNoeud();
-        this.controleur.didDeselectNoeud(noeud);
-    }*/
-    
     public void didSelectVueLieu(VueLieu vueLieu) {
         VueNoeud vueNoeud = this.vueNoeuds.get(vueLieu.getLieu().getNoeud());
         vueNoeud.setSelected(true);
         this.controleur.didSelectLieu(vueLieu.getLieu());
     }
-    
-    /*public void didDeselectVueLieu(VueLieu vueLieu) {
-        VueNoeud vueNoeud = this.vueNoeuds.get(vueLieu.getLieu().getNoeud());
-        vueNoeud.setSelected(false);
-        this.controleur.didDeselectLieu(vueLieu.getLieu());
-    }*/
     
     
     /**
