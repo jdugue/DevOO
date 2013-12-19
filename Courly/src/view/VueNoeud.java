@@ -6,15 +6,13 @@
 
 package view;
 
-import controller.ControleurPlan;
 import model.Noeud;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Graphics;
-import model.Lieu;
 
 /**
- *
+ * Element graphique représentant un noeud.
  * @author tanguyhelesbeux
  */
 public class VueNoeud extends javax.swing.JPanel {
@@ -22,6 +20,10 @@ public class VueNoeud extends javax.swing.JPanel {
     public boolean highlighted;
     public boolean selected;
     
+    
+    /**
+     * Couleur utilisées pour différents état de la vue.
+     */
     private static final Color normalEmptyColor = Color.WHITE;
     private static final Color normalLieuColor = new Color(247, 204, 99);
     private static final Color highlightedColor = new Color(252, 215, 126);
@@ -29,6 +31,9 @@ public class VueNoeud extends javax.swing.JPanel {
     private static final Color selectedHighlightedColor = new Color(117, 193, 250);
     private static final Color BorderColor = new Color(198, 190, 180);
     
+    /**
+     * VueLieu associée. Peut être null.
+     */
     protected VueLieu vueLieu;
     
     protected VuePlan vuePlan;
@@ -36,27 +41,25 @@ public class VueNoeud extends javax.swing.JPanel {
 
     /**
      * Creates new form NoeudView
-     */
-    public VueNoeud() {
-        this.initialize();
-    }
-    
+     * @param noeud
+     */    
     public VueNoeud(Noeud noeud) {
         this.setNoeud(noeud);
-        this.initialize();
-    }
-    
-    private void initialize() {
         initComponents();
 
         this.setOpaque(false);
         this.setVisible(true); 
     }
-
+    
     public VueLieu getVueLieu() {
         return vueLieu;
     }
 
+    
+    /**
+     * Ajoute la vue d'un lieu à la VueNoeud
+     * @param vueLieu : vue à ajouter
+     */
     public void setVueLieu(VueLieu vueLieu) {
         
         if (vueLieu.getClass() == VueLivraison.class) {
@@ -66,6 +69,10 @@ public class VueNoeud extends javax.swing.JPanel {
         }
     }
     
+    /**
+     * Ajoute la vue d'une livraison à la VueNoeud
+     * @param vueLivraison : vue à ajouter
+     */
     public void setVueLivraison(VueLivraison vueLivraison) {
         this.vueLieu = vueLivraison;
         
@@ -76,6 +83,11 @@ public class VueNoeud extends javax.swing.JPanel {
         this.addVueLieuToPlan();
     }
     
+    
+    /**
+     * Ajoute la vue d'un dépôt à la VueNoeud
+     * @param vueDepot : vue à ajouter
+     */
     public void setVueDepot(VueDepot vueDepot) {
         this.vueLieu = vueDepot;
         
@@ -86,8 +98,10 @@ public class VueNoeud extends javax.swing.JPanel {
         this.addVueLieuToPlan();
     }
     
+    /**
+     * Affiche la VueLieu par dessus la VueNoeud.
+     */
     private void addVueLieuToPlan() {
-        
         this.vueLieu.setVueNoeud(this);
         this.vueLieu.setVuePlan(vuePlan);
         this.vuePlan.add(this.vueLieu);
@@ -157,7 +171,7 @@ public class VueNoeud extends javax.swing.JPanel {
         this.vuePlan = plan;
     }
 
-    public void setNoeud(Noeud noeud) {
+    public final void setNoeud(Noeud noeud) {
         this.noeud = noeud;
     }
 
