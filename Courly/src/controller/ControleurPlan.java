@@ -6,37 +6,26 @@
 
 package controller;
 
-import java.awt.Color;
 import model.Noeud;
 import model.Plan;
-import model.Troncon;
-import model.Livraison;
-
-import java.awt.Dimension;
-import java.util.ArrayList;
-import java.util.HashMap;
-
 import javax.swing.JScrollPane;
 import model.Lieu;
-import model.PlageHoraire;
 import model.Tournee;
-import model.Trajet;
-
-import view.VueDepot;
-import view.VueLieu;
-import view.VueLivraison;
-import view.VueNoeud;
 import view.VuePlan;
-import view.VueTroncon;
 
 /**
- *
+ * Manipule et controle une VuePlan.
+ * Gère la sélection des noeuds. Multi-sélection non prise en charge.
  * @author tanguyhelesbeux
  */
 public class ControleurPlan {
 
 	//private JScrollPane scrollPane;
 	private VuePlan vuePlan;
+        
+        /**
+         * Noeud actuellement sélectionné
+         */
 	private Noeud selectedNoeud;
 
 	private final ControleurFenetrePrincipale controleurParent;
@@ -49,11 +38,7 @@ public class ControleurPlan {
 		this.controleurParent = controleurFenetreParent;
 	}
 
-	public ControleurFenetrePrincipale getControleurParent() {
-		return controleurParent;
-	}
-
-	public final void setVuePlan(VuePlan vuePlan) {
+	private void setVuePlan(VuePlan vuePlan) {
 		this.vuePlan = vuePlan;
 		this.vuePlan.setControleur(this);
 	} 
@@ -69,6 +54,10 @@ public class ControleurPlan {
 		this.vuePlan.setTournee(null);
 	}
 
+        /**
+         * Sélectionne le noeud passé en paramêtre. Si un noeud est déjà sélectionné il est déselectionné.
+         * @param noeud : Noeud à sélectionné
+         */
 	public void setSelectedNoeud(Noeud noeud) {
 		if (this.selectedNoeud != null) {
 			this.vuePlan.setNoeudSelected(this.selectedNoeud, false);
@@ -79,28 +68,35 @@ public class ControleurPlan {
 		this.selectedNoeud = noeud;
 	}
 
+        /**
+         * Déselectionne tous les noeuds.
+         */
 	public void deselectAll() {
 		this.setSelectedNoeud(null);
 	}
 
+        /**
+         * Appelé par la VuePlan. Signale qu'un noeud vient d'être sélectionné
+         * @param noeud : noeud sélectionné
+         */
 	public void didSelectNoeud(Noeud noeud) {
 		this.setSelectedNoeud(noeud);
 		this.controleurParent.didSelectNoeud(noeud);
 	}
 
+        /**
+         * Appelé par la VuePlan. Signale qu'un lieu vient d'être sélectionné
+         * @param lieu : lieu sélectionné
+         */
 	public void didSelectLieu(Lieu lieu) {
 		this.setSelectedNoeud(lieu.getNoeud());
 		this.controleurParent.didSelectLieu(lieu);
 	}
 
-	void addAllNoeuds(ArrayList<Noeud> noeuds) {
-		this.vuePlan.addAllNoeuds(noeuds);
-	}
-
-	void addTroncon(Troncon troncon) {
-		this.vuePlan.addTroncon(troncon);
-	}
-
+        /**
+         * Modifie la valeur de zoom du plan
+         * @param zoomScale : nouvelle valeur de zoom
+         */
 	void setZoomScale(double zoomScale) {
 		this.vuePlan.setZoomScale(zoomScale);
 	}
