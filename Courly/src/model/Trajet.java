@@ -5,26 +5,21 @@ import java.util.List;
 
 public class Trajet {
 
+	/**
+	 * La liste des tronçons composant le trajet
+	 */
 	protected ArrayList<Troncon> troncons = new ArrayList<Troncon>();
+
+	/**
+	 * La plage horaire du Trajet 
+	 */
 	protected PlageHoraire plage;
 
-	public PlageHoraire getPlage() {
-		return plage;
-	}
-
-	public void setPlage(PlageHoraire plage) {
-		this.plage = plage;
-	}
-	
-	public void resetPlage ()
-	{
-		//TODO
-	}
 
 	public Trajet() {
-		
+
 	}
-	
+
 	public Trajet(List<Noeud> noeuds) {		
 		for(int i=0;i<noeuds.size()-1;i++) {
 			Noeud noeudOrigine = noeuds.get(i);
@@ -37,6 +32,14 @@ public class Trajet {
 		}
 	}
 	
+	public PlageHoraire getPlage() {
+		return plage;
+	}
+
+	public void setPlage(PlageHoraire plage) {
+		this.plage = plage;
+	}
+
 	public String toString(){
 		String ret="";
 		for (Troncon t : troncons) {
@@ -44,7 +47,7 @@ public class Trajet {
 		}
 		return ret;
 	}
-	
+
 	public ArrayList<Troncon> getTroncons() {
 		return troncons;
 	}
@@ -52,16 +55,20 @@ public class Trajet {
 	public void setTroncons(ArrayList<Troncon> troncons) {
 		this.troncons = troncons;
 	}
-	
+
+	/**
+	 * Permet d'obtenir le temps total de parcours du trajet
+	 * @return La somme des temps de parcours des tronçons du trajet
+	 */
 	public Integer getTempsTrajet ()
 	{
 		double tps = 0.0;
-		
+
 		for (int i = 0 ; i<troncons.size() ; i++ )
 		{
 			tps += troncons.get(i).getCost();
 		}
-		
+
 		return (int) tps;
 	}
 }

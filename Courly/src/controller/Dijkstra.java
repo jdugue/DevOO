@@ -185,9 +185,9 @@ public class Dijkstra {
 
 	/**
 	 * 
-	 * @param plan
-	 * @param tournee
-	 * @return
+	 * @param plan : le Plan actuellement chargé
+	 * @param tournee : La tournee dont on souhaite générer les trajets
+	 * @return Une matrice de trajets reliant les trajets de la tournée
 	 */
 	public List<ArrayList<Trajet>> genererMatriceTrajets(Plan plan, Tournee tournee) {
 		List<ArrayList<Trajet>> trajets = new ArrayList<ArrayList<Trajet>>();
@@ -229,11 +229,10 @@ public class Dijkstra {
 	
 	/**
 	 * 
-	 * @param tournee
-	 * @param trajets
-	 * @param bound
+	 * @param tournee : La tournee que l'on souhaite tracer
+	 * @param trajets : La matrice des trajets reliant les livraisons de la tournée
 	 */
-	public void choco(Tournee tournee,List<ArrayList<Trajet>> trajets,int bound) {
+	public void choco(Tournee tournee,List<ArrayList<Trajet>> trajets) {
 		//Param Choco
 		Integer nbLivraisons = tournee.getLivraisons().size()+1;
 		Integer arcMini = trouverArcMini(trajets);
@@ -250,9 +249,9 @@ public class Dijkstra {
 			xNext[i] = VariableFactory.enumerated("Next " + i, matriceSucc[i], solver);
 		}
 		IntVar[] xCost = VariableFactory.boundedArray("Cost ", nbLivraisons, arcMini, arcMaxi, solver);
-		if(bound==-1) {
-			bound=nbLivraisons*arcMaxi - 1;
-		}
+		
+		int	bound=nbLivraisons*arcMaxi - 1;
+		
 		//bound : cpmax*nbliv si bloq mettre derniere valeur
 		IntVar xTotalCost = VariableFactory.bounded("Total cost ", nbLivraisons*arcMini, bound , solver);
 
@@ -316,14 +315,14 @@ public class Dijkstra {
 	}
 	
 	/**
-	 * 
-	 * @param plan
-	 * @param tournee
+	 * Permet de compléter l'instance de tournée passée en paramètre
+	 * @param plan : Le plan actuel
+	 * @param tournee : La tournée à compléter
 	 */
 	public void initTournee(Plan plan, Tournee tournee) {
 		List<ArrayList<Trajet>> trajets = genererMatriceTrajets(plan, tournee);
 
-		choco(tournee,trajets,-1);
+		choco(tournee,trajets);
 		Collections.sort(tournee.getLivraisons());
 	}
 

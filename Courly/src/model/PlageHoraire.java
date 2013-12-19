@@ -9,17 +9,47 @@ import java.util.Date;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
+/**
+ * @author mael
+ *
+ */
+/**
+ * @author mael
+ *
+ */
 public class PlageHoraire {
 	
+	/**
+	 * L'heure de début de la plage
+	 */
 	protected Date heureDebut;
+	
+	/**
+	 * L'heure de fin de la plage
+	 */
 	protected Date heureFin;
+	
+	/**
+	 * La liste des livraisons inclues dans cette plage horaire
+	 */
 	protected ArrayList<Livraison> livraisons = new ArrayList<Livraison>();
+	
+	/**
+	 * Le formateur de dates
+	 */
 	static final SimpleDateFormat FORMATTER = new SimpleDateFormat("HH:mm:s");
 		
+	
+	public PlageHoraire() {}
+	
 	public String toString() {
 		return "Entre " + timeToString(heureDebut) + " et " + timeToString(heureFin);
 	}
 
+	/**
+	 * @param date : La date demandée
+	 * @return Un string contenant uniquement le temps, sans la date
+	 */
 	private String timeToString (Date date){
 		return date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
 	}
@@ -56,6 +86,12 @@ public class PlageHoraire {
             this.livraisons.add(livraison);
         }
 	
+	/**
+	 * Cette méthode instancie une PlageHoraire grâce à un objet tiré du XML
+	 * @param noeudDOMRacine : l'objet tiré du XML
+	 * @return La liste des livraisons de la plage horaire instanciée
+	 * @throws ParseException Si les attributs heureDebut et heureFin ne sont pas correctement parsés en Date
+	 */
 	public ArrayList<Livraison> construireAPartirDeDOMXML(Element noeudDOMRacine) throws ParseException {		
 		heureDebut = FORMATTER.parse(noeudDOMRacine.getAttribute("heureDebut"));	
 		heureFin = FORMATTER.parse(noeudDOMRacine.getAttribute("heureFin"));
@@ -72,9 +108,4 @@ public class PlageHoraire {
 		this.livraisons = livraisons;
 		return livraisons;
 	}
-
-	public PlageHoraire() {
-		// TODO Auto-generated constructor stub
-	}
-
 }
