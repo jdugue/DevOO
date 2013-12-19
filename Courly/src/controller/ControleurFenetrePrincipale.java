@@ -23,27 +23,44 @@ import org.xml.sax.SAXException;
 import view.VueFenetrePrincipale;
 
 /**
- *
+ * Controleur de la fenetre principal.
+ * Gère l'intéraction entre les différentes parties de l'interface.
  * @author tanguyhelesbeux
  */
 public class ControleurFenetrePrincipale {
 
 
-	private VueFenetrePrincipale fenetre;
-	private ControleurPlan controleurPlan;
-	private ControleurInspecteur controleurInspecteur;
+	private final VueFenetrePrincipale fenetre;
+	private final ControleurPlan controleurPlan;
+	private final ControleurInspecteur controleurInspecteur;
 
 	private Plan plan;
 
-	private double zoomScale = 1.0;
+        /**
+         * Configuration de du zoom du plan
+         * Delta : variation à chaque demande de ZoomIn/ZoomOut
+         * Min : Zoom min
+         * Max : Zoom max
+         */
 	private static final double zoomDelta = 0.05;
 	private static final double zoomMin = 0.1;
 	private static final double zoomMax = 2.0;
+        
+        private double zoomScale = 1.0;
 
-
+        /**
+         * Tournée en cours d'affichage.
+         */
 	private Tournee selectedTournee;
-	private ControleurUndoManager controleurUndoManager = new ControleurUndoManager();
+        
+        /**
+         * Gère les undo / redo
+         */
+	private final ControleurUndoManager controleurUndoManager = new ControleurUndoManager();
 
+        /**
+         * Mémorise le dernier chemin utiliser dans les filePicker
+         */
 	private String lastUsedFolder = null;
 
 	private static final String TOURNEE_WRITTEN = "Fichier de tournee généré.";
@@ -72,8 +89,8 @@ public class ControleurFenetrePrincipale {
 	}
 
 	/**
-	 * 
-	 * @param zoomScale 
+	 * Modifie la valeur de zoom du plan
+	 * @param zoomScale : nouvelle valeur de zoom
 	 */
 	public void setZoomScale(double zoomScale) {
 
@@ -82,7 +99,7 @@ public class ControleurFenetrePrincipale {
 		} else if (zoomScale < zoomMin) {
 			zoomScale = zoomMin;
 		}
-		this.zoomScale = zoomScale;
+                this.zoomScale = zoomScale;
 		this.controleurPlan.setZoomScale(zoomScale);
 	}
 
@@ -91,19 +108,19 @@ public class ControleurFenetrePrincipale {
 	 * Diminue le zoom sur le plan.
 	 */
 	public void shouldZoomOut() {
-		this.setZoomScale(zoomScale - zoomDelta);
+		this.setZoomScale(this.zoomScale - zoomDelta);
 	}
 
 	/**
 	 * Augmente le zoom sur le plan.
 	 */
 	public void shouldZoomIn() {
-		this.setZoomScale(zoomScale + zoomDelta);
+		this.setZoomScale(this.zoomScale + zoomDelta);
 	}
 
 
 	/**
-	 * @return Vrai si il y a une tournée sélectionné.
+	 * @return Vrai si une livraison peut être créée au moment de l'appel à cette fonction.
 	 */
 	public boolean canCreateLivraison() {
 		return (this.selectedTournee != null);
@@ -372,7 +389,8 @@ public class ControleurFenetrePrincipale {
 	}
 
 	/**
-	 * Selectione sur l'inspecteur le noeud donné.
+	 * Appelé lorsque un noeud est sélectionné sur le plan.
+         * Demande au controleur de l'inspecteur de se mettre à jour avec le noeud sélectionné.
 	 * @param noeud Le noeud selectioné par l'utilisateur.
 	 */
 	public void didSelectNoeud(Noeud noeud) {
@@ -380,7 +398,8 @@ public class ControleurFenetrePrincipale {
 	}
 
 	/**
-	 * Selectione sur l'inspecteur le lieu donné.
+	 * Appelé lorsque un lieu est sélectionné sur le plan.
+         * Demande au controleur de l'inspecteur de se mettre à jour avec le lieu sélectionné.
 	 * @param lieu Le lieu selectioné par l'utilisateur.
 	 */
 	public void didSelectLieu(Lieu lieu) {

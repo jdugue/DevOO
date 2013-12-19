@@ -17,14 +17,22 @@ import model.Noeud;
 import model.PlageHoraire;
 
 /**
- *
+ * Elément graphique permettant d'afficher les informations d'un objet du modèle.
  * @author tanguyhelesbeux
  */
 public class VueInspecteur extends javax.swing.JPanel {
 
     private ControleurInspecteur controleur;
+    
+    /**
+     * Mode d'affichage de l'inspecteur.
+     * Définit quels éléments apparaissent ou non.
+     */
     private AffichageMode mode = AffichageMode.Empty;
     
+    /**
+     * Différents mode d'affichage possible.
+     */
     public static enum AffichageMode {
         Empty, NoeudOnly, NoeudSelected, LivraisonSelected, DepotSelected
     }
