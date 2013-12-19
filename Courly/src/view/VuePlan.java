@@ -11,7 +11,6 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.util.ArrayList;
 import java.util.HashMap;
-import model.Lieu;
 import model.Livraison;
 import model.Noeud;
 import model.PlageHoraire;
@@ -21,7 +20,7 @@ import model.Trajet;
 import model.Troncon;
 
 /**
- *
+ * Elément graphique qui dessine un plan et une tournée.
  * @author tanguyhelesbeux
  */
 public class VuePlan extends javax.swing.JPanel {
@@ -30,18 +29,48 @@ public class VuePlan extends javax.swing.JPanel {
     private Plan plan = new Plan();
     private Tournee tournee = new Tournee();
     
+    
+    /**
+     * Lient les éléments du modèle aux vues associées
+     */
     private final HashMap<Noeud, VueNoeud> vueNoeuds = new HashMap<Noeud, VueNoeud>();
     private final HashMap<Troncon, VueTroncon> vueTroncons = new HashMap<Troncon, VueTroncon>();
         
+    
+    /**
+     * Valeur en pixel de la taille des futur VueNoeud
+     */
     public static final int noeudSize = 14;
-    public static final int padding = 50;
     
+    /**
+     * Valeur en pixel qui sépare les bordures du plan de son contenu
+     */
+    private static final int padding = 50;
+    
+    /**
+     * Coordonnées périphériques des éléments du plan
+     */
     private int minX, minY, maxX, maxY;
-    private double zoomScale = 1.3;
     
+    /**
+    * Valeur de Zoom du plan
+    */
+    private double zoomScale = 1.0;
+    
+    
+    /**
+     * Couleur de fond du plan
+     */
     private static final Color BackgroundColor = new Color(233, 229, 220);
     
+    /**
+     * Liste des couleurs utilisées pour représenter les plages horaires
+     */
     private static ArrayList<Color> plageHoraireColors;
+    
+    
+    
+    
 
     public void setControleur(ControleurPlan controleur) {
         this.controleur = controleur;
@@ -57,6 +86,9 @@ public class VuePlan extends javax.swing.JPanel {
         this.paint();
     }
     
+    /**
+     * Initialise les couleurs utilisable pour symbolier les plages horaires sur le plan
+     */
     private void initPlageHoraireColors() {
         VuePlan.plageHoraireColors = new ArrayList<Color>();
         
@@ -67,6 +99,11 @@ public class VuePlan extends javax.swing.JPanel {
         plageHoraireColors.add(Color.yellow);
     }
     
+    /**
+     * Détermine la couleur à utiliser pour une plage horaire
+     * @param plageHoraire
+     * @return Color
+     */
     public Color colorForPlageHoraire(PlageHoraire plageHoraire) {
         int plageIndex = this.tournee.getPlagesHoraire().indexOf(plageHoraire)%plageHoraireColors.size();
         
@@ -78,12 +115,12 @@ public class VuePlan extends javax.swing.JPanel {
         }
     }
     
-    public void addVueNoeud(VueNoeud vueNoeud) {
+    /**
+     * Ajoute une vueNoeud au plan
+     * @param vueNoeud : VueNoeud à ajouter
+     */
+    private void addVueNoeud(VueNoeud vueNoeud) {
         this.add(vueNoeud);
-        this.displayVueNoeud(vueNoeud);
-    }
-    
-    private void displayVueNoeud(VueNoeud vueNoeud) {
         vueNoeud.setPlan(this);
         vueNoeud.setVisible(true);
     }
@@ -108,45 +145,76 @@ public class VuePlan extends javax.swing.JPanel {
         this.updateVuePlanFrame();
     }
     
+    /**
+     * Modifie les limites du plan pour recadrer sa vue.
+     */
     private void updateVuePlanFrame() {
         Dimension dimension = new Dimension(this.scaledCoordonateHorizontal(maxX) + padding, this.scaledCoordonateVertical(maxY) + padding);
         this.setPreferredSize(dimension);
     }
 
-    public double getZoomScale() {
-        return zoomScale;
-    }
-
+    /**
+     * Modifie le zoom du plan et le redessine
+     * @param zoomScale : nouvelle 
+     */
     public void setZoomScale(double zoomScale) {
         this.zoomScale = zoomScale;
         this.updateVuePlanFrame();
         this.paint();
     }
-    
+    /**
+     * Ajoute le noeud au plan
+     * @param noeud : Noeud avec lequel la vueNoeud est instanciée
+     */
     public void addNoeud(Noeud noeud) {        
         this.plan.addNoeud(noeud);  
         this.createVueNoeudFromNoeud(noeud);
     }
     
+    /**
+     * Converti une coordonnée verticale réelle en coordonnée d'affichage.
+     * @param coordonate : coordonnée réelle
+     * @return  coordonnée en pixels pour l'affichage
+     */
     private int scaledCoordonateVertical(int coordonate) {
         return (int)(this.zoomScale * (coordonate - minY)) + padding;
     }
     
+    /**
+     * Converti une coordonnée horizontale réelle en coordonnée d'affichage.
+     * @param coordonate : coordonnée réelle
+     * @return  coordonnée en pixels pour l'affichage
+     */
     private int scaledCoordonateHorizontal(int coordonate) {
         return (int)(this.zoomScale * (coordonate - minX)) + padding;
     }
     
+    
+    /**
+     * Converti une taille dans réelle en une taille d'affichage.
+     * @param size : taille réelle
+     * @return taille en pixels pour l'affichage
+     */
     private int scaledSize(int size) {
         return (int)(this.zoomScale * size);
     }
     
+    
+    /**
+     * Ajoute les noeuds au plan.
+     * @param noeuds : ArrayList de Noeud à ajouter
+     */
     public void addAllNoeuds(ArrayList<Noeud> noeuds) {
         for (Noeud noeud : noeuds) {
             this.addNoeud(noeud);
         }
     }  
     
-    public void createVueTronconFromTroncon(Troncon troncon) {
+    /**
+     * Créer une VueTroncon et l'ajoute au plan.
+     * @param troncon : troncon avec lequel la vue sera instanciée
+     */
+    private void createVueTronconFromTroncon(Troncon troncon) {
 
         VueTroncon vueTroncon = this.vueTroncons.get(troncon);
         
@@ -170,21 +238,32 @@ public class VuePlan extends javax.swing.JPanel {
         }  
     }
     
+    /**
+     * Ajoute le tronçon au plan.
+     * @param troncon : tronçon à ajouter
+     */
     public void addTroncon(Troncon troncon) {
         this.plan.addTroncon(troncon);
         this.createVueTronconFromTroncon(troncon);
         //this.paint();
     }
     
+    
+    /**
+     * Ajoute les troncons passés en paramêtre au plan.
+     * @param troncons : tronçons à ajouter au plan
+     */
     public void addAllTroncons(ArrayList<Troncon> troncons) {
         for (Troncon troncon : troncons) {
-            //this.addTroncon(troncon);
-            //this.createVueTronconFromTroncon(troncon);
         	this.plan.addTroncon(troncon);
         }
         this.paint();
     }
     
+    
+    /**
+     * Efface tout le contenu du plan et vide supprime les vueNoeuds et vueTroncons.
+     */
     private void cleanVuePlan() {
         this.removeAll();
         this.updateUI();
@@ -192,6 +271,11 @@ public class VuePlan extends javax.swing.JPanel {
         this.vueTroncons.clear();
     }
     
+    
+    /**
+     * Calcul la zone du plan qui contient des éléments à afficher.
+     * Tous les éléments dessinés se trouveront entre les points (xMin, yMin) et (xMax, yMax)
+     */
     private void findFrameBounds() {
         boolean first = true;
         for (Noeud noeud : this.plan.getNoeuds()) {
@@ -218,6 +302,9 @@ public class VuePlan extends javax.swing.JPanel {
         }
     }
     
+    /**
+     * Redessine le plan et tous les objets qu'il contient.
+     */
     public void paint() {
         this.cleanVuePlan();
         this.findFrameBounds();
@@ -239,6 +326,9 @@ public class VuePlan extends javax.swing.JPanel {
         }
     }
     
+    /**
+     * Dessine les trajets de la tournée.
+     */
     private void paintTrajets() {
         if (this.tournee != null) {
             if (this.tournee.getTrajets() != null) {
@@ -255,6 +345,9 @@ public class VuePlan extends javax.swing.JPanel {
         }
     }
     
+    /**
+     * Dessine les livraisons de la tournée.
+     */
     private void paintLivraisons() {
         if (this.tournee != null) {
             if (this.tournee.getLivraisons() != null) {
@@ -273,6 +366,10 @@ public class VuePlan extends javax.swing.JPanel {
         }
     }
     
+    
+    /**
+     * Dessine le dépot de la tournée.
+     */
     private void paintDepot() {
         if (this.tournee != null) {
             if (this.tournee.getDepot() != null) {
@@ -286,7 +383,12 @@ public class VuePlan extends javax.swing.JPanel {
         }
     }
 
-    public void createVueNoeudFromNoeud(Noeud noeud) {
+    /**
+     * Instancie une vueNoeud. La vue est initialisée avec le noeud passé en paramêtre et ajoutée au plan.
+     * Si une vueNoeud existe déjà pour le noeud donné, rien ne se passe.
+     * @param noeud : noeud avec lequel est instanciée la vueNoeud
+     */
+    private void createVueNoeudFromNoeud(Noeud noeud) {
         VueNoeud vueNoeud = this.vueNoeuds.get(noeud);
         if (vueNoeud == null) {
             // Vue noeud
@@ -303,6 +405,11 @@ public class VuePlan extends javax.swing.JPanel {
         }
     }
     
+    /**
+     * Attribue l'état selected à la vueNoeud associée au noeud passé en paramêtre.
+     * @param noeud : noeud qui doit être sélectionné/déselectionné
+     * @param selected
+     */
     public void setNoeudSelected(Noeud noeud, boolean selected) {
         VueNoeud vueNoeud = this.vueNoeuds.get(noeud);
         vueNoeud.setSelected(selected);
@@ -312,12 +419,20 @@ public class VuePlan extends javax.swing.JPanel {
         
     }
     
-    public void didSelectVueNoeud(VueNoeud selectedVueNoeud) {        
-        Noeud noeud = selectedVueNoeud.getNoeud();
+    /**
+     * Appelé par vueNoeud, signale au controleur qu'un noeud a été sélectionné.
+     * @param vueNoeud : vueNoeud cliquée
+     */
+    protected void didSelectVueNoeud(VueNoeud vueNoeud) {        
+        Noeud noeud = vueNoeud.getNoeud();
         this.controleur.didSelectNoeud(noeud);
     }
     
-    public void didSelectVueLieu(VueLieu vueLieu) {
+    /**
+     * Appelé par vueLieu, signale au controleur qu'un lieu a été sélectionné.
+     * @param vueLieu : vueLieu cliquée
+     */
+    protected void didSelectVueLieu(VueLieu vueLieu) {
         VueNoeud vueNoeud = this.vueNoeuds.get(vueLieu.getLieu().getNoeud());
         vueNoeud.setSelected(true);
         this.controleur.didSelectLieu(vueLieu.getLieu());
