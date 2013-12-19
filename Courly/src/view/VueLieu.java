@@ -15,17 +15,11 @@ import javax.imageio.ImageIO;
 import model.Lieu;
 
 /**
- *
+ * Classe abstraite.
+ * Elément graphique représentant un lieu. Doit être liée à une VueNoeud.
  * @author tanguyhelesbeux
  */
 public class VueLieu extends javax.swing.JPanel {
-    
-    private static final String normalImagePath = "";
-    private static final String highlightedImagePath = "";
-    private static final String selectedImagePath = "";
-    private static final String selectedHighlightedImagePath = "";
-    private static final String errorImagePath = "";
-    private static final String errorHighlightedImagePath = "";
     
     protected VuePlan vuePlan;
     protected VueNoeud vueNoeud;
@@ -83,6 +77,11 @@ public class VueLieu extends javax.swing.JPanel {
         return null;
     }
 
+    /**
+     * Charge l'image à l'URL donnée. Renvoie null si le chargement échoue.
+     * @param pinImagePath : URL de l'image
+     * @return BufferedImage or null
+     */
     protected BufferedImage pinImage(String pinImagePath) {
        try {                
           return ImageIO.read(new File(pinImagePath));
