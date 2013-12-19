@@ -1,7 +1,5 @@
 package controller;
 
-import com.sun.org.apache.xerces.internal.impl.xpath.regex.ParseException;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -12,7 +10,6 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
 import model.Depot;
-import model.Lieu;
 import model.Livraison;
 import model.Noeud;
 import model.PlageHoraire;
@@ -25,27 +22,39 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-//import com.sun.xml.internal.messaging.saaj.packaging.mime.internet.ParseException;
-
-
+/**
+ * @author mael
+ * Un parseur XML pour lire les fichiers d'entrée et instancier les classes correspondantes.
+ */
 public class ParseurXML {
 	
 	public ParseurXML() {
 		
 	}
 	
+	/**
+	 * Ouvre un fichier
+	 * @param path : Le chemin du fichier
+	 * @return Un {@link File} instancié avec le fichier choisi
+	 */
 	public File ouvrirFichier(String path) {
 		File xml = new File(path);
 		return xml;		
 	}
 	
-	public Plan construirePlanXML(String file) throws FileNotFoundException, NumberFormatException, SAXException {
+	/**
+	 * Construit un plan depuis un XML
+	 * @param file : Le chemin du fichier XML désiré
+	 * @return Le Plan instancié
+	 * @throws FileNotFoundException Si le fichier n'est pas trouvé
+	 * @throws SAXException En cas d'erreur dans le XML
+	 */
+	public Plan construirePlanXML(String file) throws FileNotFoundException, SAXException {
 		Plan plan = null;
 		
 		File xml = ouvrirFichier(file);
 		
 		//Si le fichier existe
-		//TODO : normaliser les exceptions si bug
 		if (!xml.exists()) {
 			throw new FileNotFoundException();
 		}
@@ -116,6 +125,15 @@ public class ParseurXML {
 		return plan;
 	}
 	
+	/**
+	 * Construit une Tournee à partir d'un fichier XML
+	 * @param file : Le chemin d'accès au fichier XML choisi
+	 * @return Une Tournee instanciée
+	 * @throws java.text.ParseException
+	 * @throws ParserConfigurationException
+	 * @throws SAXException
+	 * @throws IOException
+	 */
 	public Tournee construireTourneeXML(String file) throws java.text.ParseException, ParserConfigurationException, SAXException, IOException {
 
 		File xml = ouvrirFichier(file);
@@ -168,6 +186,12 @@ public class ParseurXML {
 		return tournee;
 	}
         
+	/**
+	 * Permet de vérifier que la plage en cours d'instanciation ne chevauche pas une plage déjà existante
+	 * @param plage : La plage courante
+	 * @param plages : La liste des plages existantes
+	 * @return False si tout va bien, True dans le cas contraire
+	 */
 	private boolean intersectionPlages(PlageHoraire plage,ArrayList<PlageHoraire> plages) {
 		for(PlageHoraire p : plages) {
 			if(plage.getHeureDebut().before(p.getHeureFin()) && plage.getHeureFin().after(p.getHeureFin())) {
@@ -180,6 +204,11 @@ public class ParseurXML {
 		return false;
 	}
 
+	/**
+	 * Lie les Livraisons de la Tournee aux noeuds du Plan
+	 * @param tournee
+	 * @param plan
+	 */
 	public void setNoeudsFromTournee(Tournee tournee, Plan plan) {
 		Integer adresseDepot = tournee.getDepot().getAdresse();
 		tournee.getDepot().setNoeud(plan.getNoeuds().get(adresseDepot));
