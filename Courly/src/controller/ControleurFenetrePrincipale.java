@@ -5,24 +5,25 @@
  */
 package controller;
 
-import java.text.ParseException;
-import java.util.ArrayList;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.text.ParseException;
+import java.util.ArrayList;
 
 import javax.swing.JFileChooser;
-import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.undo.UndoManager;
 import javax.xml.parsers.ParserConfigurationException;
-import model.Lieu;
 
+import model.Lieu;
 import model.Livraison;
 import model.Noeud;
 import model.Plan;
 import model.Tournee;
 import model.Troncon;
+
 import org.xml.sax.SAXException;
+
 import view.VueFenetrePrincipale;
 
 /**
@@ -72,31 +73,12 @@ public class ControleurFenetrePrincipale {
 		this.controleurInspecteur = new ControleurInspecteur(this.fenetre.getScrollPaneInspecteur(), this);
 
 		setUndoRedoButtons();
-		//this.testVues();
 	}
 
-	private void testVues() {
-		System.out.println("Do not call testVues(), ControleurFenetrePrincipale line 50");
-
-		Noeud noeud1 = new Noeud();
-		noeud1.setX(410);
-		noeud1.setY(200);
-
-		Noeud noeud2 = new Noeud();
-		noeud2.setX(400);
-		noeud2.setY(410);
-
-		Troncon troncon1 = new Troncon();
-		troncon1.setOrigine(noeud1);
-		troncon1.setDestination(noeud2);
-
-		ArrayList<Noeud> noeuds = new ArrayList<Noeud>();
-		noeuds.add(noeud1);
-		noeuds.add(noeud2);
-		this.controleurPlan.addAllNoeuds(noeuds);
-		this.controleurPlan.addTroncon(troncon1);
-	}
-
+	/**
+	 * 
+	 * @param zoomScale 
+	 */
 	public void setZoomScale(double zoomScale) {
 
 		if (zoomScale > zoomMax) {
@@ -109,20 +91,33 @@ public class ControleurFenetrePrincipale {
 	}
 
 
-
+	/**
+	 * Diminue le zoom sur le plan.
+	 */
 	public void shouldZoomOut() {
 		this.setZoomScale(zoomScale - zoomDelta);
 	}
 
+	/**
+	 * Augmente le zoom sur le plan.
+	 */
 	public void shouldZoomIn() {
 		this.setZoomScale(zoomScale + zoomDelta);
 	}
 
 
+	/**
+	 * @return Vrai si il y a une tournée sélectionné.
+	 */
 	public boolean canCreateLivraison() {
 		return (this.selectedTournee != null);
 	}
 
+
+	/**
+	 * Demande à l'utilisateur le fichier du plan à être chargé.
+	 * Charge le fichier si possible et affiche le plan.
+	 */
 	public void shouldLoadPlan() {
 		JFileChooser fChooser = FileChooserFactory.createFileChooser(FILETYPE, FILETYPE_NAME, 
 				getCurrentDirectory());
@@ -161,6 +156,11 @@ public class ControleurFenetrePrincipale {
 
 	}
 
+	/**
+	 * Demande à l'utilisateur le fichier des livraisons à être chargé.
+	 * Charge le fichier si possible et affiche les livraisons.
+	 * Calcule la feuille de route automatiquement si demandé par l'utilisateur.
+	 */
 	public void shouldLoadLivraison() { 
 		if( this.plan != null) {
 			try {
@@ -206,6 +206,11 @@ public class ControleurFenetrePrincipale {
 		}
 	}
 
+	/**
+	 * Selectione une tournée, rafraîchit l'état des boutons Exporter, Annuler et Réfaire, désélectionne tous les noeuds,
+	 * set les plages horaires de l'inspecteur.
+	 * @param tournee La tournée à être sélectionné.
+	 */
 	public void selectTournee(Tournee tournee) { 
 		this.controleurInspecteur.setPlagesHoraires(tournee.getPlagesHoraire());
 		this.controleurPlan.setTournee(tournee);
@@ -230,6 +235,10 @@ public class ControleurFenetrePrincipale {
 	}
 
 
+
+	/**
+	 * Annule la dernière commande faite si possible.
+	 */
 	public void undo(){
 		UndoManager current = controleurUndoManager.getUndoManagerForTournee(selectedTournee);
 		if ( current.canUndo() ){
@@ -238,6 +247,10 @@ public class ControleurFenetrePrincipale {
 
 		setUndoRedoButtons();
 	}
+
+	/**
+	 * Réfait la dernière commande faite si possible.
+	 */
 	public void redo(){
 		UndoManager current = controleurUndoManager.getUndoManagerForTournee(selectedTournee);
 		if ( current.canRedo() ){
@@ -246,11 +259,19 @@ public class ControleurFenetrePrincipale {
 		setUndoRedoButtons();
 	}
 
+	/**
+	 * Rafraichi l'état des boutons annuler et réfaire.
+	 */
 	public void setUndoRedoButtons(){
 		fenetre.canRedo(controleurUndoManager.getUndoManagerForTournee(selectedTournee).canRedo());
 		fenetre.canUndo(controleurUndoManager.getUndoManagerForTournee(selectedTournee).canUndo());
 	}
 
+
+	/**
+	 * Ajouté une livraison au plan, crée un edit et rafraichi l'état des boutons annuler et réfaire.
+	 * @param livraison La livraison à être ajouté plan.
+	 */
 	public void shouldAddLivraisonAndReload(Livraison livraison)
 	{
 		AjouterLivraisonEdit addEdit = new AjouterLivraisonEdit(livraison, this);
@@ -262,6 +283,10 @@ public class ControleurFenetrePrincipale {
 		setUndoRedoButtons();
 	}
 
+	/**
+	 * Ajoute une livraison au plan.
+	 * @param livraison La livraison à être ajouté au plan.
+	 */
 	public void addLivraisonAndReload(Livraison livraison){
 		selectedTournee.addLivraison(livraison);    
 		if ( fenetre.shouldAutoCalculateTournee()) {
@@ -273,6 +298,10 @@ public class ControleurFenetrePrincipale {
 	}
 
 
+	/**
+	 * Enléve une livraison du plan, crée un edit et rafraichi l'état des boutons annuler et réfaire.
+	 * @param livraison La livraison à être enlevé du plan.
+	 */
 	public void shouldRemoveLivraisonAndReload(Livraison livraison)
 	{    	
 		EnleverLivraisonEdit removeEdit = new EnleverLivraisonEdit(livraison, this);
@@ -283,7 +312,7 @@ public class ControleurFenetrePrincipale {
 		setUndoRedoButtons();
 	}
 
-	
+
 	/**
 	 * Calcule la feuille de route pour la tournée sélectionnée. 
 	 */
@@ -341,7 +370,7 @@ public class ControleurFenetrePrincipale {
 	/**
 	 * Désélectionne tous les noeuds du plan.
 	 */
-	 public void deselectAllNoeuds() {
+	public void deselectAllNoeuds() {
 		this.controleurPlan.deselectAll();
 		this.controleurInspecteur.setVueFromNoeud(null);
 	}
@@ -350,7 +379,7 @@ public class ControleurFenetrePrincipale {
 	 * Selectione sur l'inspecteur le noeud donné.
 	 * @param noeud Le noeud selectioné par l'utilisateur.
 	 */
-	 public void didSelectNoeud(Noeud noeud) {
+	public void didSelectNoeud(Noeud noeud) {
 		this.controleurInspecteur.setVueFromNoeud(noeud);
 	}
 
@@ -358,22 +387,22 @@ public class ControleurFenetrePrincipale {
 	 * Selectione sur l'inspecteur le lieu donné.
 	 * @param lieu Le lieu selectioné par l'utilisateur.
 	 */
-	 public void didSelectLieu(Lieu lieu) {
+	public void didSelectLieu(Lieu lieu) {
 		this.controleurInspecteur.setVueFromLieu(lieu);
 	}
 
 	/**
 	 * @return Le dossier racine du jar ou le dernier dossier ouvert dans un {@link JFileChooser}.
 	 */
-	 private File getCurrentDirectory(){
-		 return lastUsedFolder == null ? new java.io.File(".") : new File(lastUsedFolder);		
-	 }
+	private File getCurrentDirectory(){
+		return lastUsedFolder == null ? new java.io.File(".") : new File(lastUsedFolder);		
+	}
 
-	 /**
-	  * @param message Message à être affiché sur l'écran principale.
-	  * @param type Le type de la mesage affiché.
-	  */
-	  public void showMessage(String message, VueFenetrePrincipale.MessageType type) {
-		 this.fenetre.setMessage(message, type);
-	 }
+	/**
+	 * @param message Message à être affiché sur l'écran principale.
+	 * @param type Le type de la mesage affiché.
+	 */
+	public void showMessage(String message, VueFenetrePrincipale.MessageType type) {
+		this.fenetre.setMessage(message, type);
+	}
 }
