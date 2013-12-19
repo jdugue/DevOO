@@ -6,35 +6,57 @@ import javax.swing.undo.CannotUndoException;
 
 import model.Livraison;
 
+/**
+ * @author Ianic
+ * Classe responsable pour ajouter une livraison au plan.
+ * Aussi pour annuler et réfaire cette action.
+ */
 public class AjouterLivraisonEdit extends AbstractUndoableEdit {
 
 	private static final String presentationName = "Ajouter livraison";
 	private Livraison livraison = null;
 	private ControleurFenetrePrincipale controleur = null;
 
-	public AjouterLivraisonEdit(Livraison l, ControleurFenetrePrincipale c) {
-		this.livraison = l;
-		this.controleur = c;
+	/**
+	 * @param livraison La {@link Livraison} a être ajouté par cet edit.
+	 * @param cFenetrePrincipale L'instance de {@link ControleurFenetrePrincipale} à l'aquelle l'edit sera appliqué.
+	 */
+	public AjouterLivraisonEdit(Livraison livraison, ControleurFenetrePrincipale cFenetrePrincipale) {
+		this.livraison = livraison;
+		this.controleur = cFenetrePrincipale;
 	}
 	
+	
+	/**
+	 * Ajoute une livraison au plan selectioné dans le {@link ControleurFenetrePrincipale}.
+	 * @throws CannotUndoException
+	 */
 	public void execute() throws CannotUndoException {
-		//Ajouter livraison
 		controleur.addLivraisonAndReload(livraison);
 	}
 
 
+	/* (non-Javadoc)
+	 * @see javax.swing.undo.AbstractUndoableEdit#undo()
+	 */
 	@Override
 	public void undo() throws CannotUndoException {
 		//Enlever livraison
 		controleur.removeLivraisonAndReload(livraison);
 	}
 
+	/* (non-Javadoc)
+	 * @see javax.swing.undo.AbstractUndoableEdit#redo()
+	 */
 	@Override
 	public void redo() throws CannotRedoException {
 		//Ajouter livraison
 		controleur.addLivraisonAndReload(livraison);
 	}
 
+	/* (non-Javadoc)
+	 * @see javax.swing.undo.AbstractUndoableEdit#canUndo()
+	 */
 	@Override
 	public boolean canUndo() {
 		//TODO
@@ -44,6 +66,9 @@ public class AjouterLivraisonEdit extends AbstractUndoableEdit {
 		return true; 
 	}
 
+	/* (non-Javadoc)
+	 * @see javax.swing.undo.AbstractUndoableEdit#canRedo()
+	 */
 	@Override
 	public boolean canRedo() {
 		//TODO
@@ -53,6 +78,9 @@ public class AjouterLivraisonEdit extends AbstractUndoableEdit {
 		return true;
 	}
 
+	/* (non-Javadoc)
+	 * @see javax.swing.undo.AbstractUndoableEdit#getPresentationName()
+	 */
 	@Override
 	public String getPresentationName() {
 		return presentationName;

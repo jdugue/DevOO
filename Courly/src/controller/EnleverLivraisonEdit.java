@@ -6,34 +6,57 @@ import javax.swing.undo.CannotUndoException;
 
 import model.Livraison;
 
+/**
+ * @author Ianic
+ * Classe responsable pour enlever une livraison d'un plan.
+ * Aussi pour annuler et réfaire cette action.
+ */
 public class EnleverLivraisonEdit extends AbstractUndoableEdit {
 
 	private static final String presentationName = "Enlever livraison";
 	private Livraison livraison = null;
 	private ControleurFenetrePrincipale controleur = null;
 
-	public EnleverLivraisonEdit(Livraison l, ControleurFenetrePrincipale c) {
-		this.livraison = l;
-		this.controleur = c;
+	/**
+	 * @param livraison {@link Livraison} a être enlever par l'edit.
+	 * @param cFenetrePrincipale L'instance du {@link ControleurFenetrePrincipale} à laquelle l'edit sera appliqué.
+	 */
+	public EnleverLivraisonEdit(Livraison livraison, ControleurFenetrePrincipale cFenetrePrincipale
+			) {
+		this.livraison = livraison;
+		this.controleur = cFenetrePrincipale;
 	}
 
-	public void execute() throws CannotUndoException {
+	/**
+	 * Enlève une livraison au plan selectioné dans le {@link ControleurFenetrePrincipale}
+	 * 
+	 */
+	public void execute(){
 		//Ajouter livraison
 		controleur.removeLivraisonAndReload(livraison);
 	}
 
+	/* (non-Javadoc)
+	 * @see javax.swing.undo.AbstractUndoableEdit#undo()
+	 */
 	@Override
 	public void undo() throws CannotUndoException {
 		//TODO
 		controleur.addLivraisonAndReload(livraison);
 	}
 
+	/* (non-Javadoc)
+	 * @see javax.swing.undo.AbstractUndoableEdit#redo()
+	 */
 	@Override
 	public void redo() throws CannotRedoException {
 		//TODO
 		controleur.removeLivraisonAndReload(livraison);
 	}
 
+	/* (non-Javadoc)
+	 * @see javax.swing.undo.AbstractUndoableEdit#canUndo()
+	 */
 	@Override
 	public boolean canUndo() {
 		//TODO
@@ -43,6 +66,9 @@ public class EnleverLivraisonEdit extends AbstractUndoableEdit {
 		return true; 
 	}
 
+	/* (non-Javadoc)
+	 * @see javax.swing.undo.AbstractUndoableEdit#canRedo()
+	 */
 	@Override
 	public boolean canRedo() {
 		//TODO
@@ -52,6 +78,9 @@ public class EnleverLivraisonEdit extends AbstractUndoableEdit {
 		return true;
 	}
 
+	/* (non-Javadoc)
+	 * @see javax.swing.undo.AbstractUndoableEdit#getPresentationName()
+	 */
 	@Override
 	public String getPresentationName() {
 		return presentationName;
