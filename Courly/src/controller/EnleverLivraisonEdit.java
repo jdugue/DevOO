@@ -13,6 +13,7 @@ import model.Livraison;
  */
 public class EnleverLivraisonEdit extends AbstractUndoableEdit {
 
+	private static final long serialVersionUID = 659051521156766166L;
 	private static final String presentationName = "Enlever livraison";
 	private Livraison livraison = null;
 	private ControleurFenetrePrincipale controleur = null;

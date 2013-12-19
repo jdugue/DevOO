@@ -6,7 +6,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 
-import model.Lieu;
 import model.Livraison;
 import model.PlageHoraire;
 import model.Tournee;
@@ -77,11 +76,11 @@ public class ControleurTournee {
 
 					bw.write ( getRepetition(INDENTATION_INFO, TAB) + 
 							HEURE_ARRIVEE + DP + ESP + 
-							this.FORMATTER.format(livraison.getHeureArrivee()) + RC );
+							FORMATTER.format(livraison.getHeureArrivee()) + RC );
 					
 					bw.write ( getRepetition(INDENTATION_INFO, TAB) + 
 							HEURE_DEPART + DP + ESP + 
-							this.FORMATTER.format(livraison.getHeureDepart()) + RC );
+							FORMATTER.format(livraison.getHeureDepart()) + RC );
 
 					compteurLivraison++;
 				}

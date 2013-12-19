@@ -9,8 +9,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.ParseException;
-import java.util.ArrayList;
-
 import javax.swing.JFileChooser;
 import javax.swing.undo.UndoManager;
 import javax.xml.parsers.ParserConfigurationException;
@@ -20,8 +18,6 @@ import model.Livraison;
 import model.Noeud;
 import model.Plan;
 import model.Tournee;
-import model.Troncon;
-
 import org.xml.sax.SAXException;
 
 import view.VueFenetrePrincipale;

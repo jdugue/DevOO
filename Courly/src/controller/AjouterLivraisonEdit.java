@@ -13,6 +13,7 @@ import model.Livraison;
  */
 public class AjouterLivraisonEdit extends AbstractUndoableEdit {
 
+	private static final long serialVersionUID = -3880135738568626638L;
 	private static final String presentationName = "Ajouter livraison";
 	private Livraison livraison = null;
 	private ControleurFenetrePrincipale controleur = null;
