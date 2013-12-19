@@ -6,7 +6,6 @@
 
 package view;
 
-import controller.ControleurPlan;
 import model.Troncon;
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -18,13 +17,14 @@ import java.util.ArrayList;
 import model.Trajet;
 
 /**
- *
+ * Element graphique représentant un tronçon ou plusieurs tronçon (dans le cas de tronçon aller-retour)
  * @author tanguyhelesbeux
  */
 public class VueTroncon extends javax.swing.JPanel {
     
     private Troncon tronconAller;
     private Troncon tronconRetour;
+    
     private ArrayList<Trajet> trajets;
     
     private final VuePlan vuePlan;
@@ -40,12 +40,11 @@ public class VueTroncon extends javax.swing.JPanel {
     private static final Color FillColor = Color.WHITE;
     private static final Color BorderColor = new Color(198, 190, 180);
     
-    private static final int padding = 10;
 
     /**
      * Creates new form VueTroncon
-     * @param troncon
-     * @param controleur
+     * @param troncon : modèle de tronçon à représenter
+     * @param vuePlan : VuePlan parent
      */
 
     public VueTroncon(Troncon troncon, VuePlan vuePlan) {
@@ -80,8 +79,12 @@ public class VueTroncon extends javax.swing.JPanel {
         this.trajets.add(trajet);
         this.repaint();
     }    
-    
-        @Override
+    /**
+     * Overrides JPanel.paintComponent(Graphics).
+     * Dessine la vue en fonction du modèle.
+     * @param g 
+     */
+    @Override
     public void paintComponent(Graphics g)
     {
         super.paintComponent(g);       
