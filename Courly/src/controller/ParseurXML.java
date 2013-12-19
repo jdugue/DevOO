@@ -28,6 +28,13 @@ import org.xml.sax.SAXException;
  */
 public class ParseurXML {
 	
+	private final static String NODE_BASE_PLAN = "Reseau";
+	private final static String NODE_NOEUD = "Noeud";
+	private final static String NODE_TRONCONS = "TronconSortant";
+	private final static String NODE_BASE_TOURNEE = "JourneeType";
+	private final static String NODE_DEPOT = "Entrepot";
+	private final static String NODE_PLAGE = "Plage";
+	
 	public ParseurXML() {
 		
 	}
@@ -66,10 +73,10 @@ public class ParseurXML {
                Document document = constructeur.parse(xml);
                Element racine = document.getDocumentElement();
                
-               if (racine.getNodeName().equals("Reseau")) 
+               if (racine.getNodeName().equals(NODE_BASE_PLAN)) 
                {   
             	   //Traitement des noeuds
-                   NodeList listeNoeuds = racine.getElementsByTagName("Noeud");
+                   NodeList listeNoeuds = racine.getElementsByTagName(NODE_NOEUD);
                    ArrayList<Noeud> vectNoeuds = new ArrayList<Noeud>();
                    
                    for(int i=0; i<listeNoeuds.getLength();i++) 
@@ -89,7 +96,7 @@ public class ParseurXML {
                 	   Integer idNoeudCourant = Integer.parseInt(noeudElement.getAttribute("id"));
                 	   
                 	   //On récupère les Troncons issus de ce noeud
-                	   NodeList listeTroncons = noeudElement.getElementsByTagName("TronconSortant");
+                	   NodeList listeTroncons = noeudElement.getElementsByTagName(NODE_TRONCONS);
                 	   ArrayList<Troncon> tronconsNoeud = new ArrayList<Troncon>();
                 	   
                 	   for (int j=0; j<listeTroncons.getLength();j++) 
@@ -116,10 +123,7 @@ public class ParseurXML {
                }
 			}
 			catch (ParserConfigurationException e) {
-				System.out.println(e);
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
 			}
 		}
 		return plan;
@@ -151,17 +155,17 @@ public class ParseurXML {
 			Document document = constructeur.parse(xml);
 			Element racine = document.getDocumentElement();
 
-			if (racine.getNodeName().equals("JourneeType")) {
+			if (racine.getNodeName().equals(NODE_BASE_TOURNEE)) {
 
 				//Traitement du/des depots
-				NodeList listeDepot = racine.getElementsByTagName("Entrepot");
+				NodeList listeDepot = racine.getElementsByTagName(NODE_DEPOT);
 				//Ici je prend que le 1er element
 				Element depotElement = (Element) listeDepot.item(0);
 				depot.construireAPartirDeDOMXML(depotElement);
 				tournee.setDepot(depot);
 
 				//Traitement des plages horaires
-				NodeList listePlages = racine.getElementsByTagName("Plage");
+				NodeList listePlages = racine.getElementsByTagName(NODE_PLAGE);
 				for(int i=0;i<listePlages.getLength();i++) {
 					PlageHoraire plage = new PlageHoraire();
 					Element plageElement = (Element) listePlages.item(i);
