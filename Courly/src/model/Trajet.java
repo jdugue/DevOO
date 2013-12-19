@@ -3,6 +3,10 @@ package model;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @author mael
+ * Chemin entre deux adresses : succession de tronçons du graphe.
+ */
 public class Trajet {
 
 	/**
@@ -31,7 +35,7 @@ public class Trajet {
 			}
 		}
 	}
-	
+
 	public PlageHoraire getPlage() {
 		return plage;
 	}
@@ -40,6 +44,10 @@ public class Trajet {
 		this.plage = plage;
 	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
 	public String toString(){
 		String ret="";
 		for (Troncon t : troncons) {

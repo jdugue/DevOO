@@ -339,9 +339,13 @@ public class ControleurFenetrePrincipale {
     }
     
     private File getCurrentDirectory(){
-	return lastUsedFolder == null ? new java.io.File(".") : new File(lastUsedFolder);		
+    	return lastUsedFolder == null ? new java.io.File(".") : new File(lastUsedFolder);		
     }
     
+    /**
+     * @param message Message à être affiché sur l'écran principale.
+     * @param type Le type de la mesage affiché.
+     */
     public void showMessage(String message, VueFenetrePrincipale.MessageType type) {
         this.fenetre.setMessage(message, type);
     }
