@@ -10,9 +10,6 @@ import controller.ControleurInspecteur;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import javax.swing.JLabel;
-
-import view.VueFenetrePrincipale.MessageType;
 import model.Lieu;
 import model.Depot;
 import model.Livraison;
@@ -33,23 +30,18 @@ public class VueInspecteur extends javax.swing.JPanel {
     }
     /**
      * Creates new form VueInspecteur
+     * @param controleur : controleur à utiliser
      */
     public VueInspecteur(ControleurInspecteur controleur) {
-        
         initComponents();
-        this.setMode(this.mode);
+        this.setMode(AffichageMode.Empty);
         this.controleur = controleur;
     }
     
-    private void clean() {
-        this.adresseLabel.setText("");
-        this.clientIDTextField.setText("");
-        //this.plageHoraireDebutTextField.setText("");
-        //this.plageHoraireFinTextField.setText("");
-        this.heurePassageTextField.setText("");
-        
-    }
-    
+    /**
+     * Modifie le titre de la deuxième partie.
+     * @param title : nouveau titre
+     */
     private void setLivraisonAreaTitle(String title) {
         this.livraisonTitleLabel.setText(title);
     }
@@ -58,6 +50,10 @@ public class VueInspecteur extends javax.swing.JPanel {
         this.adresseLabel.setText(adresse);
     }
     
+    /**
+     * Met à jour l'affichage en fonction de la livraison passée en paramêtre.
+     * @param livraison : livraison à affichée
+     */
     private void setLivraison(Livraison livraison) {
         //this.livraisonIDLabel.setText(Integer.toString(livraison.getId()));
         this.clientIDTextField.setText(Integer.toString(livraison.getClient()));
@@ -69,13 +65,21 @@ public class VueInspecteur extends javax.swing.JPanel {
         this.plagesHorairesComboBox.getModel().setSelectedItem(livraison.getPlageHoraire());
     }
     
-    private void setLivraisonEnabled(boolean enable) {
+    /**
+     * Vérouille ou non la zone d'affichage d'un lieu
+     * @param enable
+     */
+    private void setLieuFieldsEnabled(boolean enable) {
         this.clientIDTextField.setEnabled(enable);
         this.heurePassageTextField.setEnabled(false);
         this.plagesHorairesComboBox.setEnabled(enable);
         this.actionButton.setEnabled(true);
     }
     
+    /**
+     * Affiche ou non la zone d'affichage d'un lieu
+     * @param visible 
+     */
     public void setLieuFieldsVisible(boolean visible) {
         this.clientIDLabel.setVisible(visible);
         this.clientIDTextField.setVisible(visible);
@@ -87,6 +91,10 @@ public class VueInspecteur extends javax.swing.JPanel {
         this.cancelButton.setVisible(false);
     }
     
+    /** 
+     * Affiche ou non tout l'inspecteur.
+     * @param visible 
+     */
     private void setAllVisible(boolean visible) {
         this.titleLabel.setVisible(visible);
         this.adresseLabel.setVisible(visible);
@@ -96,7 +104,10 @@ public class VueInspecteur extends javax.swing.JPanel {
         this.setLieuFieldsVisible(visible);
     }
     
-    private void cleanLivraison() {
+    /**
+     * Vide les champs du lieu.
+     */
+    private void cleanFieldsLieu() {
         this.clientIDTextField.setText("");
         this.heurePassageTextField.setText("");
         if (this.plagesHorairesComboBox.getModel().getSize() > 0) {
@@ -104,6 +115,10 @@ public class VueInspecteur extends javax.swing.JPanel {
         }
     }
     
+    /**
+     * Définit les plages horaires à utiliser pour la tournée en cours.
+     * @param plagesHoraires : Liste de PlageHoraire à utiliser
+     */
     public void setPlagesHoraires(ArrayList<PlageHoraire> plagesHoraires) {
         
         this.plagesHorairesComboBox.removeAllItems();
@@ -112,11 +127,15 @@ public class VueInspecteur extends javax.swing.JPanel {
         }
     }
 
+    /**
+     * Met à jour l'affichage en fonction du lieu passé en paramêtre.
+     * @param lieu : Lieu à afficher
+     */
     public void setLieu(Lieu lieu) {
         if (lieu != null) {
 
             // Le noeud a un lieu
-            this.setLivraisonEnabled(false);
+            this.setLieuFieldsEnabled(false);
 
             if (lieu.getClass() == Livraison.class) {
 
@@ -127,7 +146,7 @@ public class VueInspecteur extends javax.swing.JPanel {
 
             } else if (lieu.getClass() == Depot.class) {
                 // le lieu est un depot
-                this.cleanLivraison();
+                this.cleanFieldsLieu();
             }
         } else {
 
@@ -145,6 +164,10 @@ public class VueInspecteur extends javax.swing.JPanel {
         }
     }
 
+    /**
+     * Affiche/Masque et met à jour l'inspecteur en fonction du mode choisi.
+     * @param mode : Nouveau mode d'affichage
+     */
     public void setMode(AffichageMode mode) {
         this.mode = mode;
         switch (mode) {
@@ -159,15 +182,15 @@ public class VueInspecteur extends javax.swing.JPanel {
                 break;
                 
             case NoeudSelected:
-                this.cleanLivraison();
-                this.setLivraisonEnabled(true);
+                this.cleanFieldsLieu();
+                this.setLieuFieldsEnabled(true);
                 this.setAllVisible(true);
                 this.setLivraisonAreaTitle("Nouvelle livraison");
                 this.actionButton.setText("Créer la livraison");
                 break;
                 
             case LivraisonSelected:
-                this.setLivraisonEnabled(false);
+                this.setLieuFieldsEnabled(false);
                 this.setAllVisible(true);
                 this.actionButton.setText("Supprimer livraison");
                 break; 
