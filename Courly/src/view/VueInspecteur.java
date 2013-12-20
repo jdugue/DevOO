@@ -150,7 +150,7 @@ public class VueInspecteur extends javax.swing.JPanel {
                 // le lieu est une livraison
                 this.setMode(AffichageMode.LivraisonSelected);
                 this.setLivraison((Livraison)lieu);
-                this.setLivraisonAreaTitle("Livraison n°" + ((Livraison)lieu).getId());
+                this.setLivraisonAreaTitle("Livraison ID " + ((Livraison)lieu).getId());
 
             } else if (lieu.getClass() == Depot.class) {
                 // le lieu est un depot
