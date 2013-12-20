@@ -11,8 +11,6 @@ import model.Tournee;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.sun.org.apache.xml.internal.serializer.ToUnknownStream;
-
 public class TourneeTest {
 	private Tournee tournee = null;
 	private ArrayList<PlageHoraire> plages = new ArrayList<PlageHoraire>();
